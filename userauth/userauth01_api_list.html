@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>userauth01 — API Reference</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+  --bd:#0052CC;--bl:#DEEBFF;--gl:#E3FCEF;--yl:#FFFAE6;
+  --gb:#F4F5F7;--gb2:#DFE1E6;--tx:#172B4D;--tm:#5E6C84;
+  --red:#FF5630;--green:#36B37E
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--tx);background:#F4F5F7
+}
+.pw{max-width:1280px;margin:0 auto;background:#fff;min-height:100vh;
+    box-shadow:0 0 0 1px var(--gb2)}
+
+/* ── header ── */
+.ph{background:var(--bd);color:#fff;padding:10px 52px 9px;
+    border-bottom:3px solid #0065FF;display:flex;align-items:baseline;gap:18px}
+.ph .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.ph .m{font-size:11px;opacity:.75}
+
+/* ── back bar ── */
+.back-bar{background:#fff;border-bottom:1px solid var(--gb2);
+          padding:4px 52px;display:flex;align-items:center}
+.back-btn{display:inline-flex;align-items:center;gap:5px;color:var(--bd);
+          font-size:11px;font-weight:600;text-decoration:none;
+          padding:2px 8px;border:1px solid var(--bd);border-radius:3px;
+          background:#fff;transition:background .12s,color .12s;line-height:1.4}
+.back-btn:hover{background:var(--bd);color:#fff}
+.back-btn svg{flex-shrink:0}
+
+/* ── content ── */
+.ct{padding:14px 52px 28px}
+
+h1{font-size:18px;margin:0 0 6px;padding-bottom:4px;
+   border-bottom:2px solid var(--bd);display:none}
+h2{font-size:14px;font-weight:700;margin:18px 0 5px;
+   padding:4px 10px;background:var(--bl);
+   border-left:3px solid var(--bd);border-radius:2px}
+h3{font-size:13px;font-weight:700;margin:10px 0 3px;color:var(--bd)}
+h4{font-size:12.5px;font-weight:700;margin:8px 0 3px}
+
+p{margin:3px 0}
+strong{font-weight:700}
+em{font-style:italic}
+code{background:var(--gb);border:1px solid var(--gb2);border-radius:3px;
+     padding:0 5px;font-size:12px;
+     font-family:'SFMono-Regular',Consolas,monospace;color:#C0392B}
+a{color:var(--bd);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── code block ── */
+pre.cb{background:#1e1e2e;color:#cdd6f4;border-radius:5px;
+       padding:8px 14px;overflow-x:auto;margin:5px 0;font-size:11.5px;
+       font-family:'SFMono-Regular',Consolas,monospace;line-height:1.4}
+pre.cb code{background:none;border:none;color:inherit;padding:0;font-size:inherit}
+
+/* ── mermaid ── */
+.mw{background:#fafbfc;border:1px solid var(--gb2);border-radius:6px;
+    padding:10px 8px;margin:6px 0;overflow:hidden;position:relative;
+    cursor:grab;min-height:60px;text-align:center}
+.mw pre.mermaid{display:inline-block;text-align:left;
+                background:none;border:none;padding:0;max-width:100%}
+.zm-bar{position:absolute;top:6px;right:8px;display:flex;gap:3px;z-index:20}
+.zm-btn{background:rgba(255,255,255,.92);border:1px solid var(--gb2);border-radius:3px;
+        padding:1px 8px;font-size:14px;font-weight:700;cursor:pointer;
+        color:var(--tx);line-height:1.5;transition:background .1s,color .1s}
+.zm-btn:hover{background:var(--bd);color:#fff;border-color:var(--bd)}
+
+/* ── table ── */
+table{border-collapse:collapse;width:100%;margin:5px 0;font-size:12.5px;
+      border:1px solid var(--gb2);border-radius:5px;overflow:hidden}
+thead{background:var(--bd);color:#fff}
+thead th{padding:4px 10px;text-align:left;font-weight:600;font-size:11.5px}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:var(--gb)}
+tbody tr:hover{background:var(--bl)}
+td{padding:3px 10px;border-bottom:1px solid var(--gb2);vertical-align:top}
+
+/* ── lists ── */
+ul,ol{margin:3px 0 3px 18px}
+li{margin:1px 0}
+
+/* ── misc ── */
+blockquote{border-left:3px solid #FF8B00;background:var(--yl);
+           padding:4px 12px;margin:5px 0;border-radius:0 3px 3px 0;font-size:12.5px}
+hr{border:none;border-top:1px solid var(--gb2);margin:12px 0}
+
+/* ── footer ── */
+.pf{background:var(--gb);border-top:1px solid var(--gb2);
+    padding:6px 52px;font-size:11px;color:var(--tm)}
+
+/* ── floating back button ── */
+.back-float{position:fixed;bottom:18px;right:22px;z-index:200;
+            display:inline-flex;align-items:center;gap:5px;
+            background:var(--bd);color:#fff;border-radius:4px;
+            padding:5px 13px;font-size:12px;font-weight:600;
+            text-decoration:none;box-shadow:0 2px 10px rgba(0,0,82,.28);
+            transition:background .12s}
+.back-float:hover{background:#0065FF;color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="pw">
+<div class="ph">
+  <span class="t">userauth01 — API Reference</span>
+  <span class="m">IWI — Integrated Web Infrastructure · Funai Soken Digital</span>
+</div>
+<div class="back-bar"><a class="back-btn" href="../index.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Index</a></div>
+
+<h1 id="userauth01-service-api-reference">userauth01 Service — API Reference</h1>
+
+<p><strong>Service:</strong> PJ_IWI_USERAUTH  </p>
+<p><strong>Service Name:</strong> userauth01  </p>
+<p><strong>Purpose:</strong> User Authentication and Registration Service — handles user login, logout, user registration (user-initiated, SFDC-initiated, and invitation-based), password reset, and email address change.</p>
+
+<hr>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul><li><a href="#common-standards">Common Standards</a></li><li><a href="#authentication-endpoints">Authentication Endpoints</a></li><li><a href="#get-login">GET /login</a></li><li><a href="#post-login">POST /login</a></li><li><a href="#post-logout">POST /logout</a></li><li><a href="#user-initiated-registration">User-Initiated Registration</a></li><li><a href="#get-register">GET /register</a></li><li><a href="#post-register">POST /register</a></li><li><a href="#get-registerauth">GET /register/auth</a></li><li><a href="#post-registerauth">POST /register/auth</a></li><li><a href="#sfdc-initiated-registration-iwi-internal">SFDC-Initiated Registration (IWI Internal)</a></li><li><a href="#post-registersfdc">POST /register/sfdc</a></li><li><a href="#sfdc-invitation-flow">SFDC Invitation Flow</a></li><li><a href="#get-invite">GET /invite</a></li><li><a href="#post-invite">POST /invite</a></li><li><a href="#get-inviteauth">GET /invite/auth</a></li><li><a href="#post-inviteauth">POST /invite/auth</a></li><li><a href="#call-based-invitation-iwi-internal">Call-Based Invitation (IWI Internal)</a></li><li><a href="#post-calluser">POST /call/user</a></li><li><a href="#get-call">GET /call</a></li><li><a href="#post-call">POST /call</a></li><li><a href="#get-callauth">GET /call/auth</a></li><li><a href="#post-callauth">POST /call/auth</a></li><li><a href="#email-change-login-required">Email Change (Login Required)</a></li><li><a href="#get-useremail">GET /user/email</a></li><li><a href="#post-useremail">POST /user/email</a></li><li><a href="#get-useremailauth">GET /user/email/auth</a></li><li><a href="#post-useremailauth">POST /user/email/auth</a></li><li><a href="#password-reset">Password Reset</a></li><li><a href="#get-reset">GET /reset</a></li><li><a href="#post-reset">POST /reset</a></li><li><a href="#get-resetauth">GET /reset/auth</a></li><li><a href="#post-resetauth">POST /reset/auth</a></li><li><a href="#javascript-xhr-usage-notes">JavaScript (XHR) Usage Notes</a></li><li><a href="#error-responses">Error Responses</a></li><li><a href="#data-models">Data Models</a></li></ul>
+
+<hr>
+
+<h2 id="common-standards">Common Standards</h2>
+
+<h3 id="authorization-header">Authorization Header</h3>
+
+<p>Endpoints marked <strong>IWI internal use only</strong> require HTTP Basic Authentication (RFC 7617):</p>
+
+<pre class="cb"><code class="l-">Authorization: Basic &lt;base64(client_id:client_secret)&gt;</code></pre>
+
+<p>Endpoints for browser-based user interaction do <strong>not</strong> require the Authorization header.</p>
+
+<h3 id="session-cookie">Session Cookie</h3>
+
+<p>All browser-facing endpoints manage a session via the <code>iwi-state</code> cookie:</p>
+
+<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Cookie name</td><td><code>iwi-state</code></td></tr><tr><td>Lifetime</td><td>7 days (604800 seconds)</td></tr><tr><td>Flags</td><td><code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=None</code> (production)</td></tr></tbody></table>
+
+<p>The cookie is issued on first login and refreshed (Max-Age reset) on every subsequent request.</p>
+
+<h3 id="csrf-protection">CSRF Protection</h3>
+
+<p>POST endpoints that display forms include a CSRF token. The token is a SHA256 hash derived from the session ID.</p>
+
+<table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td><code>csrf_token</code></td><td>CSRF prevention token. Obtained from the hidden field in the GET form response. Required on POST.</td></tr></tbody></table>
+
+<h3 id="recaptcha">reCAPTCHA</h3>
+
+<p>Registration and password reset POST endpoints require Google reCAPTCHA verification:</p>
+
+<table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td><code>g-recaptcha-response</code></td><td>Browser-side reCAPTCHA response value (required)</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="authentication-endpoints">Authentication Endpoints</h2>
+
+<h3 id="get-login">GET /login</h3>
+
+<p><strong>Display login form</strong> — shows the Authorization Request entry point for the OAuth 2.0 Authorization Code Grant (RFC 6749 §4.1.1).</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p>Behavior depends on session state:</p>
+
+<table><thead><tr><th>Session State</th><th>Behavior</th></tr></thead><tbody><tr><td>Session exists (already logged in)</td><td>Issues authorization code → <code>302 Found</code> to <code>redirect_uri</code></td></tr><tr><td>No session, valid parameters</td><td>Displays login form HTML → <code>200 OK</code></td></tr><tr><td>No session, invalid parameters</td><td>Displays error message → <code>400 Bad Request</code></td></tr></tbody></table>
+
+<p><strong>Request Example:</strong></p>
+
+<pre class="cb"><code class="l-http">GET /login?response_type=code&amp;client_id=abc&amp;redirect_uri=https://app.example.com/callback&amp;state=xyz HTTP/1.1
+Host: userauth.example.com
+Cookie: iwi-state=&lt;session-id&gt;</code></pre>
+
+<p><strong>Response Example (already logged in):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 302 Found
+Location: https://app.example.com/callback?code=&lt;auth_code&gt;&amp;state=xyz</code></pre>
+
+<p><strong>Response Example (show login form):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8</code></pre>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>response_type</code></td><td>string</td><td>Must be <code>code</code> (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>IWI-issued UUID for the client (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Post-authentication redirect URI. May be omitted if a default is registered with IWI. UTF-8, max 1000 bytes.</td></tr><tr><td><code>scope</code></td><td>string</td><td>Not currently used</td></tr><tr><td><code>state</code></td><td>string</td><td>Unique, unpredictable value issued by the Service Provider for CSRF prevention (required)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>302 Found</code></td><td>Logged-in session exists — auth code issued</td></tr><tr><td><code>200 OK</code></td><td>Login form displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>OAuth parameters invalid</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-login">POST /login</h3>
+
+<p><strong>Authentication</strong> — receives credentials submitted from the login form or via XMLHttpRequest (XHR) from a Service Provider page.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p>Behavior differs depending on whether the request comes from IWI&#x27;s own login page (form POST) or from a Service Provider page (XHR).</p>
+
+<p><strong>Request Example (form POST from IWI login page):</strong></p>
+
+<pre class="cb"><code class="l-http">POST /login HTTP/1.1
+Host: userauth.example.com
+Content-Type: application/x-www-form-urlencoded
+Cookie: iwi-state=&lt;session-id&gt;
+
+mailaddr=user@example.com&amp;password=s3cr3t&amp;response_type=code&amp;client_id=abc&amp;redirect_uri=https://app.example.com/callback&amp;state=xyz</code></pre>
+
+<p><strong>Response — Login Success (form POST):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 302 Found
+Location: https://app.example.com/callback?code=&lt;auth_code&gt;&amp;state=xyz
+Set-Cookie: iwi-state=&lt;session-id&gt;; Path=/; Max-Age=604800; HttpOnly; Secure; SameSite=None</code></pre>
+
+<p><strong>Response — Login Failure (form POST):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8</code></pre>
+<p><em>(Login form is re-displayed with error message)</em></p>
+
+<p><strong>Response — Login Success (XHR from Service Provider):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 302 Found
+Location: https://app.example.com/callback?code=&lt;auth_code&gt;&amp;state=xyz
+Set-Cookie: iwi-state=&lt;session-id&gt;; Path=/; Max-Age=604800; HttpOnly; Secure; SameSite=None
+Access-Control-Allow-Origin: https://origin.example.com
+Access-Control-Allow-Credentials: true
+Vary: Origin</code></pre>
+
+<p><strong>Response — Login Failure (XHR from Service Provider):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Access-Control-Allow-Origin: https://origin.example.com
+Access-Control-Allow-Credentials: true
+Vary: Origin
+
+{&quot;status&quot;: &quot;ng&quot;}</code></pre>
+
+<p><strong>Response — Already Logged In (any):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 302 Found
+Location: https://app.example.com/callback?code=&lt;auth_code&gt;&amp;state=xyz
+Access-Control-Allow-Origin: https://origin.example.com  (if XHR)</code></pre>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>mailaddr</code></td><td>string</td><td>Email address (login ID)</td></tr><tr><td><code>password</code></td><td>string</td><td>Password</td></tr><tr><td><code>response_type</code></td><td>string</td><td>Must be <code>code</code> (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>IWI-issued UUID for the client (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Post-authentication redirect URI</td></tr><tr><td><code>scope</code></td><td>string</td><td>Not currently used</td></tr><tr><td><code>state</code></td><td>string</td><td>Unique CSRF-prevention value from the Service Provider (required)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>302 Found</code></td><td>Authentication success (including already-logged-in case)</td></tr><tr><td><code>200 OK</code></td><td>Authentication failure (form: re-display login form; XHR: <code>{&amp;quot;status&amp;quot;: &amp;quot;ng&amp;quot;}</code>)</td></tr><tr><td><code>400 Bad Request</code></td><td>OAuth parameters invalid</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-logout">POST /logout</h3>
+
+<p><strong>Logout</strong> — invalidates the IWI login session, clearing the logged-in state.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p>This endpoint is designed to be called from JavaScript (XMLHttpRequest only). Regardless of the current session state, the endpoint always responds with <code>200 OK</code>.</p>
+
+<p><strong>Response Example:</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Set-Cookie: iwi-state=; Path=/; Max-Age=0; HttpOnly; Secure</code></pre>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Logout processed (always, even if no active session)</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="user-initiated-registration">User-Initiated Registration</h2>
+
+<h3 id="get-register">GET /register</h3>
+
+<p><strong>Display email entry form</strong> — initial step of the user-initiated registration flow.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>response_type</code></td><td>string</td><td>Must be <code>code</code> (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>IWI-issued UUID for the client (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Post-registration redirect URI</td></tr><tr><td><code>scope</code></td><td>string</td><td>Not currently used</td></tr><tr><td><code>state</code></td><td>string</td><td>Unique CSRF-prevention value (required)</td></tr><tr><td><code>return_path</code></td><td>string</td><td>URI to navigate to after registration completion (optional). Used to return the user to the originating application page.</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Email entry form displayed (includes <code>csrf_token</code> hidden field and reCAPTCHA widget)</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-register">POST /register</h3>
+
+<p><strong>Request verification email</strong> — validates the submitted email address and sends a verification email with a registration link.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>mailaddr</code></td><td>string</td><td>Email address to register</td></tr><tr><td><code>response_type</code></td><td>string</td><td>Must be <code>code</code> (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>IWI-issued UUID for the client (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Post-registration redirect URI</td></tr><tr><td><code>scope</code></td><td>string</td><td>Not currently used</td></tr><tr><td><code>state</code></td><td>string</td><td>Unique CSRF-prevention value (required)</td></tr><tr><td><code>csrf_token</code></td><td>string</td><td>CSRF prevention token from the form</td></tr><tr><td><code>g-recaptcha-response</code></td><td>string</td><td>Google reCAPTCHA browser response value</td></tr><tr><td><code>return_path</code></td><td>string</td><td>URI to navigate to after registration completion (optional)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Verification email sent — confirmation page displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Invalid parameters or CSRF/reCAPTCHA failure</td></tr><tr><td><code>409 Conflict</code></td><td>Email address already in use</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="get-registerauth">GET /register/auth</h3>
+
+<p><strong>Display password setting form</strong> — second step after the user clicks the verification link in the email.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Registration code from the verification email link</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Password creation form displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Registration code invalid or expired (1 hour)</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-registerauth">POST /register/auth</h3>
+
+<p><strong>Complete registration</strong> — validates the password, creates the IWI account and Salesforce Contact, and issues an authorization code.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Registration code from the verification email</td></tr><tr><td><code>password</code></td><td>string</td><td>Password (minimum 8 characters)</td></tr><tr><td><code>password2</code></td><td>string</td><td>Password confirmation (must match <code>password</code>)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>302 Found</code></td><td>Account created — redirects to <code>redirect_uri</code> with authorization code</td></tr><tr><td><code>200 OK</code></td><td>Password mismatch or validation failure — form re-displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Registration code invalid or expired</td></tr></tbody></table>
+
+<p><strong>Business Logic Notes:</strong></p>
+
+<ul><li>Account creation is asynchronous (two-phase commit via Cloud Tasks).</li><li>Phase 1: Creates <code>AuthUser</code> and <code>AuthMail2ID</code> in Datastore (marked <code>IN_PROGRESS</code>).</li><li>Phase 2: Creates a Contact in Salesforce via the Composite API.</li><li>Phase 3: Clears <code>IN_PROGRESS</code> flag, activating the account.</li><li>Password is hashed with SHA-512, 10,000 iterations, and a random UUID salt.</li></ul>
+
+<hr>
+
+<h2 id="sfdc-initiated-registration-iwi-internal">SFDC-Initiated Registration (IWI Internal)</h2>
+
+<h3 id="post-registersfdc">POST /register/sfdc</h3>
+
+<p><strong>Salesforce-initiated user creation</strong> — creates an IWI account from a Salesforce trigger and returns an invitation URL.</p>
+
+<p><strong>IWI internal use only.</strong> Requires HTTP Basic Authentication.</p>
+
+<p>If the email address is already in use by a valid account, the existing user&#x27;s IWI ID is returned. If the email address is currently being changed or a new account is being created for it, a <code>409 Conflict</code> is returned.</p>
+
+<p><strong>Request Example:</strong></p>
+
+<pre class="cb"><code class="l-http">POST /register/sfdc HTTP/1.1
+Host: userauth.example.com
+Authorization: Basic base64(client_id:client_secret)
+Content-Type: application/json
+
+{
+  &quot;mailaddr&quot;: &quot;newuser@example.com&quot;
+}</code></pre>
+
+<p><strong>Response Example (Success — new account):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  &quot;status&quot;: true,
+  &quot;Id&quot;: &quot;5e87c5bb-847e-4bb2-9cbd-c26b6a33a799&quot;,
+  &quot;Url&quot;: &quot;https://userauth.example.com/invite?k=invitation:abc123&quot;
+}</code></pre>
+
+<p><strong>Response Example (Conflict):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 409 Conflict
+Content-Type: application/json
+
+{
+  &quot;status&quot;: false,
+  &quot;error&quot;: &quot;CONFLICTED_STATE&quot;,
+  &quot;error_details&quot;: [&quot;newuser@example.com&quot;]
+}</code></pre>
+
+<p><strong>Request JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>mailaddr</code></td><td>string</td><td>Email address for the new account</td></tr></tbody></table>
+
+<p><strong>Response JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>$.status</code></td><td>boolean</td><td><code>true</code> on success, <code>false</code> on failure</td></tr><tr><td><code>$.Id</code></td><td>string</td><td>IWI User ID</td></tr><tr><td><code>$.Url</code></td><td>string</td><td>Invitation page URL (send to user to complete registration)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Account created or existing account found</td></tr><tr><td><code>401 Unauthorized</code></td><td>Missing or invalid client credentials</td></tr><tr><td><code>409 Conflict</code></td><td>Email is currently in transition (being changed or IN_PROGRESS)</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="sfdc-invitation-flow">SFDC Invitation Flow</h2>
+
+<p>Two-stage invitation flow initiated by the SFDC-initiated registration above.</p>
+
+<h3 id="get-invite">GET /invite</h3>
+
+<p><strong>Display invitation confirmation page</strong> — shows the user their email address and prompts confirmation.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Invitation code (format: <code>invitation:&amp;lt;UUID&amp;gt;</code>)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Confirmation page displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Invitation code invalid or expired</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-invite">POST /invite</h3>
+
+<p><strong>Confirm invitation and send completion email</strong> — user confirms their email and a second verification email is sent.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Invitation code</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Confirmation page displayed; completion email sent</td></tr><tr><td><code>400 Bad Request</code></td><td>Invitation code invalid</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="get-inviteauth">GET /invite/auth</h3>
+
+<p><strong>Display password setting form</strong> — shown after user clicks the completion link in the second verification email.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Completion code (format: <code>completion:&amp;lt;UUID&amp;gt;</code>)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Password creation form displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Completion code invalid or expired</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-inviteauth">POST /invite/auth</h3>
+
+<p><strong>Complete invitation and set password</strong> — sets the user&#x27;s password and activates the account.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Completion code</td></tr><tr><td><code>password</code></td><td>string</td><td>Password (minimum 8 characters)</td></tr><tr><td><code>password2</code></td><td>string</td><td>Password confirmation</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Account activated — success page displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Code invalid, expired, or password mismatch</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="call-based-invitation-iwi-internal">Call-Based Invitation (IWI Internal)</h2>
+
+<p>An alternative invitation flow for external system integrations, with an optional callback after account creation.</p>
+
+<h3 id="post-calluser">POST /call/user</h3>
+
+<p><strong>Create a call-based invitation</strong> — sends an invitation email to the specified address.</p>
+
+<p><strong>IWI internal use only.</strong> Requires HTTP Basic Authentication.</p>
+
+<p>If the email address is already registered to an active account, a <code>409 Conflict</code> is returned. Emails that were previously used but are now unlinked (due to email change) are considered available.</p>
+
+<p><strong>Request Example:</strong></p>
+
+<pre class="cb"><code class="l-http">POST /call/user HTTP/1.1
+Host: userauth.example.com
+Authorization: Basic base64(client_id:client_secret)
+Content-Type: application/json
+
+{
+  &quot;mailaddr&quot;: &quot;invitee@example.com&quot;,
+  &quot;greeting_title&quot;: &quot;Welcome to Our Service&quot;,
+  &quot;greeting_body&quot;: &quot;Please complete your registration.&quot;,
+  &quot;greeting_parameters&quot;: {},
+  &quot;contact_params&quot;: {},
+  &quot;callback&quot;: {
+    &quot;url&quot;: &quot;https://internal.example.com/on-user-created&quot;,
+    &quot;method&quot;: &quot;POST&quot;
+  }
+}</code></pre>
+
+<p><strong>Response Example (Success):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  &quot;status&quot;: true,
+  &quot;invitation_code&quot;: &quot;invitation:550e8400-e29b-41d4-a716-446655440000&quot;
+}</code></pre>
+
+<p><strong>Request JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>mailaddr</code></td><td>string</td><td>Invitation target email address</td></tr><tr><td><code>greeting_title</code></td><td>string</td><td>Email subject line</td></tr><tr><td><code>greeting_body</code></td><td>string</td><td>Email body text</td></tr><tr><td><code>greeting_parameters</code></td><td>object</td><td>Template parameters for the greeting email</td></tr><tr><td><code>contact_params</code></td><td>object</td><td>Additional contact metadata</td></tr><tr><td><code>callback</code></td><td>object</td><td>Optional callback task to fire after account creation</td></tr><tr><td><code>callback.url</code></td><td>string</td><td>Callback URL (Cloud Tasks target)</td></tr><tr><td><code>callback.method</code></td><td>string</td><td>HTTP method for callback (<code>POST</code>)</td></tr></tbody></table>
+
+<p><strong>Response JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>$.status</code></td><td>boolean</td><td><code>true</code> on success</td></tr><tr><td><code>$.invitation_code</code></td><td>string</td><td>Invitation code string (used to track the invitation)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Invitation email sent</td></tr><tr><td><code>401 Unauthorized</code></td><td>Missing or invalid client credentials</td></tr><tr><td><code>409 Conflict</code></td><td>Email address already active</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="get-call">GET /call</h3>
+
+<p><strong>Display call invitation confirmation page.</strong></p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Invitation code</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-call">POST /call</h3>
+
+<p><strong>Confirm call invitation and send completion email.</strong></p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Invitation code</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="get-callauth">GET /call/auth</h3>
+
+<p><strong>Display password setting form for call-based invitation.</strong></p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Email verification code</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-callauth">POST /call/auth</h3>
+
+<p><strong>Complete call-based invitation, set password, and fire optional callback.</strong></p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Email verification code</td></tr><tr><td><code>password</code></td><td>string</td><td>Password (minimum 8 characters)</td></tr><tr><td><code>password2</code></td><td>string</td><td>Password confirmation</td></tr></tbody></table>
+
+<p><strong>Business Logic Notes:</strong></p>
+
+<ul><li>Upon successful account creation, if a <code>callback</code> was provided in <code>POST /call/user</code>, a Cloud Tasks task is enqueued with the new user&#x27;s IWI User ID and Salesforce Contact ID.</li><li>Invitation codes have a 20-year expiry (long-lived for external system integrations).</li></ul>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Account created — success page displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Code invalid or password mismatch</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="email-change-login-required">Email Change (Login Required)</h2>
+
+<p>These endpoints require the user to already be logged in (valid <code>iwi-state</code> session cookie with user_id set).</p>
+
+<h3 id="get-useremail">GET /user/email</h3>
+
+<p><strong>Display email change form.</strong></p>
+
+<p><em>(Authorization header not required — session required)</em></p>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Email change form displayed (includes CSRF token)</td></tr><tr><td><code>302 Found</code></td><td>Not logged in — redirected to login page</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-useremail">POST /user/email</h3>
+
+<p><strong>Submit new email address</strong> — validates the new address, checks Salesforce and NewsPicks for conflicts, and sends a verification email to the new address.</p>
+
+<p><em>(Authorization header not required — session required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>mailaddr</code></td><td>string</td><td>New email address</td></tr><tr><td><code>csrf_token</code></td><td>string</td><td>CSRF prevention token from the form</td></tr></tbody></table>
+
+<p><strong>Business Logic Notes:</strong></p>
+
+<ul><li>If the user&#x27;s Salesforce Contact has a linked NewsPicks (<code>NPAddress__c</code>) account that is a paid subscriber, the email change is blocked.</li><li>The verification email is sent to the <strong>new</strong> address. The change is not applied until the user confirms.</li></ul>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Verification email sent — confirmation page displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Invalid parameters, CSRF failure, or business rule block</td></tr><tr><td><code>302 Found</code></td><td>Not logged in</td></tr><tr><td><code>409 Conflict</code></td><td>New email address already in use</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="get-useremailauth">GET /user/email/auth</h3>
+
+<p><strong>Display email change confirmation page</strong> — shown when the user clicks the verification link in the email sent to the new address.</p>
+
+<p><em>(Authorization header not required — session required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Email change verification code</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-useremailauth">POST /user/email/auth</h3>
+
+<p><strong>Apply email change</strong> — calls the downstream user01 service to update the email mapping.</p>
+
+<p><em>(Authorization header not required — session required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Email change verification code</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Email changed successfully — success page displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Code invalid or expired</td></tr><tr><td><code>302 Found</code></td><td>Not logged in</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="password-reset">Password Reset</h2>
+
+<h3 id="get-reset">GET /reset</h3>
+
+<p><strong>Display password reset email entry form.</strong></p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>response_type</code></td><td>string</td><td>Must be <code>code</code> (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>IWI-issued UUID for the client (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Post-reset redirect URI</td></tr><tr><td><code>scope</code></td><td>string</td><td>Not currently used</td></tr><tr><td><code>state</code></td><td>string</td><td>Unique CSRF-prevention value (required)</td></tr><tr><td><code>return_path</code></td><td>string</td><td>URI to navigate to after reset completion (optional)</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-reset">POST /reset</h3>
+
+<p><strong>Request password reset email</strong> — sends a reset link to the specified email if it matches a registered account.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>mailaddr</code></td><td>string</td><td>Registered email address</td></tr><tr><td><code>response_type</code></td><td>string</td><td>Must be <code>code</code> (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>IWI-issued UUID for the client (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Post-reset redirect URI</td></tr><tr><td><code>scope</code></td><td>string</td><td>Not currently used</td></tr><tr><td><code>state</code></td><td>string</td><td>Unique CSRF-prevention value (required)</td></tr><tr><td><code>csrf_token</code></td><td>string</td><td>CSRF prevention token from the form</td></tr><tr><td><code>g-recaptcha-response</code></td><td>string</td><td>Google reCAPTCHA browser response value</td></tr><tr><td><code>return_path</code></td><td>string</td><td>URI to navigate to after reset completion (optional)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Reset email sent (or silently ignored if email not found, to prevent enumeration)</td></tr><tr><td><code>400 Bad Request</code></td><td>CSRF or reCAPTCHA failure</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="get-resetauth">GET /reset/auth</h3>
+
+<p><strong>Display new password entry form</strong> — after clicking the reset link in the email.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Query Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>k</code></td><td>string</td><td>Password reset code from the email link</td></tr></tbody></table>
+
+<hr>
+
+<h3 id="post-resetauth">POST /reset/auth</h3>
+
+<p><strong>Apply new password</strong> — validates the reset code and updates the user&#x27;s password hash.</p>
+
+<p><em>(Authorization header not required)</em></p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>key</code></td><td>string</td><td>Password reset code</td></tr><tr><td><code>password</code></td><td>string</td><td>New password (minimum 8 characters)</td></tr><tr><td><code>password2</code></td><td>string</td><td>Password confirmation</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>302 Found</code></td><td>Password reset — redirects to <code>redirect_uri</code> with authorization code</td></tr><tr><td><code>200 OK</code></td><td>Password mismatch — form re-displayed</td></tr><tr><td><code>400 Bad Request</code></td><td>Reset code invalid or expired</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="javascript-xhr-usage-notes">JavaScript (XHR) Usage Notes</h2>
+
+<p>When using JavaScript (XMLHttpRequest or Fetch) to call userauth01 from a Service Provider page, the following rules apply.</p>
+
+<h3 id="accept-header">Accept Header</h3>
+
+<p>Include <code>Accept: application/json</code> in the request headers so that IWI responds with JSON (for login failure, etc.) rather than HTML.</p>
+
+<h3 id="credentials">Credentials</h3>
+
+<p>The <code>iwi-state</code> session cookie must be sent and received by the browser. Enable credentials in your request:</p>
+
+<p><strong>jQuery example:</strong></p>
+
+<pre class="cb"><code class="l-javascript">$.ajax({
+  type: &#x27;POST&#x27;,
+  url: &#x27;https://iwi.userlogin.example.com/login&#x27;,
+  headers: {
+    &#x27;Accept&#x27;: &#x27;application/json&#x27;
+  },
+  cache: false,
+  dataType: &#x27;text&#x27;,
+  xhrFields: {
+    withCredentials: true
+  },
+  data: form.serialize(),
+  success: function(data) {
+    // handle response
+  }
+});</code></pre>
+
+<p><strong>Fetch API example:</strong></p>
+
+<pre class="cb"><code class="l-javascript">fetch(&#x27;https://iwi.userlogin.example.com/login&#x27;, {
+  method: &#x27;POST&#x27;,
+  credentials: &#x27;include&#x27;,
+  headers: {
+    &#x27;Accept&#x27;: &#x27;application/json&#x27;
+  },
+  body: new FormData(form)
+});</code></pre>
+
+<h3 id="cors-configuration-at-redirect-uri">CORS Configuration at redirect_uri</h3>
+
+<p>After a successful login, the browser receives a <code>302 Found</code> redirect to <code>redirect_uri</code>. Because this follows a request from a privacy-sensitive context, the browser sends <code>Origin: null</code>. The server at <code>redirect_uri</code> must respond with:</p>
+
+<pre class="cb"><code class="l-http">Access-Control-Allow-Origin: null
+Access-Control-Allow-Credentials: true</code></pre>
+
+<p>See RFC 6454 §7.3 for details.</p>
+
+<hr>
+
+<h2 id="error-responses">Error Responses</h2>
+
+<h3 id="standard-json-error">Standard JSON Error</h3>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 &lt;4xx&gt; &lt;Status&gt;
+Content-Type: application/json
+
+{
+  &quot;status&quot;: false,
+  &quot;error&quot;: &quot;&lt;error_code&gt;&quot;,
+  &quot;error_details&quot;: [&quot;&lt;details&gt;&quot;]
+}</code></pre>
+
+<p><strong>Error Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>HTTP Status</th><th>Meaning</th></tr></thead><tbody><tr><td><code>PARAMETER_SPEC_ERROR</code></td><td>400</td><td>Missing required parameter</td></tr><tr><td><code>PARAMETER_VALUE_ERROR</code></td><td>400</td><td>Parameter value is invalid</td></tr><tr><td><code>CONFLICTED_STATE</code></td><td>409</td><td>Resource is in a conflicting state (e.g., email already in use, IN_PROGRESS)</td></tr><tr><td><code>RESOURCE_ERROR</code></td><td>400/404</td><td>Referenced resource not found or invalid</td></tr></tbody></table>
+
+<h3 id="conflict-response-example">Conflict Response Example</h3>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 409 Conflict
+Content-Type: application/json
+
+{
+  &quot;status&quot;: false,
+  &quot;error&quot;: &quot;CONFLICTED_STATE&quot;,
+  &quot;error_details&quot;: [&quot;user@example.com&quot;]
+}</code></pre>
+
+<hr>
+
+<h2 id="data-models">Data Models</h2>
+
+<h3 id="authuser">AuthUser</h3>
+
+<p>IWI user account stored in Cloud Datastore.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>string</td><td>IWI User ID (primary key)</td></tr><tr><td><code>mailaddr</code></td><td>string</td><td>Primary email address</td></tr><tr><td><code>password</code></td><td>object</td><td><code>{algorithm, salt, stretch, hash}</code></td></tr><tr><td><code>password.algorithm</code></td><td>string</td><td><code>&amp;quot;sha512&amp;quot;</code> (default) or <code>&amp;quot;md5&amp;quot;</code> (legacy)</td></tr><tr><td><code>password.salt</code></td><td>string</td><td>UUID-based random salt</td></tr><tr><td><code>password.stretch</code></td><td>integer</td><td>Number of hash iterations (default: 10000)</td></tr><tr><td><code>password.hash</code></td><td>string</td><td>Derived key hex string</td></tr><tr><td><code>primary_id</code></td><td>string</td><td>ID after account merge/rename</td></tr><tr><td><code>version</code></td><td>string (UUID)</td><td>Optimistic concurrency control</td></tr><tr><td><code>invalidated</code></td><td>string or null</td><td>Timestamp if account is disabled; <code>null</code> if active</td></tr></tbody></table>
+
+<h3 id="authmail2id">AuthMail2ID</h3>
+
+<p>Email-to-IWI-User-ID mapping.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>string</td><td>Email address (key)</td></tr><tr><td><code>user_id</code></td><td>string</td><td>Associated IWI User ID</td></tr><tr><td><code>version</code></td><td>string (UUID)</td><td>Optimistic concurrency control</td></tr><tr><td><code>invalidated</code></td><td>string or null</td><td><code>null</code> (active), <code>&amp;quot;IN_PROGRESS&amp;quot;</code> (being changed), or timestamp (disabled)</td></tr></tbody></table>
+
+<h3 id="authsession">AuthSession</h3>
+
+<p>User session — tied to the <code>iwi-state</code> cookie.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>string (UUID)</td><td>Session ID (value of <code>iwi-state</code> cookie)</td></tr><tr><td><code>user_id</code></td><td>string or null</td><td>Logged-in IWI User ID; <code>null</code> if not yet logged in</td></tr><tr><td><code>version</code></td><td>string (UUID)</td><td>Optimistic concurrency control</td></tr><tr><td><code>revoked_at</code></td><td>string or null</td><td>Timestamp if session is revoked</td></tr></tbody></table>
+
+<h3 id="userauthregister">UserAuthRegister</h3>
+
+<p>Email verification token for registration, password reset, and invitation flows.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>string (UUID)</td><td>Verification code (key)</td></tr><tr><td><code>mailaddr</code></td><td>string</td><td>Email address being registered/reset</td></tr><tr><td><code>return_path</code></td><td>string or null</td><td>Post-completion redirect URI</td></tr><tr><td><code>oauth_params</code></td><td>object</td><td>OAuth parameters embedded in the token</td></tr><tr><td><code>expired_at</code></td><td>string</td><td>Expiry timestamp (1 hour for registration/reset)</td></tr><tr><td><code>registered_at</code></td><td>string or null</td><td>When the token was consumed (<code>null</code> until used)</td></tr></tbody></table>
+
+<hr>
+
+<p><em>© Funai Soken Digital — IWI Documentation</em></p>
+
+<div class="pf">© Funai Soken Digital — IWI Documentation</div>
+</div>
+<a class="back-float" href="../index.html">
+<svg width="11" height="11" viewBox="0 0 14 14" fill="none">
+<path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>Index</a>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor:'#DEEBFF', primaryTextColor:'#172B4D',
+    primaryBorderColor:'#0052CC', lineColor:'#0052CC',
+    secondaryColor:'#E3FCEF', tertiaryColor:'#F4F5F7',
+    noteBkgColor:'#FFFAE6', noteTextColor:'#172B4D',
+    actorBkg:'#0052CC', actorTextColor:'#ffffff',
+    actorBorderColor:'#003d99', activationBkgColor:'#DEEBFF',
+    signalColor:'#172B4D', signalTextColor:'#172B4D'
+  },
+  sequence:{ actorMargin:55, messageMargin:30, mirrorActors:false, boxMargin:8 },
+  flowchart:{ htmlLabels:true, curve:'basis', padding:16 },
+  gantt:{ axisFormat:'%M', leftPadding:110 }
+});
+</script>
+<script>
+(function(){
+  function initZoom(wrap){
+    if(wrap.dataset.zm)return;
+    var svg=wrap.querySelector('svg');
+    if(!svg)return;
+    wrap.dataset.zm='1';
+    var target=svg;
+    while(target.parentNode && target.parentNode!==wrap){target=target.parentNode;}
+    target.style.transformOrigin='0 0';
+    target.style.userSelect='none';
+    target.style.display='inline-block';
+    target.style.maxWidth='none';
+    // Capture natural (centered) offset of target inside wrap before any transforms
+    var wr=wrap.getBoundingClientRect(),tr=target.getBoundingClientRect();
+    var ox=tr.left-wr.left, oy=tr.top-wr.top;
+    var scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,stx=0,sty=0;
+    function ap(){target.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';}
+    var bar=document.createElement('div');bar.className='zm-bar';
+    bar.innerHTML='<button class="zm-btn" data-a="in" title="Zoom in">+</button>'
+      +'<button class="zm-btn" data-a="out" title="Zoom out">−</button>'
+      +'<button class="zm-btn" data-a="r" title="Reset">↺</button>';
+    wrap.appendChild(bar);
+    bar.addEventListener('click',function(e){
+      e.stopPropagation();
+      var b=e.target.closest('[data-a]');if(!b)return;
+      var cx=wrap.clientWidth/2-ox,cy=wrap.clientHeight/2-oy,ns;
+      if(b.dataset.a==='in'){ns=Math.min(scale*1.3,8);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else if(b.dataset.a==='out'){ns=Math.max(scale/1.3,.1);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else{scale=1;tx=0;ty=0;}
+      ap();
+    });
+    wrap.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var r=wrap.getBoundingClientRect();
+      var mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
+      var d=e.deltaY<0?1.12:.89,ns=Math.min(Math.max(scale*d,.1),8);
+      tx=mx-(mx-tx)*(ns/scale);ty=my-(my-ty)*(ns/scale);scale=ns;ap();
+    },{passive:false});
+    wrap.addEventListener('mousedown',function(e){
+      if(e.target.closest('.zm-btn'))return;
+      drag=true;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;
+      wrap.style.cursor='grabbing';e.preventDefault();
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!drag)return;tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);ap();
+    });
+    document.addEventListener('mouseup',function(){
+      if(drag){drag=false;wrap.style.cursor='grab';}
+    });
+  }
+  var attempts=0;
+  var t=setInterval(function(){
+    document.querySelectorAll('.mw').forEach(initZoom);
+    if(++attempts>40)clearInterval(t);
+  },150);
+})();
+</script>
+</body>
+</html>

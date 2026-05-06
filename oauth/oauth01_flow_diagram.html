@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>oauth01 — Flow Diagrams</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+  --bd:#0052CC;--bl:#DEEBFF;--gl:#E3FCEF;--yl:#FFFAE6;
+  --gb:#F4F5F7;--gb2:#DFE1E6;--tx:#172B4D;--tm:#5E6C84;
+  --red:#FF5630;--green:#36B37E
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--tx);background:#F4F5F7
+}
+.pw{max-width:1280px;margin:0 auto;background:#fff;min-height:100vh;
+    box-shadow:0 0 0 1px var(--gb2)}
+
+/* ── header ── */
+.ph{background:var(--bd);color:#fff;padding:10px 52px 9px;
+    border-bottom:3px solid #0065FF;display:flex;align-items:baseline;gap:18px}
+.ph .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.ph .m{font-size:11px;opacity:.75}
+
+/* ── back bar ── */
+.back-bar{background:#fff;border-bottom:1px solid var(--gb2);
+          padding:4px 52px;display:flex;align-items:center}
+.back-btn{display:inline-flex;align-items:center;gap:5px;color:var(--bd);
+          font-size:11px;font-weight:600;text-decoration:none;
+          padding:2px 8px;border:1px solid var(--bd);border-radius:3px;
+          background:#fff;transition:background .12s,color .12s;line-height:1.4}
+.back-btn:hover{background:var(--bd);color:#fff}
+.back-btn svg{flex-shrink:0}
+
+/* ── content ── */
+.ct{padding:14px 52px 28px}
+
+h1{font-size:18px;margin:0 0 6px;padding-bottom:4px;
+   border-bottom:2px solid var(--bd);display:none}
+h2{font-size:14px;font-weight:700;margin:18px 0 5px;
+   padding:4px 10px;background:var(--bl);
+   border-left:3px solid var(--bd);border-radius:2px}
+h3{font-size:13px;font-weight:700;margin:10px 0 3px;color:var(--bd)}
+h4{font-size:12.5px;font-weight:700;margin:8px 0 3px}
+
+p{margin:3px 0}
+strong{font-weight:700}
+em{font-style:italic}
+code{background:var(--gb);border:1px solid var(--gb2);border-radius:3px;
+     padding:0 5px;font-size:12px;
+     font-family:'SFMono-Regular',Consolas,monospace;color:#C0392B}
+a{color:var(--bd);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── code block ── */
+pre.cb{background:#1e1e2e;color:#cdd6f4;border-radius:5px;
+       padding:8px 14px;overflow-x:auto;margin:5px 0;font-size:11.5px;
+       font-family:'SFMono-Regular',Consolas,monospace;line-height:1.4}
+pre.cb code{background:none;border:none;color:inherit;padding:0;font-size:inherit}
+
+/* ── mermaid ── */
+.mw{background:#fafbfc;border:1px solid var(--gb2);border-radius:6px;
+    padding:10px 8px;margin:6px 0;overflow:hidden;position:relative;
+    cursor:grab;min-height:60px;text-align:center}
+.mw pre.mermaid{display:inline-block;text-align:left;
+                background:none;border:none;padding:0;max-width:100%}
+.zm-bar{position:absolute;top:6px;right:8px;display:flex;gap:3px;z-index:20}
+.zm-btn{background:rgba(255,255,255,.92);border:1px solid var(--gb2);border-radius:3px;
+        padding:1px 8px;font-size:14px;font-weight:700;cursor:pointer;
+        color:var(--tx);line-height:1.5;transition:background .1s,color .1s}
+.zm-btn:hover{background:var(--bd);color:#fff;border-color:var(--bd)}
+
+/* ── table ── */
+table{border-collapse:collapse;width:100%;margin:5px 0;font-size:12.5px;
+      border:1px solid var(--gb2);border-radius:5px;overflow:hidden}
+thead{background:var(--bd);color:#fff}
+thead th{padding:4px 10px;text-align:left;font-weight:600;font-size:11.5px}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:var(--gb)}
+tbody tr:hover{background:var(--bl)}
+td{padding:3px 10px;border-bottom:1px solid var(--gb2);vertical-align:top}
+
+/* ── lists ── */
+ul,ol{margin:3px 0 3px 18px}
+li{margin:1px 0}
+
+/* ── misc ── */
+blockquote{border-left:3px solid #FF8B00;background:var(--yl);
+           padding:4px 12px;margin:5px 0;border-radius:0 3px 3px 0;font-size:12.5px}
+hr{border:none;border-top:1px solid var(--gb2);margin:12px 0}
+
+/* ── footer ── */
+.pf{background:var(--gb);border-top:1px solid var(--gb2);
+    padding:6px 52px;font-size:11px;color:var(--tm)}
+
+/* ── floating back button ── */
+.back-float{position:fixed;bottom:18px;right:22px;z-index:200;
+            display:inline-flex;align-items:center;gap:5px;
+            background:var(--bd);color:#fff;border-radius:4px;
+            padding:5px 13px;font-size:12px;font-weight:600;
+            text-decoration:none;box-shadow:0 2px 10px rgba(0,0,82,.28);
+            transition:background .12s}
+.back-float:hover{background:#0065FF;color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="pw">
+<div class="ph">
+  <span class="t">oauth01 — Flow Diagrams</span>
+  <span class="m">IWI — Integrated Web Infrastructure · Funai Soken Digital</span>
+</div>
+<div class="back-bar"><a class="back-btn" href="../index.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Index</a></div>
+
+<h1 id="oauth01-service-flow-diagrams">oauth01 Service — Flow Diagrams</h1>
+
+<p><strong>Service:</strong> PJ_IWI_RECONS  </p>
+<p><strong>Standard:</strong> RFC 6749 — OAuth 2.0 Authorization Code Grant</p>
+
+<hr>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul><li><a href="#overview">Overview</a></li><li><a href="#full-authorization-code-grant-flow">Full Authorization Code Grant Flow</a></li><li><a href="#token-refresh-flow">Token Refresh Flow</a></li><li><a href="#token-validation-flow-resource-server-side">Token Validation Flow (Resource Server Side)</a></li><li><a href="#session-lifecycle">Session Lifecycle</a></li><li><a href="#security-event-flow--replay-attack-detection">Security Event Flow — Replay Attack Detection</a></li><li><a href="#token-expiry-timeline">Token Expiry Timeline</a></li></ul>
+
+<hr>
+
+<h2 id="overview">Overview</h2>
+
+<p>The oauth01 service implements the OAuth 2.0 Authorization Code Grant (RFC 6749 §4.1). It sits between the user&#x27;s browser, the client application (Service Provider), and protected resource servers.</p>
+
+<table><thead><tr><th>Actor</th><th>Role</th></tr></thead><tbody><tr><td><strong>User (Browser)</strong></td><td>End user operating a web browser</td></tr><tr><td><strong>Service Provider</strong></td><td>Client application requesting access on behalf of the user</td></tr><tr><td><strong>userauth01</strong></td><td>Handles user login / authentication (user-facing)</td></tr><tr><td><strong>oauth01</strong></td><td>This service — issues authorization codes and tokens</td></tr><tr><td><strong>Resource Server</strong></td><td>Downstream IWI service that validates access tokens</td></tr><tr><td><strong>Cloud Datastore</strong></td><td>Persistent storage for sessions, codes, and tokens</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="full-authorization-code-grant-flow">Full Authorization Code Grant Flow</h2>
+
+<p>The flow is divided into three phases: <strong>User Authentication</strong>, <strong>Code Exchange</strong>, and <strong>API Access</strong>.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    actor User as 👤 User
+    participant SP as Service Provider
+    participant UA as userauth01
+    participant OA as oauth01
+    participant RS as Resource Server
+    participant DS as Datastore
+
+    Note over User,DS: ══════════════════ PHASE 1 · User Authentication ══════════════════
+
+    User-&gt;&gt;SP: Access protected resource
+    SP-&gt;&gt;User: Redirect to /login
+    User-&gt;&gt;UA: GET /login?response_type=code&amp;client_id=...&amp;state=...
+    Note over UA: Check iwi-state session cookie
+
+    alt 🟢 Session already active (already logged in)
+        UA-&gt;&gt;OA: Forward request (X-IWI-UserID set)
+        OA-&gt;&gt;DS: Create AuthOAuthCode — expires +10 min
+        UA--&gt;&gt;User: 302 Found → redirect_uri?code=...&amp;state=...
+    else 🔵 No session — first login
+        UA--&gt;&gt;User: 200 OK — Login form
+        User-&gt;&gt;UA: POST /login (email + password + OAuth params)
+        UA-&gt;&gt;DS: Validate credentials (AuthUser, AuthMail2ID)
+        alt ✅ Login success
+            UA-&gt;&gt;DS: Create AuthSession (user_id assigned)
+            UA-&gt;&gt;OA: Forward request (X-IWI-UserID=user_id)
+            OA-&gt;&gt;DS: Create AuthOAuthCode — expires +10 min
+            UA--&gt;&gt;User: 302 → redirect_uri?code=...&amp;state=... + Set-Cookie: iwi-state
+        else ❌ Login failure
+            UA--&gt;&gt;User: 200 OK — Login form (credentials rejected)
+        end
+    end
+
+    Note over User,DS: ══════════════════ PHASE 2 · Code Exchange ══════════════════
+
+    User-&gt;&gt;SP: GET redirect_uri?code=...&amp;state=...
+    SP-&gt;&gt;SP: ✔ Validate state parameter (CSRF check)
+
+    rect rgb(254, 243, 199)
+        SP-&gt;&gt;OA: POST /requesttoken (grant_type=authorization_code, code=...)
+        Note over OA: Authenticate client — Basic Auth (client_id:client_secret)
+        OA-&gt;&gt;DS: Look up AuthOAuthCode
+    end
+
+    alt ✅ Code valid (exists · not expired · not used)
+        OA-&gt;&gt;DS: Create AuthOAuthAccessToken — expires +1 hr
+        OA-&gt;&gt;DS: Create AuthOAuthRefreshToken
+        OA-&gt;&gt;DS: Mark AuthOAuthCode as consumed
+        OA--&gt;&gt;SP: 200 OK {access_token, refresh_token, expires_in, iwi_user_id}
+    else ❌ Code invalid or expired
+        OA--&gt;&gt;SP: 400 Bad Request {error: invalid_grant}
+    else ⚠️ Code already used — replay attack
+        OA-&gt;&gt;DS: Revoke AuthOAuthCode immediately
+        OA--&gt;&gt;SP: 400 Bad Request {error: invalid_grant}
+    end
+
+    Note over User,DS: ══════════════════ PHASE 3 · API Access ══════════════════
+
+    rect rgb(237, 233, 254)
+        SP-&gt;&gt;SP: Store access_token + refresh_token securely
+        SP-&gt;&gt;RS: GET /resource  Authorization: Bearer &lt;access_token&gt;
+        RS-&gt;&gt;OA: validate token (internal call)
+        OA-&gt;&gt;DS: Verify token + session validity
+        OA--&gt;&gt;RS: ✅ user_id (authorized)
+        RS--&gt;&gt;SP: 200 OK — resource data
+        SP--&gt;&gt;User: Display resource
+    end</pre></div>
+
+<hr>
+
+<h2 id="token-refresh-flow">Token Refresh Flow</h2>
+
+<p>When the access token expires, the Service Provider uses the refresh token to obtain a new access token — no user interaction required.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    participant SP as Service Provider
+    participant OA as oauth01
+    participant DS as Datastore
+
+    Note over SP: ⏰ Access token expired (expires_in = 3600 s)
+
+    rect rgb(219, 234, 254)
+        Note over SP,DS: ── Step 1 · Submit Refresh Request ──
+        SP-&gt;&gt;OA: POST /refreshtoken (grant_type=refresh_token, refresh_token=...)
+        Note over OA: Authenticate client — Basic Auth
+        OA-&gt;&gt;DS: Look up AuthOAuthRefreshToken
+    end
+
+    rect rgb(254, 243, 199)
+        Note over OA,DS: ── Step 2 · Validation Checks ──
+        OA-&gt;&gt;DS: Check AuthSession.revoked_at is null
+        OA-&gt;&gt;DS: Check root AuthOAuthCode.revoked_at is null
+    end
+
+    alt ✅ All checks pass
+        rect rgb(220, 252, 231)
+            Note over OA,DS: ── Step 3 · Issue New Token ──
+            OA-&gt;&gt;DS: Create new AuthOAuthAccessToken — expires +1 hr
+            OA-&gt;&gt;DS: Update AuthOAuthRefreshToken.access_token reference
+            OA--&gt;&gt;SP: 200 OK {access_token, expires_in, iwi_user_id}
+        end
+        Note over SP: ✔ Replace old access_token with new one&lt;br/&gt;✔ Keep the same refresh_token for next time
+    else ❌ Refresh token expired or revoked
+        OA--&gt;&gt;SP: 400 Bad Request {error: invalid_grant}
+    else ❌ Session revoked (user logged out)
+        OA--&gt;&gt;SP: 400 Bad Request {error: invalid_grant}
+    end</pre></div>
+
+<blockquote><strong>Note:</strong> The refresh response does <strong>not</strong> include a new <code>refresh_token</code>. Keep using the same one.</blockquote>
+
+<hr>
+
+<h2 id="token-validation-flow-resource-server-side">Token Validation Flow (Resource Server Side)</h2>
+
+<p>This flowchart shows every check the <code>oauth_guard</code> module runs when a Resource Server validates a Bearer token. All six checks must pass — the first failure returns <code>401 Unauthorized</code>.</p>
+
+<div class="mw"><pre class="mermaid">flowchart TD
+    START([🔑 Bearer token received\nfrom Service Provider])
+
+    START --&gt; A[Look up token\nin Datastore]
+
+    A --&gt; B{Token\nexists?}
+    B -- ❌ Not found --&gt; F1([401 Unauthorized\nUnknown token])
+
+    B -- ✅ Found --&gt; C{client_id\nmatches?}
+    C -- ❌ Mismatch --&gt; F2([401 Unauthorized\nClient mismatch])
+
+    C -- ✅ Match --&gt; D{Token\nexpired?}
+    D -- ❌ Expired --&gt; F3([401 Unauthorized\nToken expired])
+
+    D -- ✅ Valid --&gt; E{Token\nrevoked?}
+    E -- ❌ Revoked --&gt; F4([401 Unauthorized\nToken revoked])
+
+    E -- ✅ Active --&gt; G[Look up AuthSession\nfrom Datastore]
+
+    G --&gt; H{Session\nrevoked?}
+    H -- ❌ Revoked --&gt; F5([401 Unauthorized\nSession revoked])
+
+    H -- ✅ Active --&gt; I{root_code\npresent?}
+
+    I -- Yes --&gt; J[Look up\nAuthOAuthCode]
+    J --&gt; K{root_code\nrevoked?}
+    K -- ❌ Revoked --&gt; F6([401 Unauthorized\nOrigin code revoked])
+    K -- ✅ Valid --&gt; OK
+
+    I -- No --&gt; OK([✅ Return user_id\nRequest authorized])
+
+    style START fill:#0052CC,color:#fff,stroke:#0052CC
+    style OK    fill:#36B37E,color:#fff,stroke:#36B37E
+    style F1    fill:#FF5630,color:#fff,stroke:#DE350B
+    style F2    fill:#FF5630,color:#fff,stroke:#DE350B
+    style F3    fill:#FF5630,color:#fff,stroke:#DE350B
+    style F4    fill:#FF5630,color:#fff,stroke:#DE350B
+    style F5    fill:#FF5630,color:#fff,stroke:#DE350B
+    style F6    fill:#FF5630,color:#fff,stroke:#DE350B
+    style A     fill:#DEEBFF,stroke:#0052CC
+    style G     fill:#DEEBFF,stroke:#0052CC
+    style J     fill:#DEEBFF,stroke:#0052CC
+    style B     fill:#F4F5F7,stroke:#97A0AF
+    style C     fill:#F4F5F7,stroke:#97A0AF
+    style D     fill:#F4F5F7,stroke:#97A0AF
+    style E     fill:#F4F5F7,stroke:#97A0AF
+    style H     fill:#F4F5F7,stroke:#97A0AF
+    style I     fill:#F4F5F7,stroke:#97A0AF
+    style K     fill:#F4F5F7,stroke:#97A0AF</pre></div>
+
+<hr>
+
+<h2 id="session-lifecycle">Session Lifecycle</h2>
+
+<p>The <code>iwi-state</code> cookie tracks the user&#x27;s session state. Each state has distinct behavior for token operations.</p>
+
+<div class="mw"><pre class="mermaid">flowchart TD
+    ENTRY([No Cookie\nFirst Request])
+
+    ENTRY --&gt; CREATE[Create AuthSession\nSet-Cookie: iwi-state\nuser_id = null]
+
+    CREATE --&gt; ANON[⬜ Anonymous\nSession active\nuser_id = null]
+
+    ANON -- POST /login success --&gt; LOGGEDIN
+
+    LOGGEDIN[🟢 Logged In\nuser_id = set\nTokens bound to session]
+
+    LOGGEDIN -- Any request --&gt; REFRESH[Cookie Max-Age reset\n7 days from now]
+    REFRESH --&gt; LOGGEDIN
+
+    LOGGEDIN -- POST /requesttoken --&gt; TOKEN[AuthOAuthAccessToken\ncreated + bound to session]
+    TOKEN --&gt; LOGGEDIN
+
+    LOGGEDIN -- POST /logout --&gt; LOGGEDOUT[🟡 Logged Out\nuser_id = null\nSession preserved]
+
+    LOGGEDOUT -- POST /login success --&gt; LOGGEDIN
+
+    LOGGEDIN -- Replay attack detected\nor admin revocation --&gt; REVOKED[🔴 Session Revoked\nrevoked_at = now]
+
+    REVOKED --&gt; DEAD([All linked tokens invalid\nRe-authentication required])
+
+    style ENTRY   fill:#DFE1E6,stroke:#97A0AF,color:#172B4D
+    style CREATE  fill:#DEEBFF,stroke:#0052CC,color:#172B4D
+    style ANON    fill:#F4F5F7,stroke:#97A0AF,color:#172B4D
+    style LOGGEDIN fill:#E3FCEF,stroke:#36B37E,color:#006644
+    style REFRESH fill:#E3FCEF,stroke:#36B37E,color:#006644
+    style TOKEN   fill:#E3FCEF,stroke:#36B37E,color:#006644
+    style LOGGEDOUT fill:#FFFAE6,stroke:#FF8B00,color:#172B4D
+    style REVOKED fill:#FFEBE6,stroke:#FF5630,color:#BF2600
+    style DEAD    fill:#FFEBE6,stroke:#FF5630,color:#BF2600</pre></div>
+
+<table><thead><tr><th>State</th><th>Color</th><th>user_id</th><th>Tokens valid?</th></tr></thead><tbody><tr><td>Anonymous</td><td>⬜ Gray</td><td><code>null</code></td><td>—</td></tr><tr><td>Logged In</td><td>🟢 Green</td><td>set</td><td>Yes</td></tr><tr><td>Logged Out</td><td>🟡 Yellow</td><td><code>null</code></td><td>Existing tokens invalid on next check</td></tr><tr><td>Revoked</td><td>🔴 Red</td><td>—</td><td>No — all tokens rejected immediately</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="security-event-flow-replay-attack-detection">Security Event Flow — Replay Attack Detection</h2>
+
+<p>If a client attempts to reuse an authorization code that was already exchanged, the service treats it as a replay attack, revokes the code immediately, and logs a <code>CRITICAL</code> event.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    participant Attacker as ⚠️ Attacker
+    participant OA as oauth01
+    participant DS as Datastore
+    participant Log as Cloud Logging
+
+    Note over Attacker,OA: The authorization code was already exchanged for a token once.
+
+    Attacker-&gt;&gt;OA: POST /requesttoken (code = &lt;already used code&gt;)
+
+    rect rgb(255, 235, 230)
+        Note over OA,DS: ── DETECTION ──
+        OA-&gt;&gt;DS: Look up AuthOAuthCode
+        OA-&gt;&gt;DS: Read AuthOAuthCode.access_token field
+        Note over OA: ⚠ access_token is already set on this code&lt;br/&gt;→ code was previously consumed&lt;br/&gt;→ REPLAY ATTACK DETECTED
+    end
+
+    rect rgb(255, 200, 180)
+        Note over OA,Log: ── RESPONSE &amp; REVOCATION ──
+        OA-&gt;&gt;DS: SET revoked_at = now  on AuthOAuthCode
+        OA-&gt;&gt;Log: 🚨 CRITICAL — Replay attack detected {code, client_id, user_id}
+        OA--&gt;&gt;Attacker: 400 Bad Request {error: invalid_grant}
+    end
+
+    Note over DS: All future token validations using&lt;br/&gt;this code as root_code will now fail.&lt;br/&gt;All derived tokens are effectively voided.</pre></div>
+
+<hr>
+
+<h2 id="token-expiry-timeline">Token Expiry Timeline</h2>
+
+<table><thead><tr><th>Token</th><th>Lifetime</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Authorization Code</strong></td><td>10 minutes</td><td>Single-use. Reusing it triggers replay attack detection and immediate revocation.</td></tr><tr><td><strong>Access Token</strong></td><td>1 hour (3600 s)</td><td>Passed as <code>Authorization: Bearer &amp;lt;token&amp;gt;</code> on every API call.</td></tr><tr><td><strong>Refresh Token</strong></td><td>Long-lived</td><td>60-second reuse window for concurrent requests. Same token reused for all future refreshes.</td></tr><tr><td><strong>Session Cookie</strong> (<code>iwi-state</code>)</td><td>7 days</td><td>Max-Age is reset to 7 days on every active request.</td></tr></tbody></table>
+
+<div class="mw"><pre class="mermaid">gantt
+    title Token Lifetime Overview (minutes)
+    dateFormat  X
+    axisFormat  %s min
+
+    section Auth Code
+    Valid — 10 min         : 0, 10
+
+    section Access Token
+    Valid — 60 min         : 0, 60
+
+    section Refresh Token
+    Reuse window — 1 min   : crit, 0, 1
+    Long-lived             : 1, 60
+
+    section Session Cookie
+    Active — refreshed per request (shown as 60 min) : active, 0, 60</pre></div>
+
+<hr>
+
+<p><em>Reference: RFC 6749 — The OAuth 2.0 Authorization Framework</em>  </p>
+<p><em>© Funai Soken Digital — IWI Documentation</em></p>
+
+<div class="pf">Reference: RFC 6749 · © Funai Soken Digital</div>
+</div>
+<a class="back-float" href="../index.html">
+<svg width="11" height="11" viewBox="0 0 14 14" fill="none">
+<path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>Index</a>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor:'#DEEBFF', primaryTextColor:'#172B4D',
+    primaryBorderColor:'#0052CC', lineColor:'#0052CC',
+    secondaryColor:'#E3FCEF', tertiaryColor:'#F4F5F7',
+    noteBkgColor:'#FFFAE6', noteTextColor:'#172B4D',
+    actorBkg:'#0052CC', actorTextColor:'#ffffff',
+    actorBorderColor:'#003d99', activationBkgColor:'#DEEBFF',
+    signalColor:'#172B4D', signalTextColor:'#172B4D'
+  },
+  sequence:{ actorMargin:55, messageMargin:30, mirrorActors:false, boxMargin:8 },
+  flowchart:{ htmlLabels:true, curve:'basis', padding:16 },
+  gantt:{ axisFormat:'%M', leftPadding:110 }
+});
+</script>
+<script>
+(function(){
+  function initZoom(wrap){
+    if(wrap.dataset.zm)return;
+    var svg=wrap.querySelector('svg');
+    if(!svg)return;
+    wrap.dataset.zm='1';
+    var target=svg;
+    while(target.parentNode && target.parentNode!==wrap){target=target.parentNode;}
+    target.style.transformOrigin='0 0';
+    target.style.userSelect='none';
+    target.style.display='inline-block';
+    target.style.maxWidth='none';
+    // Capture natural (centered) offset of target inside wrap before any transforms
+    var wr=wrap.getBoundingClientRect(),tr=target.getBoundingClientRect();
+    var ox=tr.left-wr.left, oy=tr.top-wr.top;
+    var scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,stx=0,sty=0;
+    function ap(){target.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';}
+    var bar=document.createElement('div');bar.className='zm-bar';
+    bar.innerHTML='<button class="zm-btn" data-a="in" title="Zoom in">+</button>'
+      +'<button class="zm-btn" data-a="out" title="Zoom out">−</button>'
+      +'<button class="zm-btn" data-a="r" title="Reset">↺</button>';
+    wrap.appendChild(bar);
+    bar.addEventListener('click',function(e){
+      e.stopPropagation();
+      var b=e.target.closest('[data-a]');if(!b)return;
+      var cx=wrap.clientWidth/2-ox,cy=wrap.clientHeight/2-oy,ns;
+      if(b.dataset.a==='in'){ns=Math.min(scale*1.3,8);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else if(b.dataset.a==='out'){ns=Math.max(scale/1.3,.1);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else{scale=1;tx=0;ty=0;}
+      ap();
+    });
+    wrap.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var r=wrap.getBoundingClientRect();
+      var mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
+      var d=e.deltaY<0?1.12:.89,ns=Math.min(Math.max(scale*d,.1),8);
+      tx=mx-(mx-tx)*(ns/scale);ty=my-(my-ty)*(ns/scale);scale=ns;ap();
+    },{passive:false});
+    wrap.addEventListener('mousedown',function(e){
+      if(e.target.closest('.zm-btn'))return;
+      drag=true;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;
+      wrap.style.cursor='grabbing';e.preventDefault();
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!drag)return;tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);ap();
+    });
+    document.addEventListener('mouseup',function(){
+      if(drag){drag=false;wrap.style.cursor='grab';}
+    });
+  }
+  var attempts=0;
+  var t=setInterval(function(){
+    document.querySelectorAll('.mw').forEach(initZoom);
+    if(++attempts>40)clearInterval(t);
+  },150);
+})();
+</script>
+</body>
+</html>

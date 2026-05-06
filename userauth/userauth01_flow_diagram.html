@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>userauth01 — Flow Diagrams</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+  --bd:#0052CC;--bl:#DEEBFF;--gl:#E3FCEF;--yl:#FFFAE6;
+  --gb:#F4F5F7;--gb2:#DFE1E6;--tx:#172B4D;--tm:#5E6C84;
+  --red:#FF5630;--green:#36B37E
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--tx);background:#F4F5F7
+}
+.pw{max-width:1280px;margin:0 auto;background:#fff;min-height:100vh;
+    box-shadow:0 0 0 1px var(--gb2)}
+
+/* ── header ── */
+.ph{background:var(--bd);color:#fff;padding:10px 52px 9px;
+    border-bottom:3px solid #0065FF;display:flex;align-items:baseline;gap:18px}
+.ph .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.ph .m{font-size:11px;opacity:.75}
+
+/* ── back bar ── */
+.back-bar{background:#fff;border-bottom:1px solid var(--gb2);
+          padding:4px 52px;display:flex;align-items:center}
+.back-btn{display:inline-flex;align-items:center;gap:5px;color:var(--bd);
+          font-size:11px;font-weight:600;text-decoration:none;
+          padding:2px 8px;border:1px solid var(--bd);border-radius:3px;
+          background:#fff;transition:background .12s,color .12s;line-height:1.4}
+.back-btn:hover{background:var(--bd);color:#fff}
+.back-btn svg{flex-shrink:0}
+
+/* ── content ── */
+.ct{padding:14px 52px 28px}
+
+h1{font-size:18px;margin:0 0 6px;padding-bottom:4px;
+   border-bottom:2px solid var(--bd);display:none}
+h2{font-size:14px;font-weight:700;margin:18px 0 5px;
+   padding:4px 10px;background:var(--bl);
+   border-left:3px solid var(--bd);border-radius:2px}
+h3{font-size:13px;font-weight:700;margin:10px 0 3px;color:var(--bd)}
+h4{font-size:12.5px;font-weight:700;margin:8px 0 3px}
+
+p{margin:3px 0}
+strong{font-weight:700}
+em{font-style:italic}
+code{background:var(--gb);border:1px solid var(--gb2);border-radius:3px;
+     padding:0 5px;font-size:12px;
+     font-family:'SFMono-Regular',Consolas,monospace;color:#C0392B}
+a{color:var(--bd);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── code block ── */
+pre.cb{background:#1e1e2e;color:#cdd6f4;border-radius:5px;
+       padding:8px 14px;overflow-x:auto;margin:5px 0;font-size:11.5px;
+       font-family:'SFMono-Regular',Consolas,monospace;line-height:1.4}
+pre.cb code{background:none;border:none;color:inherit;padding:0;font-size:inherit}
+
+/* ── mermaid ── */
+.mw{background:#fafbfc;border:1px solid var(--gb2);border-radius:6px;
+    padding:10px 8px;margin:6px 0;overflow:hidden;position:relative;
+    cursor:grab;min-height:60px;text-align:center}
+.mw pre.mermaid{display:inline-block;text-align:left;
+                background:none;border:none;padding:0;max-width:100%}
+.zm-bar{position:absolute;top:6px;right:8px;display:flex;gap:3px;z-index:20}
+.zm-btn{background:rgba(255,255,255,.92);border:1px solid var(--gb2);border-radius:3px;
+        padding:1px 8px;font-size:14px;font-weight:700;cursor:pointer;
+        color:var(--tx);line-height:1.5;transition:background .1s,color .1s}
+.zm-btn:hover{background:var(--bd);color:#fff;border-color:var(--bd)}
+
+/* ── table ── */
+table{border-collapse:collapse;width:100%;margin:5px 0;font-size:12.5px;
+      border:1px solid var(--gb2);border-radius:5px;overflow:hidden}
+thead{background:var(--bd);color:#fff}
+thead th{padding:4px 10px;text-align:left;font-weight:600;font-size:11.5px}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:var(--gb)}
+tbody tr:hover{background:var(--bl)}
+td{padding:3px 10px;border-bottom:1px solid var(--gb2);vertical-align:top}
+
+/* ── lists ── */
+ul,ol{margin:3px 0 3px 18px}
+li{margin:1px 0}
+
+/* ── misc ── */
+blockquote{border-left:3px solid #FF8B00;background:var(--yl);
+           padding:4px 12px;margin:5px 0;border-radius:0 3px 3px 0;font-size:12.5px}
+hr{border:none;border-top:1px solid var(--gb2);margin:12px 0}
+
+/* ── footer ── */
+.pf{background:var(--gb);border-top:1px solid var(--gb2);
+    padding:6px 52px;font-size:11px;color:var(--tm)}
+
+/* ── floating back button ── */
+.back-float{position:fixed;bottom:18px;right:22px;z-index:200;
+            display:inline-flex;align-items:center;gap:5px;
+            background:var(--bd);color:#fff;border-radius:4px;
+            padding:5px 13px;font-size:12px;font-weight:600;
+            text-decoration:none;box-shadow:0 2px 10px rgba(0,0,82,.28);
+            transition:background .12s}
+.back-float:hover{background:#0065FF;color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="pw">
+<div class="ph">
+  <span class="t">userauth01 — Flow Diagrams</span>
+  <span class="m">IWI — Integrated Web Infrastructure · Funai Soken Digital</span>
+</div>
+<div class="back-bar"><a class="back-btn" href="../index.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Index</a></div>
+
+<h1 id="userauth01-service-flow-diagrams">userauth01 Service — Flow Diagrams</h1>
+
+<p><strong>Service:</strong> PJ_IWI_USERAUTH  </p>
+<p><strong>Service Name:</strong> userauth01  </p>
+<p><strong>Standard:</strong> RFC 6749 — OAuth 2.0 Authorization Code Grant (user-facing flows)</p>
+
+<hr>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul><li><a href="#overview">Overview</a></li><li><a href="#login-flow">Login Flow</a></li><li><a href="#user-initiated-registration-flow">User-Initiated Registration Flow</a></li><li><a href="#sfdc-initiated-invitation-flow">SFDC-Initiated Invitation Flow</a></li><li><a href="#call-based-invitation-flow">Call-Based Invitation Flow</a></li><li><a href="#password-reset-flow">Password Reset Flow</a></li><li><a href="#email-change-flow">Email Change Flow</a></li><li><a href="#session-and-csrf-state-diagram">Session and CSRF State Diagram</a></li><li><a href="#account-activation--async-two-phase-commit">Account Activation — Async Two-Phase Commit</a></li></ul>
+
+<hr>
+
+<h2 id="overview">Overview</h2>
+
+<p>The userauth01 service is the <strong>user-facing authentication gateway</strong> for the IWI platform. It bridges the end user (browser), the Service Provider (client application), and the oauth01 authorization service. All successful authentication flows ultimately result in an OAuth 2.0 Authorization Code being delivered to the Service Provider.</p>
+
+<p><strong>Actors:</strong></p>
+
+<table><thead><tr><th>Actor</th><th>Description</th></tr></thead><tbody><tr><td>User (Browser)</td><td>End user with a web browser</td></tr><tr><td>Service Provider</td><td>Client application integrating with IWI</td></tr><tr><td>userauth01</td><td>This service — handles login, registration, password reset</td></tr><tr><td>oauth01</td><td>OAuth 2.0 token service — issues authorization codes and tokens</td></tr><tr><td>Salesforce (SFDC)</td><td>CRM — Contact records created for new users</td></tr><tr><td>SendGrid</td><td>Email delivery service</td></tr><tr><td>Cloud Tasks</td><td>Async task queue for account creation callbacks</td></tr><tr><td>Cloud Datastore</td><td>Storage for sessions, users, and verification tokens</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="login-flow">Login Flow</h2>
+
+<p>The login flow handles two modes: <strong>browser form</strong> (from IWI&#x27;s own login page) and <strong>XHR</strong> (from a Service Provider&#x27;s own page using JavaScript).</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    actor User as User (Browser)
+    participant SP as Service Provider
+    participant UA as userauth01
+    participant OA as oauth01
+    participant DS as Cloud Datastore
+
+    User-&gt;&gt;SP: Access protected resource
+    SP-&gt;&gt;User: Redirect to login
+    User-&gt;&gt;UA: GET /login?response_type=code&amp;client_id=...&amp;state=...&amp;redirect_uri=...
+
+    UA-&gt;&gt;DS: Check iwi-state cookie (AuthSession)
+
+    alt Session exists and user_id is set (already logged in)
+        UA-&gt;&gt;OA: Request authorization code
+        OA-&gt;&gt;DS: Create AuthOAuthCode
+        UA--&gt;&gt;User: 302 Found → redirect_uri?code=...&amp;state=...
+    else No session or not logged in
+        UA--&gt;&gt;User: 200 OK (login form HTML with hidden OAuth params)
+    end
+
+    User-&gt;&gt;UA: POST /login (mailaddr + password + OAuth params)
+    UA-&gt;&gt;DS: Look up AuthMail2ID by mailaddr
+    UA-&gt;&gt;DS: Look up AuthUser by user_id
+
+    alt Credentials valid
+        UA-&gt;&gt;DS: Create/update AuthSession (user_id = authenticated user)
+        UA-&gt;&gt;OA: Request authorization code (X-IWI-UserID = user_id)
+        OA-&gt;&gt;DS: Create AuthOAuthCode (10 min expiry)
+        OA--&gt;&gt;UA: auth code
+
+        alt Browser form POST (from IWI login page)
+            UA--&gt;&gt;User: 302 Found → redirect_uri?code=...&amp;state=...\nSet-Cookie: iwi-state=...
+        else XHR from Service Provider page
+            UA--&gt;&gt;User: 302 Found → redirect_uri?code=...&amp;state=...\nSet-Cookie + CORS headers
+        end
+
+        User-&gt;&gt;SP: GET redirect_uri?code=...&amp;state=...
+        SP-&gt;&gt;SP: Validate state (CSRF check)
+        SP-&gt;&gt;OA: POST /requesttoken (code, redirect_uri)
+        OA--&gt;&gt;SP: {access_token, refresh_token, iwi_user_id}
+        SP--&gt;&gt;User: Access granted
+
+    else Credentials invalid
+        alt Browser form POST
+            UA--&gt;&gt;User: 200 OK (login form re-displayed with error)
+        else XHR from Service Provider
+            UA--&gt;&gt;User: 200 OK Content-Type: application/json\n{&quot;status&quot;: &quot;ng&quot;}
+        end
+    end</pre></div>
+
+<p><strong>Note on legacy passwords:</strong> If an account was migrated from HeartCore (MD5 hash), the password is automatically re-hashed to SHA-512 on the first successful login.</p>
+
+<hr>
+
+<h2 id="user-initiated-registration-flow">User-Initiated Registration Flow</h2>
+
+<p>New users register themselves by providing their email address and setting a password.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    actor User as User (Browser)
+    participant SP as Service Provider
+    participant UA as userauth01
+    participant SG as SendGrid (Email)
+    participant CT as Cloud Tasks
+    participant DS as Cloud Datastore
+    participant SF as Salesforce (SFDC)
+
+    SP-&gt;&gt;User: Redirect to registration
+    User-&gt;&gt;UA: GET /register?response_type=code&amp;client_id=...&amp;state=...&amp;return_path=...
+    UA--&gt;&gt;User: 200 OK (email entry form with CSRF token + reCAPTCHA)
+
+    User-&gt;&gt;UA: POST /register (mailaddr, csrf_token, g-recaptcha-response, OAuth params)
+    UA-&gt;&gt;UA: Validate CSRF token
+    UA-&gt;&gt;UA: Verify reCAPTCHA (HTTP → Google API)
+    UA-&gt;&gt;DS: Check AuthMail2ID — email must not be in use
+
+    alt Email already registered
+        UA--&gt;&gt;User: 409 Conflict (email already used message)
+    else Email available
+        UA-&gt;&gt;DS: Create UserAuthRegister (verification token, 1 hour expiry)
+        UA-&gt;&gt;SG: Send verification email with link\n/register/auth?k=register:&lt;UUID&gt;
+        UA--&gt;&gt;User: 200 OK (email sent — check your inbox)
+    end
+
+    User-&gt;&gt;UA: GET /register/auth?k=register:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Look up UserAuthRegister by key
+    UA--&gt;&gt;User: 200 OK (password creation form)
+
+    User-&gt;&gt;UA: POST /register/auth (key, password, password2)
+    UA-&gt;&gt;UA: Validate password match (min 8 chars)
+    UA-&gt;&gt;DS: Mark UserAuthRegister.registered_at = now (consume token)
+
+    Note over UA,CT: Account creation is asynchronous (two-phase commit)
+    UA-&gt;&gt;CT: Enqueue _add_new_account task
+
+    UA-&gt;&gt;DS: Create AuthSession (user_id set)
+    UA-&gt;&gt;OA: Request authorization code
+    UA--&gt;&gt;User: 302 Found → redirect_uri?code=...&amp;state=...
+
+    Note over CT,SF: Async account creation (Cloud Task)
+    CT-&gt;&gt;DS: Create AuthUser (IN_PROGRESS)
+    CT-&gt;&gt;DS: Create AuthMail2ID (IN_PROGRESS)
+    CT-&gt;&gt;SF: Create Salesforce Contact (Composite API)
+    alt SFDC success
+        CT-&gt;&gt;DS: Clear IN_PROGRESS on AuthMail2ID (account active)
+    else SFDC failure
+        CT-&gt;&gt;DS: Invalidate AuthMail2ID (account rollback)
+    end</pre></div>
+
+<hr>
+
+<h2 id="sfdc-initiated-invitation-flow">SFDC-Initiated Invitation Flow</h2>
+
+<p>An external Salesforce workflow creates an IWI account on behalf of a user. The user is then invited to set their password.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    participant SFDC as Salesforce Workflow
+    participant UA as userauth01
+    participant SG as SendGrid (Email)
+    actor User as User (Browser)
+    participant DS as Cloud Datastore
+
+    Note over SFDC: Salesforce business event triggers user creation
+
+    SFDC-&gt;&gt;UA: POST /register/sfdc\nAuthorization: Basic ...\n{&quot;mailaddr&quot;: &quot;user@example.com&quot;}
+
+    UA-&gt;&gt;DS: Check AuthMail2ID — is email in use?
+
+    alt Email already valid
+        UA-&gt;&gt;DS: Retrieve existing AuthUser
+        UA--&gt;&gt;SFDC: 200 OK {status: true, Id: &lt;existing_user_id&gt;, Url: &lt;invite_url&gt;}
+    else Email IN_PROGRESS
+        UA--&gt;&gt;SFDC: 409 Conflict {error: CONFLICTED_STATE}
+    else Email available
+        UA-&gt;&gt;DS: Create AuthUser (stub, no password yet)
+        UA-&gt;&gt;DS: Create UserAuthRegister (invitation code, long-lived)
+        UA-&gt;&gt;SG: Send invitation email\n/invite?k=invitation:&lt;UUID&gt;
+        UA--&gt;&gt;SFDC: 200 OK {status: true, Id: &lt;new_user_id&gt;, Url: /invite?k=invitation:&lt;UUID&gt;}
+    end
+
+    Note over SFDC: SFDC stores the IWI User ID in the Contact record
+
+    User-&gt;&gt;UA: GET /invite?k=invitation:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Look up UserAuthRegister (invitation code)
+    UA--&gt;&gt;User: 200 OK (confirmation page showing email)
+
+    User-&gt;&gt;UA: POST /invite (key=invitation:&lt;UUID&gt;)
+    UA-&gt;&gt;DS: Create second UserAuthRegister (completion code, shorter expiry)
+    UA-&gt;&gt;SG: Send completion email\n/invite/auth?k=completion:&lt;UUID&gt;
+    UA--&gt;&gt;User: 200 OK (check your email)
+
+    User-&gt;&gt;UA: GET /invite/auth?k=completion:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Look up UserAuthRegister (completion code)
+    UA--&gt;&gt;User: 200 OK (password creation form)
+
+    User-&gt;&gt;UA: POST /invite/auth (key, password, password2)
+    UA-&gt;&gt;UA: Validate password
+    UA-&gt;&gt;DS: Update AuthUser.password (SHA-512 hash)
+    UA-&gt;&gt;DS: Activate AuthMail2ID
+    UA--&gt;&gt;User: 200 OK (account activated — success page)</pre></div>
+
+<hr>
+
+<h2 id="call-based-invitation-flow">Call-Based Invitation Flow</h2>
+
+<p>An alternative invitation flow for external systems that need a callback notification after the user completes registration.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    participant ExtSys as External System
+    participant UA as userauth01
+    participant SG as SendGrid (Email)
+    actor User as User (Browser)
+    participant DS as Cloud Datastore
+    participant CT as Cloud Tasks
+    participant CB as Callback URL
+
+    Note over ExtSys: External system wants to invite a user\nand be notified when they register
+
+    ExtSys-&gt;&gt;UA: POST /call/user\nAuthorization: Basic ...\n{mailaddr, greeting_title, greeting_body, callback: {url, method}}
+
+    UA-&gt;&gt;DS: Check AuthMail2ID — email must not be in use
+    alt Email already in use
+        UA--&gt;&gt;ExtSys: 409 Conflict
+    else Email available
+        UA-&gt;&gt;DS: Create UserAuthRegister (invitation code, 20-year expiry)
+        UA-&gt;&gt;SG: Send greeting/invitation email\n/call?k=invitation:&lt;UUID&gt;
+        UA--&gt;&gt;ExtSys: 200 OK {status: true, invitation_code: &quot;invitation:&lt;UUID&gt;&quot;}
+    end
+
+    User-&gt;&gt;UA: GET /call?k=invitation:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Look up UserAuthRegister
+    UA--&gt;&gt;User: 200 OK (confirmation page)
+
+    User-&gt;&gt;UA: POST /call (key=invitation:&lt;UUID&gt;)
+    UA-&gt;&gt;DS: Create completion code UserAuthRegister
+    UA-&gt;&gt;SG: Send completion email\n/call/auth?k=completion:&lt;UUID&gt;
+    UA--&gt;&gt;User: 200 OK
+
+    User-&gt;&gt;UA: GET /call/auth?k=completion:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Look up UserAuthRegister
+    UA--&gt;&gt;User: 200 OK (password creation form)
+
+    User-&gt;&gt;UA: POST /call/auth (key, password, password2)
+    UA-&gt;&gt;UA: Validate password
+
+    Note over UA,SF: Async account creation (Cloud Task)
+    UA-&gt;&gt;CT: Enqueue account creation task
+
+    CT-&gt;&gt;DS: Create AuthUser (SHA-512 password hash)
+    CT-&gt;&gt;DS: Create/activate AuthMail2ID
+    CT-&gt;&gt;SF: Create Salesforce Contact
+
+    alt Callback configured
+        CT-&gt;&gt;CB: POST callback.url\n{iwi_user_id, sfdc_contact_id}
+        Note over CB: External system receives user IDs\nand can link the new user to its data
+    end
+
+    UA--&gt;&gt;User: 200 OK (success page)</pre></div>
+
+<hr>
+
+<h2 id="password-reset-flow">Password Reset Flow</h2>
+
+<p>Users who forgot their password can reset it via their registered email address.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    actor User as User (Browser)
+    participant SP as Service Provider
+    participant UA as userauth01
+    participant SG as SendGrid (Email)
+    participant DS as Cloud Datastore
+    participant OA as oauth01
+
+    SP-&gt;&gt;User: Redirect to password reset
+    User-&gt;&gt;UA: GET /reset?response_type=code&amp;client_id=...&amp;state=...&amp;return_path=...
+    UA--&gt;&gt;User: 200 OK (email entry form with CSRF token + reCAPTCHA)
+
+    User-&gt;&gt;UA: POST /reset (mailaddr, csrf_token, g-recaptcha-response, OAuth params)
+    UA-&gt;&gt;UA: Validate CSRF token
+    UA-&gt;&gt;UA: Verify reCAPTCHA
+    UA-&gt;&gt;DS: Look up AuthMail2ID by mailaddr
+
+    Note over UA: Whether email exists or not,\nresponse is always &quot;email sent&quot;\n(prevents email enumeration)
+
+    alt Email registered
+        UA-&gt;&gt;DS: Create UserAuthRegister (reset code, 1 hour expiry)
+        UA-&gt;&gt;SG: Send reset email with link\n/reset/auth?k=reset:&lt;UUID&gt;
+    end
+
+    UA--&gt;&gt;User: 200 OK (check your email)
+
+    User-&gt;&gt;UA: GET /reset/auth?k=reset:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Look up UserAuthRegister by key
+    UA--&gt;&gt;User: 200 OK (new password form)
+
+    User-&gt;&gt;UA: POST /reset/auth (key, password, password2)
+    UA-&gt;&gt;UA: Validate password match (min 8 chars)
+    UA-&gt;&gt;DS: Look up AuthUser
+    UA-&gt;&gt;DS: Update AuthUser.password (new SHA-512 hash)
+    UA-&gt;&gt;DS: Mark UserAuthRegister as consumed
+
+    UA-&gt;&gt;DS: Create AuthSession (user_id set)
+    UA-&gt;&gt;OA: Request authorization code
+    UA--&gt;&gt;User: 302 Found → redirect_uri?code=...&amp;state=...\n(user is now logged in)</pre></div>
+
+<hr>
+
+<h2 id="email-change-flow">Email Change Flow</h2>
+
+<p>Authenticated users can change their primary email address. The flow verifies the new address and blocks changes for paid NewsPicks subscribers.</p>
+
+<div class="mw"><pre class="mermaid">sequenceDiagram
+    autonumber
+    actor User as User (Browser)
+    participant UA as userauth01
+    participant NP as NewsPicks API
+    participant SF as Salesforce API
+    participant SG as SendGrid (Email)
+    participant DS as Cloud Datastore
+    participant U1 as user01 service
+
+    Note over User: User must be logged in (iwi-state cookie with user_id)
+
+    User-&gt;&gt;UA: GET /user/email
+    UA-&gt;&gt;DS: Verify AuthSession.user_id is set
+    UA--&gt;&gt;User: 200 OK (email change form with CSRF token)
+
+    User-&gt;&gt;UA: POST /user/email (mailaddr=new@example.com, csrf_token)
+    UA-&gt;&gt;UA: Validate CSRF token
+    UA-&gt;&gt;DS: Check AuthMail2ID — new email must not be in use
+
+    UA-&gt;&gt;SF: Query Contact by user_id (check NPAddress__c field)
+
+    alt NPAddress__c is set (NewsPicks linked)
+        UA-&gt;&gt;NP: Query NewsPicks account status
+        alt Paid subscriber
+            UA--&gt;&gt;User: 400 Bad Request (email change blocked for paid accounts)
+        end
+    end
+
+    UA-&gt;&gt;DS: Create UserAuthRegister (email change code, 1 hour expiry)
+    UA-&gt;&gt;SG: Send verification email to NEW address\n/user/email/auth?k=emailchange:&lt;UUID&gt;
+    UA--&gt;&gt;User: 200 OK (verification email sent to new address)
+
+    User-&gt;&gt;UA: GET /user/email/auth?k=emailchange:&lt;UUID&gt;
+    UA-&gt;&gt;DS: Verify AuthSession.user_id (still logged in)
+    UA-&gt;&gt;DS: Look up UserAuthRegister by key
+    UA--&gt;&gt;User: 200 OK (confirmation page)
+
+    User-&gt;&gt;UA: POST /user/email/auth (key=emailchange:&lt;UUID&gt;)
+    UA-&gt;&gt;DS: Consume UserAuthRegister token
+    UA-&gt;&gt;U1: Call user01 service to apply email change\n(update AuthMail2ID mapping)
+    U1-&gt;&gt;DS: Update old AuthMail2ID (invalidate)
+    U1-&gt;&gt;DS: Create new AuthMail2ID
+    UA--&gt;&gt;User: 200 OK (email changed successfully)</pre></div>
+
+<hr>
+
+<h2 id="session-and-csrf-state-diagram">Session and CSRF State Diagram</h2>
+
+<div class="mw"><pre class="mermaid">flowchart TD
+    START([No iwi-state cookie\nFirst Request])
+    START --&gt; CREATE[Create AuthSession\nSet-Cookie: iwi-state\nuser_id = null]
+    CREATE --&gt; ANON
+
+    ANON[Anonymous Session\nuser_id = null\nCSRF = SHA256 of session_id\nEmbedded as hidden field in forms\nValidated on every POST]
+
+    ANON -- GET pages --&gt; ANON
+    ANON -- Login or Register or Reset success --&gt; LI
+
+    LI[Logged In\nuser_id = set\nMax-Age refreshed to 7 days on every request\nRequired for email-change endpoints]
+
+    LI -- Any request --&gt; LI
+    LI -- POST /logout --&gt; LO[Logged Out\nuser_id = null]
+    LO -- POST /login success --&gt; LI
+
+    style START  fill:#DFE1E6,stroke:#97A0AF,color:#172B4D
+    style CREATE fill:#DEEBFF,stroke:#0052CC,color:#172B4D
+    style ANON   fill:#F4F5F7,stroke:#97A0AF,color:#172B4D
+    style LI     fill:#E3FCEF,stroke:#36B37E,color:#006644
+    style LO     fill:#FFFAE6,stroke:#FF8B00,color:#172B4D</pre></div>
+
+<hr>
+
+<h2 id="account-activation-async-two-phase-commit">Account Activation — Async Two-Phase Commit</h2>
+
+<p>New account creation uses a Cloud Tasks-based two-phase commit to ensure consistency between the IWI Datastore and Salesforce.</p>
+
+<div class="mw"><pre class="mermaid">flowchart TD
+    A[POST /register/auth or /call/auth received] --&gt; B[Validate password]
+    B --&gt; C[Consume verification token]
+    C --&gt; D[Create AuthSession + issue OAuth code]
+    D --&gt; E[Enqueue Cloud Task: _add_new_account]
+    E --&gt; F[Return 302 to user immediately]
+
+    subgraph &quot;Cloud Task — async execution&quot;
+        G[Phase 1: Create AuthUser in Datastore]
+        G --&gt; H[Phase 1: Create AuthMail2ID with IN_PROGRESS flag]
+        H --&gt; I[Phase 2: Create Contact in Salesforce via Composite API]
+        I --&gt; J{SFDC success?}
+        J -- Yes --&gt; K[Phase 3: Clear IN_PROGRESS on AuthMail2ID\nAccount is now fully active]
+        J -- No --&gt; L[Invalidate AuthMail2ID\nSend error alert\nAccount creation rolled back]
+    end
+
+    E --&gt; G
+
+    style K fill:#d4edda,stroke:#28a745
+    style L fill:#f8d7da,stroke:#dc3545</pre></div>
+
+<p><strong>Why async?</strong> Salesforce API calls can take several seconds. By creating the IWI session and issuing the OAuth code immediately, the user is never blocked waiting for Salesforce. The account is functional for authentication within milliseconds.</p>
+
+<hr>
+
+<h2 id="registration-flow-decision-tree">Registration Flow Decision Tree</h2>
+
+<div class="mw"><pre class="mermaid">flowchart TD
+    A[New user needs IWI account] --&gt; B{Who initiates?}
+
+    B --&gt; C[User themselves]
+    B --&gt; D[Salesforce workflow]
+    B --&gt; E[External system]
+
+    C --&gt; F[User goes to /register\non Service Provider site]
+    F --&gt; G[Email verification email]
+    G --&gt; H[Set password at register/auth]
+    H --&gt; I[Account active + logged in]
+
+    D --&gt; J[SFDC calls POST /register/sfdc]
+    J --&gt; K{Email in use?}
+    K -- Valid existing --&gt; L[Return existing IWI ID]
+    K -- IN_PROGRESS --&gt; M[409 Conflict]
+    K -- Not found --&gt; N[Send invitation email /invite]
+    N --&gt; O[User confirms /invite]
+    O --&gt; P[Completion email /invite/auth]
+    P --&gt; Q[Set password]
+    Q --&gt; R[Account active]
+
+    E --&gt; S[External system calls POST /call/user\nwith callback URL]
+    S --&gt; T[Send greeting email /call]
+    T --&gt; U[User confirms /call]
+    U --&gt; V[Completion email /call/auth]
+    V --&gt; W[Set password]
+    W --&gt; X[Account created + callback fired]
+    X --&gt; Y[External system receives IWI ID]
+
+    style I fill:#d4edda,stroke:#28a745
+    style R fill:#d4edda,stroke:#28a745
+    style Y fill:#d4edda,stroke:#28a745
+    style M fill:#f8d7da,stroke:#dc3545</pre></div>
+
+<hr>
+
+<p><em>© Funai Soken Digital — IWI Documentation</em></p>
+
+<div class="pf">© Funai Soken Digital — IWI Documentation</div>
+</div>
+<a class="back-float" href="../index.html">
+<svg width="11" height="11" viewBox="0 0 14 14" fill="none">
+<path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>Index</a>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor:'#DEEBFF', primaryTextColor:'#172B4D',
+    primaryBorderColor:'#0052CC', lineColor:'#0052CC',
+    secondaryColor:'#E3FCEF', tertiaryColor:'#F4F5F7',
+    noteBkgColor:'#FFFAE6', noteTextColor:'#172B4D',
+    actorBkg:'#0052CC', actorTextColor:'#ffffff',
+    actorBorderColor:'#003d99', activationBkgColor:'#DEEBFF',
+    signalColor:'#172B4D', signalTextColor:'#172B4D'
+  },
+  sequence:{ actorMargin:55, messageMargin:30, mirrorActors:false, boxMargin:8 },
+  flowchart:{ htmlLabels:true, curve:'basis', padding:16 },
+  gantt:{ axisFormat:'%M', leftPadding:110 }
+});
+</script>
+<script>
+(function(){
+  function initZoom(wrap){
+    if(wrap.dataset.zm)return;
+    var svg=wrap.querySelector('svg');
+    if(!svg)return;
+    wrap.dataset.zm='1';
+    var target=svg;
+    while(target.parentNode && target.parentNode!==wrap){target=target.parentNode;}
+    target.style.transformOrigin='0 0';
+    target.style.userSelect='none';
+    target.style.display='inline-block';
+    target.style.maxWidth='none';
+    // Capture natural (centered) offset of target inside wrap before any transforms
+    var wr=wrap.getBoundingClientRect(),tr=target.getBoundingClientRect();
+    var ox=tr.left-wr.left, oy=tr.top-wr.top;
+    var scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,stx=0,sty=0;
+    function ap(){target.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';}
+    var bar=document.createElement('div');bar.className='zm-bar';
+    bar.innerHTML='<button class="zm-btn" data-a="in" title="Zoom in">+</button>'
+      +'<button class="zm-btn" data-a="out" title="Zoom out">−</button>'
+      +'<button class="zm-btn" data-a="r" title="Reset">↺</button>';
+    wrap.appendChild(bar);
+    bar.addEventListener('click',function(e){
+      e.stopPropagation();
+      var b=e.target.closest('[data-a]');if(!b)return;
+      var cx=wrap.clientWidth/2-ox,cy=wrap.clientHeight/2-oy,ns;
+      if(b.dataset.a==='in'){ns=Math.min(scale*1.3,8);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else if(b.dataset.a==='out'){ns=Math.max(scale/1.3,.1);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else{scale=1;tx=0;ty=0;}
+      ap();
+    });
+    wrap.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var r=wrap.getBoundingClientRect();
+      var mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
+      var d=e.deltaY<0?1.12:.89,ns=Math.min(Math.max(scale*d,.1),8);
+      tx=mx-(mx-tx)*(ns/scale);ty=my-(my-ty)*(ns/scale);scale=ns;ap();
+    },{passive:false});
+    wrap.addEventListener('mousedown',function(e){
+      if(e.target.closest('.zm-btn'))return;
+      drag=true;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;
+      wrap.style.cursor='grabbing';e.preventDefault();
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!drag)return;tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);ap();
+    });
+    document.addEventListener('mouseup',function(){
+      if(drag){drag=false;wrap.style.cursor='grab';}
+    });
+  }
+  var attempts=0;
+  var t=setInterval(function(){
+    document.querySelectorAll('.mw').forEach(initZoom);
+    if(++attempts>40)clearInterval(t);
+  },150);
+})();
+</script>
+</body>
+</html>

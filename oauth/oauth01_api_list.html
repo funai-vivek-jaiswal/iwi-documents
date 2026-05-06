@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>oauth01 — API Reference</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+  --bd:#0052CC;--bl:#DEEBFF;--gl:#E3FCEF;--yl:#FFFAE6;
+  --gb:#F4F5F7;--gb2:#DFE1E6;--tx:#172B4D;--tm:#5E6C84;
+  --red:#FF5630;--green:#36B37E
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--tx);background:#F4F5F7
+}
+.pw{max-width:1280px;margin:0 auto;background:#fff;min-height:100vh;
+    box-shadow:0 0 0 1px var(--gb2)}
+
+/* ── header ── */
+.ph{background:var(--bd);color:#fff;padding:10px 52px 9px;
+    border-bottom:3px solid #0065FF;display:flex;align-items:baseline;gap:18px}
+.ph .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.ph .m{font-size:11px;opacity:.75}
+
+/* ── back bar ── */
+.back-bar{background:#fff;border-bottom:1px solid var(--gb2);
+          padding:4px 52px;display:flex;align-items:center}
+.back-btn{display:inline-flex;align-items:center;gap:5px;color:var(--bd);
+          font-size:11px;font-weight:600;text-decoration:none;
+          padding:2px 8px;border:1px solid var(--bd);border-radius:3px;
+          background:#fff;transition:background .12s,color .12s;line-height:1.4}
+.back-btn:hover{background:var(--bd);color:#fff}
+.back-btn svg{flex-shrink:0}
+
+/* ── content ── */
+.ct{padding:14px 52px 28px}
+
+h1{font-size:18px;margin:0 0 6px;padding-bottom:4px;
+   border-bottom:2px solid var(--bd);display:none}
+h2{font-size:14px;font-weight:700;margin:18px 0 5px;
+   padding:4px 10px;background:var(--bl);
+   border-left:3px solid var(--bd);border-radius:2px}
+h3{font-size:13px;font-weight:700;margin:10px 0 3px;color:var(--bd)}
+h4{font-size:12.5px;font-weight:700;margin:8px 0 3px}
+
+p{margin:3px 0}
+strong{font-weight:700}
+em{font-style:italic}
+code{background:var(--gb);border:1px solid var(--gb2);border-radius:3px;
+     padding:0 5px;font-size:12px;
+     font-family:'SFMono-Regular',Consolas,monospace;color:#C0392B}
+a{color:var(--bd);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── code block ── */
+pre.cb{background:#1e1e2e;color:#cdd6f4;border-radius:5px;
+       padding:8px 14px;overflow-x:auto;margin:5px 0;font-size:11.5px;
+       font-family:'SFMono-Regular',Consolas,monospace;line-height:1.4}
+pre.cb code{background:none;border:none;color:inherit;padding:0;font-size:inherit}
+
+/* ── mermaid ── */
+.mw{background:#fafbfc;border:1px solid var(--gb2);border-radius:6px;
+    padding:10px 8px;margin:6px 0;overflow:hidden;position:relative;
+    cursor:grab;min-height:60px;text-align:center}
+.mw pre.mermaid{display:inline-block;text-align:left;
+                background:none;border:none;padding:0;max-width:100%}
+.zm-bar{position:absolute;top:6px;right:8px;display:flex;gap:3px;z-index:20}
+.zm-btn{background:rgba(255,255,255,.92);border:1px solid var(--gb2);border-radius:3px;
+        padding:1px 8px;font-size:14px;font-weight:700;cursor:pointer;
+        color:var(--tx);line-height:1.5;transition:background .1s,color .1s}
+.zm-btn:hover{background:var(--bd);color:#fff;border-color:var(--bd)}
+
+/* ── table ── */
+table{border-collapse:collapse;width:100%;margin:5px 0;font-size:12.5px;
+      border:1px solid var(--gb2);border-radius:5px;overflow:hidden}
+thead{background:var(--bd);color:#fff}
+thead th{padding:4px 10px;text-align:left;font-weight:600;font-size:11.5px}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:var(--gb)}
+tbody tr:hover{background:var(--bl)}
+td{padding:3px 10px;border-bottom:1px solid var(--gb2);vertical-align:top}
+
+/* ── lists ── */
+ul,ol{margin:3px 0 3px 18px}
+li{margin:1px 0}
+
+/* ── misc ── */
+blockquote{border-left:3px solid #FF8B00;background:var(--yl);
+           padding:4px 12px;margin:5px 0;border-radius:0 3px 3px 0;font-size:12.5px}
+hr{border:none;border-top:1px solid var(--gb2);margin:12px 0}
+
+/* ── footer ── */
+.pf{background:var(--gb);border-top:1px solid var(--gb2);
+    padding:6px 52px;font-size:11px;color:var(--tm)}
+
+/* ── floating back button ── */
+.back-float{position:fixed;bottom:18px;right:22px;z-index:200;
+            display:inline-flex;align-items:center;gap:5px;
+            background:var(--bd);color:#fff;border-radius:4px;
+            padding:5px 13px;font-size:12px;font-weight:600;
+            text-decoration:none;box-shadow:0 2px 10px rgba(0,0,82,.28);
+            transition:background .12s}
+.back-float:hover{background:#0065FF;color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="pw">
+<div class="ph">
+  <span class="t">oauth01 — API Reference</span>
+  <span class="m">IWI — Integrated Web Infrastructure · Funai Soken Digital</span>
+</div>
+<div class="back-bar"><a class="back-btn" href="../index.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Index</a></div>
+
+<h1 id="oauth01-service-api-reference">oauth01 Service — API Reference</h1>
+
+<p><strong>Service:</strong> PJ_IWI_RECONS  </p>
+<p><strong>Service Name:</strong> oauth01  </p>
+<p><strong>Purpose:</strong> OAuth 2.0 Authorization Server — implements the Authorization Code Grant flow (RFC 6749) for issuing access tokens and refresh tokens to registered client applications.</p>
+
+<hr>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ul><li><a href="#common-standards">Common Standards</a></li><li><a href="#get-">GET /</a></li><li><a href="#post-requesttoken">POST /requesttoken</a></li><li><a href="#post-refreshtoken">POST /refreshtoken</a></li><li><a href="#error-responses">Error Responses</a></li><li><a href="#data-models">Data Models</a></li></ul>
+
+<hr>
+
+<h2 id="common-standards">Common Standards</h2>
+
+<h3 id="authorization-header">Authorization Header</h3>
+
+<p>Internal client authentication uses HTTP Basic Authentication (RFC 7617).</p>
+
+<pre class="cb"><code class="l-">Authorization: Basic &lt;base64(client_id:client_secret)&gt;</code></pre>
+
+<h3 id="content-type">Content-Type</h3>
+
+<p>Token endpoints accept <code>application/x-www-form-urlencoded</code> request bodies.</p>
+
+<h3 id="token-format">Token Format</h3>
+
+<p>All tokens (authorization codes, access tokens, refresh tokens) are UUID v4 strings.  </p>
+<p>Example: <code>550e8400-e29b-41d4-a716-446655440000</code></p>
+
+<hr>
+
+<h2 id="get">GET /</h2>
+
+<p>Health check endpoint. Returns service identity and status.</p>
+
+<p><strong>Response Example (Success):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;service&quot;: &quot;oauth01&quot;
+}</code></pre>
+
+<p><strong>Response JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>$.status</code></td><td>string</td><td>Always <code>&amp;quot;ok&amp;quot;</code></td></tr><tr><td><code>$.service</code></td><td>string</td><td>Service name identifier</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Service is running normally</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="post-requesttoken">POST /requesttoken</h2>
+
+<p><strong>Access Token Request</strong> — corresponds to the Access Token Request defined in RFC 6749 §4.1.3.</p>
+
+<p>Exchanges a valid authorization code for an access token and a refresh token.</p>
+
+<p><strong>Request Example:</strong></p>
+
+<pre class="cb"><code class="l-http">POST /requesttoken HTTP/1.1
+Host: oauth.example.com
+Authorization: Basic base64(client_id:client_secret)
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&amp;code=550e8400-e29b-41d4-a716-446655440000&amp;redirect_uri=https://app.example.com/callback</code></pre>
+
+<p><strong>Response Example (Success):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  &quot;access_token&quot;: &quot;2YotnFZFEjr1zCsicMWpAA&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;refresh_token&quot;: &quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;,
+  &quot;iwi_user_id&quot;: &quot;5e87c5bb-847e-4bb2-9cbd-c26b6a33a799&quot;
+}</code></pre>
+
+<p><strong>Response Example (Failure):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 400 Bad Request
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  &quot;error&quot;: &quot;invalid_grant&quot;,
+  &quot;error_description&quot;: &quot;The authorization code is invalid or has expired.&quot;,
+  &quot;state&quot;: &quot;xyz&quot;
+}</code></pre>
+
+<p>For <code>error</code> and <code>error_description</code> details, refer to RFC 6749 §5.2 Error Response.</p>
+
+<p><strong>Client Authentication:</strong></p>
+
+<p>Either HTTP Basic Authentication or form body parameters. Basic Auth is preferred.</p>
+
+<table><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody><tr><td>Basic Auth</td><td><code>Authorization: Basic base64(client_id:client_secret)</code></td></tr><tr><td>Form body</td><td>Include <code>client_id</code> and <code>client_secret</code> as form fields</td></tr></tbody></table>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>grant_type</code></td><td>string</td><td>Must be <code>authorization_code</code> (required)</td></tr><tr><td><code>code</code></td><td>string</td><td>Authorization code received from the userauth01 <code>/login</code> redirect (required)</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Must exactly match the <code>redirect_uri</code> used in the userauth01 login request (required if provided at login time)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>OAuth client UUID. Required if not using Basic Auth.</td></tr><tr><td><code>client_secret</code></td><td>string</td><td>OAuth client secret. Required if not using Basic Auth.</td></tr></tbody></table>
+
+<p><strong>Response JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>$.access_token</code></td><td>string</td><td>Bearer token representing the user&#x27;s authorization</td></tr><tr><td><code>$.token_type</code></td><td>string</td><td>Always <code>&amp;quot;Bearer&amp;quot;</code></td></tr><tr><td><code>$.expires_in</code></td><td>integer</td><td>Token validity period in seconds (3600 = 1 hour)</td></tr><tr><td><code>$.refresh_token</code></td><td>string</td><td>Token used for future access token refresh</td></tr><tr><td><code>$.iwi_user_id</code></td><td>string</td><td>IWI User ID of the authorizing user</td></tr><tr><td><code>$.error</code></td><td>string</td><td>Error identifier string (on failure only)</td></tr><tr><td><code>$.error_description</code></td><td>string</td><td>Error detail message (on failure only, may be omitted)</td></tr><tr><td><code>$.state</code></td><td>string</td><td>State value from the authorization request (on failure only, may be omitted)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>Token issued successfully</td></tr><tr><td><code>400 Bad Request</code></td><td>Invalid code, expired code, redirect_uri mismatch, or replay detected</td></tr><tr><td><code>401 Unauthorized</code></td><td>Missing or invalid client credentials</td></tr></tbody></table>
+
+<p><strong>Business Logic Notes:</strong></p>
+
+<ul><li>Access token lifetime: <strong>1 hour</strong> (3600 seconds).</li><li>Refresh token has a <strong>60-second reuse window</strong> — within this window, the same access token is returned for concurrent refresh requests.</li><li>If the authorization code has already been used once, it is immediately revoked and the request is rejected (replay attack prevention).</li><li>Access tokens are bound to the issuing client. A token cannot be used with a different <code>client_id</code>.</li><li>Access tokens are bound to the session. Revoking the session invalidates all associated tokens.</li></ul>
+
+<hr>
+
+<h2 id="post-refreshtoken">POST /refreshtoken</h2>
+
+<p><strong>Access Token Refresh</strong> — corresponds to the Refreshing an Access Token operation defined in RFC 6749.</p>
+
+<p>Exchanges a valid refresh token for a new access token. The refresh token itself is <strong>not</strong> rotated — the same refresh token continues to be valid for future refreshes (within its validity period).</p>
+
+<p><strong>Request Example:</strong></p>
+
+<pre class="cb"><code class="l-http">POST /refreshtoken HTTP/1.1
+Host: oauth.example.com
+Authorization: Basic base64(client_id:client_secret)
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&amp;refresh_token=tGzv3JOkF0XG5Qx2TlKWIA</code></pre>
+
+<p><strong>Response Example (Success):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  &quot;access_token&quot;: &quot;3ZpuoGAGFks2aDtjdNLXBB&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;iwi_user_id&quot;: &quot;5e87c5bb-847e-4bb2-9cbd-c26b6a33a799&quot;
+}</code></pre>
+
+<p><strong>Response Example (Failure):</strong></p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 400 Bad Request
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  &quot;error&quot;: &quot;invalid_grant&quot;,
+  &quot;error_description&quot;: &quot;Missing refresh token parameter.&quot;
+}</code></pre>
+
+<p>For <code>error</code> and <code>error_description</code> details, refer to RFC 6749 §5.2 Error Response.</p>
+
+<p><strong>Client Authentication:</strong></p>
+
+<p>Same as <code>/requesttoken</code> — HTTP Basic Auth (preferred) or form body parameters.</p>
+
+<p><strong>Form Parameters:</strong></p>
+
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>grant_type</code></td><td>string</td><td>Must be <code>refresh_token</code> (required)</td></tr><tr><td><code>refresh_token</code></td><td>string</td><td>Refresh token received from the previous token issuance (required)</td></tr><tr><td><code>client_id</code></td><td>string</td><td>OAuth client UUID. Required if not using Basic Auth.</td></tr><tr><td><code>client_secret</code></td><td>string</td><td>OAuth client secret. Required if not using Basic Auth.</td></tr></tbody></table>
+
+<p><strong>Response JSON Object:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>$.access_token</code></td><td>string</td><td>New bearer token representing the user&#x27;s authorization</td></tr><tr><td><code>$.token_type</code></td><td>string</td><td>Always <code>&amp;quot;Bearer&amp;quot;</code></td></tr><tr><td><code>$.expires_in</code></td><td>integer</td><td>Token validity period in seconds (3600 = 1 hour)</td></tr><tr><td><code>$.iwi_user_id</code></td><td>string</td><td>IWI User ID of the authorizing user</td></tr><tr><td><code>$.error</code></td><td>string</td><td>Error identifier string (on failure only)</td></tr><tr><td><code>$.error_description</code></td><td>string</td><td>Error detail message (on failure only, may be omitted)</td></tr></tbody></table>
+
+<p><strong>Status Codes:</strong></p>
+
+<table><thead><tr><th>Code</th><th>Condition</th></tr></thead><tbody><tr><td><code>200 OK</code></td><td>New access token issued successfully</td></tr><tr><td><code>400 Bad Request</code></td><td>Invalid or expired refresh token</td></tr><tr><td><code>401 Unauthorized</code></td><td>Missing or invalid client credentials</td></tr></tbody></table>
+
+<p><strong>Business Logic Notes:</strong></p>
+
+<ul><li>The response does <strong>not</strong> include a new <code>refresh_token</code>. The client must continue using the same refresh token for subsequent refreshes.</li><li>The refresh token validates against: token existence, expiry, revocation status, session activity, and root authorization code validity.</li><li>If the session is revoked, the refresh token becomes invalid.</li></ul>
+
+<hr>
+
+<h2 id="error-responses">Error Responses</h2>
+
+<p>Standard error response shape follows RFC 6749 §5.2:</p>
+
+<pre class="cb"><code class="l-http">HTTP/1.1 &lt;4xx&gt; &lt;Status Text&gt;
+Content-Type: application/json;charset=UTF-8
+Cache-Control: no-store
+Pragma: no-cache
+
+{
+  &quot;error&quot;: &quot;&lt;error_code&gt;&quot;,
+  &quot;error_description&quot;: &quot;&lt;human readable message&gt;&quot;,
+  &quot;state&quot;: &quot;&lt;state from request&gt;&quot;
+}</code></pre>
+
+<p><strong>Common Error Codes:</strong></p>
+
+<table><thead><tr><th>Error Code</th><th>HTTP Status</th><th>Meaning</th></tr></thead><tbody><tr><td><code>invalid_request</code></td><td>400</td><td>Missing or invalid parameter</td></tr><tr><td><code>invalid_client</code></td><td>401</td><td>Unknown client or wrong credentials</td></tr><tr><td><code>invalid_grant</code></td><td>400</td><td>Invalid, expired, or already-used authorization code; invalid refresh token</td></tr><tr><td><code>unauthorized_client</code></td><td>400</td><td>Client not authorized for the requested grant type</td></tr><tr><td><code>unsupported_grant_type</code></td><td>400</td><td><code>grant_type</code> value is not supported</td></tr><tr><td><code>invalid_scope</code></td><td>400</td><td>Requested scope is invalid or exceeds the original scope</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="data-models">Data Models</h2>
+
+<h3 id="authclient">AuthClient</h3>
+
+<p>Registered OAuth client application.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>string (UUID)</td><td>Client identifier</td></tr><tr><td><code>name</code></td><td>string</td><td>Human-readable client name</td></tr><tr><td><code>secret</code></td><td>string</td><td>Client authentication secret</td></tr><tr><td><code>services</code></td><td>object</td><td>Dict of permitted service names (keys)</td></tr><tr><td><code>info.oauth2.known_redirect_hosts</code></td><td>array of strings</td><td>Allowed redirect URI hosts</td></tr><tr><td><code>info.oauth2.default_redirect_uri</code></td><td>string</td><td>Default redirect URI (used when <code>redirect_uri</code> is omitted)</td></tr><tr><td><code>invalidated</code></td><td>string or null</td><td>Timestamp if client is disabled; <code>null</code> if active</td></tr></tbody></table>
+
+<h3 id="authsession">AuthSession</h3>
+
+<p>User session managed via <code>iwi-state</code> cookie.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>string (UUID)</td><td>Session identifier (value of <code>iwi-state</code> cookie)</td></tr><tr><td><code>user_id</code></td><td>string or null</td><td>Logged-in IWI User ID; <code>null</code> if not logged in</td></tr><tr><td><code>tokens</code></td><td>object</td><td>Dict of <code>{client_id: [(token, expired_at), ...]}</code></td></tr><tr><td><code>version</code></td><td>string (UUID)</td><td>Concurrency control version</td></tr><tr><td><code>revoked_at</code></td><td>string or null</td><td>Timestamp if session is revoked; <code>null</code> if active</td></tr></tbody></table>
+
+<h3 id="authoauthcode">AuthOAuthCode</h3>
+
+<p>Authorization code issued internally by userauth01 (via <code>/login</code>).</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>code</code></td><td>string (UUID)</td><td>The authorization code (key)</td></tr><tr><td><code>user_id</code></td><td>string</td><td>IWI User ID who authorized</td></tr><tr><td><code>client_id</code></td><td>string</td><td>Client that requested the code</td></tr><tr><td><code>scope</code></td><td>string</td><td>Space-separated scopes</td></tr><tr><td><code>redirect_uri</code></td><td>string</td><td>Redirect URI specified at authorization time</td></tr><tr><td><code>expired_at</code></td><td>string</td><td>Expiry timestamp (10 minutes from issuance)</td></tr><tr><td><code>session_id</code></td><td>string</td><td>Associated session ID</td></tr><tr><td><code>access_token</code></td><td>string or null</td><td>Token issued from this code (set on first use)</td></tr><tr><td><code>revoked_at</code></td><td>string or null</td><td>Timestamp if revoked (e.g., replay detected)</td></tr></tbody></table>
+
+<h3 id="authoauthaccesstoken">AuthOAuthAccessToken</h3>
+
+<p>Access token issued by <code>/requesttoken</code> or <code>/refreshtoken</code>.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>token</code></td><td>string (UUID)</td><td>The access token (key)</td></tr><tr><td><code>user_id</code></td><td>string</td><td>IWI User ID</td></tr><tr><td><code>client_id</code></td><td>string</td><td>Issuing client</td></tr><tr><td><code>scope</code></td><td>string</td><td>Granted scopes</td></tr><tr><td><code>expired_at</code></td><td>string</td><td>Expiry timestamp (1 hour from issuance)</td></tr><tr><td><code>session_id</code></td><td>string</td><td>Associated session ID</td></tr><tr><td><code>source_type</code></td><td>string</td><td><code>&amp;quot;authcode&amp;quot;</code> or <code>&amp;quot;refresh_token&amp;quot;</code></td></tr><tr><td><code>source_id</code></td><td>string</td><td>ID of the source code or refresh token</td></tr><tr><td><code>root_code</code></td><td>string or null</td><td>Original authorization code</td></tr><tr><td><code>revoked_at</code></td><td>string or null</td><td>Timestamp if revoked</td></tr></tbody></table>
+
+<h3 id="authoauthrefreshtoken">AuthOAuthRefreshToken</h3>
+
+<p>Refresh token issued alongside an access token.</p>
+
+<table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>token</code></td><td>string (UUID)</td><td>The refresh token (key)</td></tr><tr><td><code>user_id</code></td><td>string</td><td>IWI User ID</td></tr><tr><td><code>client_id</code></td><td>string</td><td>Issuing client</td></tr><tr><td><code>scope</code></td><td>string</td><td>Granted scopes</td></tr><tr><td><code>session_id</code></td><td>string</td><td>Associated session ID</td></tr><tr><td><code>expired_at</code></td><td>string or null</td><td>Expiry timestamp (60-second reuse window)</td></tr><tr><td><code>access_token</code></td><td>string or null</td><td>Last access token issued from this refresh token</td></tr><tr><td><code>root_code</code></td><td>string or null</td><td>Original authorization code</td></tr><tr><td><code>revoked_at</code></td><td>string or null</td><td>Timestamp if revoked</td></tr></tbody></table>
+
+<hr>
+
+<p><em>Reference: RFC 6749 — The OAuth 2.0 Authorization Framework</em>  </p>
+<p><em>© Funai Soken Digital — IWI Documentation</em></p>
+
+<div class="pf">Reference: RFC 6749 · © Funai Soken Digital</div>
+</div>
+<a class="back-float" href="../index.html">
+<svg width="11" height="11" viewBox="0 0 14 14" fill="none">
+<path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>Index</a>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor:'#DEEBFF', primaryTextColor:'#172B4D',
+    primaryBorderColor:'#0052CC', lineColor:'#0052CC',
+    secondaryColor:'#E3FCEF', tertiaryColor:'#F4F5F7',
+    noteBkgColor:'#FFFAE6', noteTextColor:'#172B4D',
+    actorBkg:'#0052CC', actorTextColor:'#ffffff',
+    actorBorderColor:'#003d99', activationBkgColor:'#DEEBFF',
+    signalColor:'#172B4D', signalTextColor:'#172B4D'
+  },
+  sequence:{ actorMargin:55, messageMargin:30, mirrorActors:false, boxMargin:8 },
+  flowchart:{ htmlLabels:true, curve:'basis', padding:16 },
+  gantt:{ axisFormat:'%M', leftPadding:110 }
+});
+</script>
+<script>
+(function(){
+  function initZoom(wrap){
+    if(wrap.dataset.zm)return;
+    var svg=wrap.querySelector('svg');
+    if(!svg)return;
+    wrap.dataset.zm='1';
+    var target=svg;
+    while(target.parentNode && target.parentNode!==wrap){target=target.parentNode;}
+    target.style.transformOrigin='0 0';
+    target.style.userSelect='none';
+    target.style.display='inline-block';
+    target.style.maxWidth='none';
+    // Capture natural (centered) offset of target inside wrap before any transforms
+    var wr=wrap.getBoundingClientRect(),tr=target.getBoundingClientRect();
+    var ox=tr.left-wr.left, oy=tr.top-wr.top;
+    var scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,stx=0,sty=0;
+    function ap(){target.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';}
+    var bar=document.createElement('div');bar.className='zm-bar';
+    bar.innerHTML='<button class="zm-btn" data-a="in" title="Zoom in">+</button>'
+      +'<button class="zm-btn" data-a="out" title="Zoom out">−</button>'
+      +'<button class="zm-btn" data-a="r" title="Reset">↺</button>';
+    wrap.appendChild(bar);
+    bar.addEventListener('click',function(e){
+      e.stopPropagation();
+      var b=e.target.closest('[data-a]');if(!b)return;
+      var cx=wrap.clientWidth/2-ox,cy=wrap.clientHeight/2-oy,ns;
+      if(b.dataset.a==='in'){ns=Math.min(scale*1.3,8);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else if(b.dataset.a==='out'){ns=Math.max(scale/1.3,.1);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else{scale=1;tx=0;ty=0;}
+      ap();
+    });
+    wrap.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var r=wrap.getBoundingClientRect();
+      var mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
+      var d=e.deltaY<0?1.12:.89,ns=Math.min(Math.max(scale*d,.1),8);
+      tx=mx-(mx-tx)*(ns/scale);ty=my-(my-ty)*(ns/scale);scale=ns;ap();
+    },{passive:false});
+    wrap.addEventListener('mousedown',function(e){
+      if(e.target.closest('.zm-btn'))return;
+      drag=true;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;
+      wrap.style.cursor='grabbing';e.preventDefault();
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!drag)return;tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);ap();
+    });
+    document.addEventListener('mouseup',function(){
+      if(drag){drag=false;wrap.style.cursor='grab';}
+    });
+  }
+  var attempts=0;
+  var t=setInterval(function(){
+    document.querySelectorAll('.mw').forEach(initZoom);
+    if(++attempts>40)clearInterval(t);
+  },150);
+})();
+</script>
+</body>
+</html>

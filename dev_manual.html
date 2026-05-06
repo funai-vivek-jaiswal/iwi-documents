@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IWI Developer Manual</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+:root{
+  --bd:#0052CC;--bl:#DEEBFF;--gl:#E3FCEF;--yl:#FFFAE6;
+  --gb:#F4F5F7;--gb2:#DFE1E6;--tx:#172B4D;--tm:#5E6C84;
+  --red:#FF5630;--green:#36B37E
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--tx);background:#F4F5F7
+}
+.pw{max-width:1280px;margin:0 auto;background:#fff;min-height:100vh;
+    box-shadow:0 0 0 1px var(--gb2)}
+
+/* ── header ── */
+.ph{background:var(--bd);color:#fff;padding:10px 52px 9px;
+    border-bottom:3px solid #0065FF;display:flex;align-items:baseline;gap:18px}
+.ph .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.ph .m{font-size:11px;opacity:.75}
+
+/* ── back bar ── */
+.back-bar{background:#fff;border-bottom:1px solid var(--gb2);
+          padding:4px 52px;display:flex;align-items:center}
+.back-btn{display:inline-flex;align-items:center;gap:5px;color:var(--bd);
+          font-size:11px;font-weight:600;text-decoration:none;
+          padding:2px 8px;border:1px solid var(--bd);border-radius:3px;
+          background:#fff;transition:background .12s,color .12s;line-height:1.4}
+.back-btn:hover{background:var(--bd);color:#fff}
+.back-btn svg{flex-shrink:0}
+
+/* ── content ── */
+.ct{padding:14px 52px 28px}
+
+h1{font-size:18px;margin:0 0 6px;padding-bottom:4px;
+   border-bottom:2px solid var(--bd);display:none}
+h2{font-size:14px;font-weight:700;margin:18px 0 5px;
+   padding:4px 10px;background:var(--bl);
+   border-left:3px solid var(--bd);border-radius:2px}
+h3{font-size:13px;font-weight:700;margin:10px 0 3px;color:var(--bd)}
+h4{font-size:12.5px;font-weight:700;margin:8px 0 3px}
+
+p{margin:3px 0}
+strong{font-weight:700}
+em{font-style:italic}
+code{background:var(--gb);border:1px solid var(--gb2);border-radius:3px;
+     padding:0 5px;font-size:12px;
+     font-family:'SFMono-Regular',Consolas,monospace;color:#C0392B}
+a{color:var(--bd);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── code block ── */
+pre.cb{background:#1e1e2e;color:#cdd6f4;border-radius:5px;
+       padding:8px 14px;overflow-x:auto;margin:5px 0;font-size:11.5px;
+       font-family:'SFMono-Regular',Consolas,monospace;line-height:1.4}
+pre.cb code{background:none;border:none;color:inherit;padding:0;font-size:inherit}
+
+/* ── mermaid ── */
+.mw{background:#fafbfc;border:1px solid var(--gb2);border-radius:6px;
+    padding:10px 8px;margin:6px 0;overflow:hidden;position:relative;
+    cursor:grab;min-height:60px;text-align:center}
+.mw pre.mermaid{display:inline-block;text-align:left;
+                background:none;border:none;padding:0;max-width:100%}
+.zm-bar{position:absolute;top:6px;right:8px;display:flex;gap:3px;z-index:20}
+.zm-btn{background:rgba(255,255,255,.92);border:1px solid var(--gb2);border-radius:3px;
+        padding:1px 8px;font-size:14px;font-weight:700;cursor:pointer;
+        color:var(--tx);line-height:1.5;transition:background .1s,color .1s}
+.zm-btn:hover{background:var(--bd);color:#fff;border-color:var(--bd)}
+
+/* ── table ── */
+table{border-collapse:collapse;width:100%;margin:5px 0;font-size:12.5px;
+      border:1px solid var(--gb2);border-radius:5px;overflow:hidden}
+thead{background:var(--bd);color:#fff}
+thead th{padding:4px 10px;text-align:left;font-weight:600;font-size:11.5px}
+tbody tr{background:#fff}
+tbody tr:nth-child(even){background:var(--gb)}
+tbody tr:hover{background:var(--bl)}
+td{padding:3px 10px;border-bottom:1px solid var(--gb2);vertical-align:top}
+
+/* ── lists ── */
+ul,ol{margin:3px 0 3px 18px}
+li{margin:1px 0}
+
+/* ── misc ── */
+blockquote{border-left:3px solid #FF8B00;background:var(--yl);
+           padding:4px 12px;margin:5px 0;border-radius:0 3px 3px 0;font-size:12.5px}
+hr{border:none;border-top:1px solid var(--gb2);margin:12px 0}
+
+/* ── footer ── */
+.pf{background:var(--gb);border-top:1px solid var(--gb2);
+    padding:6px 52px;font-size:11px;color:var(--tm)}
+
+/* ── floating back button ── */
+.back-float{position:fixed;bottom:18px;right:22px;z-index:200;
+            display:inline-flex;align-items:center;gap:5px;
+            background:var(--bd);color:#fff;border-radius:4px;
+            padding:5px 13px;font-size:12px;font-weight:600;
+            text-decoration:none;box-shadow:0 2px 10px rgba(0,0,82,.28);
+            transition:background .12s}
+.back-float:hover{background:#0065FF;color:#fff;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="pw">
+<div class="ph">
+  <span class="t">IWI Developer Manual</span>
+  <span class="m">IWI — Integrated Web Infrastructure · Funai Soken Digital</span>
+</div>
+<div class="back-bar"><a class="back-btn" href="index.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Index</a></div>
+
+<h1 id="iwi-developer-manual">IWI Developer Manual</h1>
+
+<p><strong>Services:</strong> PJ_IWI_RECONS (oauth01) · PJ_IWI_USERAUTH (userauth01)  </p>
+<p><strong>Audience:</strong> Development team members integrating with or maintaining IWI authentication services.</p>
+
+<hr>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ol><li><a href="#1-architecture-overview">Architecture Overview</a></li><li><a href="#2-prerequisites">Prerequisites</a></li><li><a href="#3-local-development-setup">Local Development Setup</a></li></ol>
+<ul><li><a href="#31-oauth01-pj_iwi_recons">oauth01 (PJ_IWI_RECONS)</a></li><li><a href="#32-userauth01-pj_iwi_userauth">userauth01 (PJ_IWI_USERAUTH)</a></li></ul>
+<ol><li><a href="#4-environment-variables-reference">Environment Variables Reference</a></li><li><a href="#5-registering-an-oauth-client">Registering an OAuth Client</a></li><li><a href="#6-integrating-login-into-a-service-provider">Integrating Login into a Service Provider</a></li></ol>
+<ul><li><a href="#61-standard-browser-redirect-flow">Standard Browser Redirect Flow</a></li><li><a href="#62-xhrjavascript-login">XHR/JavaScript Login</a></li></ul>
+<ol><li><a href="#7-integrating-user-registration">Integrating User Registration</a></li></ol>
+<ul><li><a href="#71-user-initiated-registration">User-Initiated Registration</a></li><li><a href="#72-sfdc-initiated-registration">SFDC-Initiated Registration</a></li><li><a href="#73-call-based-invitation">Call-Based Invitation</a></li></ul>
+<ol><li><a href="#8-token-lifecycle-management">Token Lifecycle Management</a></li><li><a href="#9-validating-access-tokens-resource-server">Validating Access Tokens (Resource Server)</a></li><li><a href="#10-password-requirements">Password Requirements</a></li><li><a href="#11-testing-and-development-features">Testing and Development Features</a></li><li><a href="#12-deployment">Deployment</a></li><li><a href="#13-logging-and-monitoring">Logging and Monitoring</a></li><li><a href="#14-common-mistakes-and-gotchas">Common Mistakes and Gotchas</a></li><li><a href="#15-service-urls-by-environment">Service URLs by Environment</a></li></ol>
+
+<hr>
+
+<h2 id="1-architecture-overview">1. Architecture Overview</h2>
+
+<pre class="cb"><code class="l-">┌──────────────────────────────────────────────────────────────────┐
+│                        Browser / Client App                       │
+└───────────────────┬───────────────────┬──────────────────────────┘
+                    │                   │
+         ┌──────────▼──────┐   ┌────────▼──────────┐
+         │  userauth01     │   │   oauth01          │
+         │  PJ_IWI_USERAUTH│   │   PJ_IWI_RECONS   │
+         │  - Login/logout │   │   - /authorize     │
+         │  - Registration │──▶│   - /requesttoken  │
+         │  - Pwd reset    │   │   - /refreshtoken  │
+         │  - Email change │   │                    │
+         └────────┬────────┘   └────────┬───────────┘
+                  │                     │
+         ┌────────▼─────────────────────▼───────────┐
+         │            Cloud Datastore (NDB)           │
+         │  AuthUser · AuthMail2ID · AuthSession      │
+         │  AuthOAuthCode · AuthOAuthAccessToken      │
+         │  AuthOAuthRefreshToken · AuthClient        │
+         └────────────────────────────────────────────┘
+                  │
+         ┌────────▼────────────────────────────────┐
+         │  External Services                       │
+         │  Salesforce · SendGrid · Google Tasks    │
+         └─────────────────────────────────────────┘</code></pre>
+
+<p><strong>Key relationship:</strong> userauth01 handles all user-facing HTML/form interactions and delegates OAuth code generation to oauth01. After login, the browser receives a redirect with an authorization code; the Service Provider (backend) exchanges that code for tokens by calling oauth01 directly.</p>
+
+<hr>
+
+<h2 id="2-prerequisites">2. Prerequisites</h2>
+
+<table><thead><tr><th>Tool</th><th>Version</th><th>Purpose</th></tr></thead><tbody><tr><td>Python</td><td>3.14+</td><td>Service runtime</td></tr><tr><td>Docker</td><td>24+</td><td>Build and local testing</td></tr><tr><td>Google Cloud SDK (<code>gcloud</code>)</td><td>Latest</td><td>Deployment and Datastore emulator</td></tr><tr><td>Cloud Datastore Emulator</td><td>Bundled with SDK</td><td>Local development</td></tr></tbody></table>
+
+<p>Install Google Cloud SDK and initialize:</p>
+
+<pre class="cb"><code class="l-bash">gcloud init
+gcloud components install cloud-datastore-emulator
+gcloud components install beta</code></pre>
+
+<hr>
+
+<h2 id="3-local-development-setup">3. Local Development Setup</h2>
+
+<h3 id="31-oauth01-pj-iwi-recons">3.1 oauth01 (PJ_IWI_RECONS)</h3>
+
+<pre class="cb"><code class="l-bash">cd /home/vivek/project/iwi/PJ_IWI_RECONS
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start Datastore emulator in a separate terminal
+gcloud beta emulators datastore start --host-port=localhost:8081
+
+# Set emulator environment variable
+export DATASTORE_EMULATOR_HOST=localhost:8081
+export GOOGLE_CLOUD_PROJECT=iwi-dev
+
+# Run the service
+uvicorn main:app --reload --port 8080</code></pre>
+
+<p>The service is now available at <code>http://localhost:8080</code>.</p>
+
+<p><strong>Run tests:</strong></p>
+
+<pre class="cb"><code class="l-bash"># With Datastore emulator running:
+pytest tests/ -v
+
+# With coverage:
+pytest tests/ --cov=. --cov-report=html</code></pre>
+
+<h3 id="32-userauth01-pj-iwi-userauth">3.2 userauth01 (PJ_IWI_USERAUTH)</h3>
+
+<pre class="cb"><code class="l-bash">cd /home/vivek/project/iwi/PJ_IWI_USERAUTH
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start Datastore emulator (if not already running)
+gcloud beta emulators datastore start --host-port=localhost:8081
+
+# Set environment variables
+export DATASTORE_EMULATOR_HOST=localhost:8081
+export GOOGLE_CLOUD_PROJECT=iwi-dev
+export IWI_DEV_FEATURES=fake_now,skip_recaptcha,log_mail_body
+
+# Run the service
+uvicorn main:app --reload --port 8081</code></pre>
+
+<p><strong>Seed test data:</strong></p>
+
+<pre class="cb"><code class="l-bash"># Seed a test OAuth client and user account
+python seed_playwright.py</code></pre>
+
+<p><strong>Run tests:</strong></p>
+
+<pre class="cb"><code class="l-bash">pytest tests/ -v</code></pre>
+
+<hr>
+
+<h2 id="4-environment-variables-reference">4. Environment Variables Reference</h2>
+
+<p>These variables apply to both services unless noted.</p>
+
+<table><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>GOOGLE_CLOUD_PROJECT</code></td><td><code>iwi-dev</code></td><td>GCP project ID</td></tr><tr><td><code>DATASTORE_PROJECT_ID</code></td><td><em>(inherits GOOGLE_CLOUD_PROJECT)</em></td><td>Datastore project ID (overrides if set)</td></tr><tr><td><code>DATASTORE_EMULATOR_HOST</code></td><td><em>(not set)</em></td><td>Set to <code>localhost:8081</code> to use the local emulator instead of production Datastore</td></tr><tr><td><code>IWI_DEV_FEATURES</code></td><td><em>(not set)</em></td><td>Comma-separated development feature flags (see <a href="#11-testing-and-development-features">Section 11</a>)</td></tr><tr><td><code>IWI_LOG_LEVEL</code></td><td><code>INFO</code></td><td>Log level: <code>DEBUG</code>, <code>INFO</code>, <code>WARNING</code>, <code>ERROR</code></td></tr><tr><td><code>PORT</code></td><td><code>8080</code></td><td>HTTP listen port</td></tr><tr><td><code>GAE_SERVICE</code></td><td><em>(not set)</em></td><td>Service name for internal routing; set automatically in Cloud Run</td></tr></tbody></table>
+
+<hr>
+
+<h2 id="5-registering-an-oauth-client">5. Registering an OAuth Client</h2>
+
+<p>Before a Service Provider can use the IWI login flow, it must have a registered <code>AuthClient</code> record in Datastore.</p>
+
+<p><strong>Required fields:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>id</code></td><td>UUID — this is the <code>client_id</code> you share with the Service Provider</td></tr><tr><td><code>name</code></td><td>Human-readable name</td></tr><tr><td><code>secret</code></td><td>Secret string — share securely with the Service Provider (used in Basic Auth)</td></tr><tr><td><code>services</code></td><td>Dict of service names the client may access (e.g., <code>{&amp;quot;all&amp;quot;: 1}</code>)</td></tr><tr><td><code>info.oauth2.known_redirect_hosts</code></td><td>List of allowed redirect URI hostnames (e.g., <code>[&amp;quot;app.example.com&amp;quot;]</code>)</td></tr><tr><td><code>info.oauth2.default_redirect_uri</code></td><td>Default redirect URI (optional — allows omitting <code>redirect_uri</code> in requests)</td></tr></tbody></table>
+
+<p><strong>Creating a client in the Datastore emulator (dev):</strong></p>
+
+<pre class="cb"><code class="l-python"># run in a Python shell with DATASTORE_EMULATOR_HOST set
+import uuid
+from google.cloud import ndb
+
+client = ndb.Client(project=&#x27;iwi-dev&#x27;)
+with client.context():
+    from common.auth.datamodel import AuthClient
+    AuthClient(
+        id=str(uuid.uuid4()),
+        name=&#x27;My Service Provider&#x27;,
+        secret=&#x27;my-dev-secret&#x27;,
+        services={&#x27;all&#x27;: 1},
+        info={
+            &#x27;oauth2&#x27;: {
+                &#x27;known_redirect_hosts&#x27;: [&#x27;localhost:3000&#x27;, &#x27;app.example.com&#x27;],
+                &#x27;default_redirect_uri&#x27;: &#x27;http://localhost:3000/callback&#x27;
+            }
+        }
+    ).put()</code></pre>
+
+<hr>
+
+<h2 id="6-integrating-login-into-a-service-provider">6. Integrating Login into a Service Provider</h2>
+
+<h3 id="61-standard-browser-redirect-flow">6.1 Standard Browser Redirect Flow</h3>
+
+<p><strong>Step 1 — Redirect the user to the IWI login page:</strong></p>
+
+<pre class="cb"><code class="l-">GET https://&lt;userauth01-host&gt;/login
+  ?response_type=code
+  &amp;client_id=&lt;your-client-id&gt;
+  &amp;redirect_uri=https://your-app.example.com/auth/callback
+  &amp;state=&lt;random-unguessable-value&gt;
+  &amp;scope=all</code></pre>
+
+<p>Generate <code>state</code> as a cryptographically random value (e.g., 32-byte hex string). Store it in the user&#x27;s session.</p>
+
+<p><strong>Step 2 — Handle the callback:</strong></p>
+
+<p>After successful login, the user is redirected to:</p>
+
+<pre class="cb"><code class="l-">GET https://your-app.example.com/auth/callback
+  ?code=&lt;authorization_code&gt;
+  &amp;state=&lt;the-state-you-sent&gt;</code></pre>
+
+<p>Verify <code>state</code> matches what you stored. If it does not match, abort and show an error (CSRF attack).</p>
+
+<p><strong>Step 3 — Exchange the code for tokens:</strong></p>
+
+<pre class="cb"><code class="l-bash">curl -X POST https://&lt;oauth01-host&gt;/requesttoken \
+  -u &quot;&lt;client_id&gt;:&lt;client_secret&gt;&quot; \
+  -H &quot;Content-Type: application/x-www-form-urlencoded&quot; \
+  -d &quot;grant_type=authorization_code&quot; \
+  -d &quot;code=&lt;authorization_code&gt;&quot; \
+  -d &quot;redirect_uri=https://your-app.example.com/auth/callback&quot;</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre class="cb"><code class="l-json">{
+  &quot;access_token&quot;: &quot;550e8400-e29b-41d4-a716-446655440000&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;refresh_token&quot;: &quot;7c8d9e0f-...&quot;,
+  &quot;iwi_user_id&quot;: &quot;5e87c5bb-...&quot;
+}</code></pre>
+
+<p>Store <code>access_token</code>, <code>refresh_token</code>, and <code>iwi_user_id</code> securely in your server-side session.</p>
+
+<p><strong>Python example (using httpx):</strong></p>
+
+<pre class="cb"><code class="l-python">import httpx
+import secrets
+
+# Step 1: Build login URL
+state = secrets.token_hex(32)
+session[&#x27;oauth_state&#x27;] = state
+
+login_url = (
+    f&quot;https://{USERAUTH_HOST}/login&quot;
+    f&quot;?response_type=code&quot;
+    f&quot;&amp;client_id={CLIENT_ID}&quot;
+    f&quot;&amp;redirect_uri={REDIRECT_URI}&quot;
+    f&quot;&amp;state={state}&quot;
+)
+return redirect(login_url)
+
+# Step 2: Handle callback
+def auth_callback(request):
+    code = request.query_params[&#x27;code&#x27;]
+    state = request.query_params[&#x27;state&#x27;]
+
+    if state != session.get(&#x27;oauth_state&#x27;):
+        raise ValueError(&quot;State mismatch — possible CSRF attack&quot;)
+
+    # Step 3: Exchange code for tokens
+    response = httpx.post(
+        f&quot;https://{OAUTH_HOST}/requesttoken&quot;,
+        auth=(CLIENT_ID, CLIENT_SECRET),
+        data={
+            &quot;grant_type&quot;: &quot;authorization_code&quot;,
+            &quot;code&quot;: code,
+            &quot;redirect_uri&quot;: REDIRECT_URI,
+        },
+    )
+    response.raise_for_status()
+    tokens = response.json()
+    session[&#x27;access_token&#x27;] = tokens[&#x27;access_token&#x27;]
+    session[&#x27;refresh_token&#x27;] = tokens[&#x27;refresh_token&#x27;]
+    session[&#x27;iwi_user_id&#x27;] = tokens[&#x27;iwi_user_id&#x27;]</code></pre>
+
+<h3 id="62-xhrjavascript-login">6.2 XHR/JavaScript Login</h3>
+
+<p>When the Service Provider hosts its own login form and uses XHR to call IWI:</p>
+
+<pre class="cb"><code class="l-javascript">async function login(email, password, oauthParams) {
+  const formData = new URLSearchParams({
+    mailaddr: email,
+    password: password,
+    response_type: &#x27;code&#x27;,
+    client_id: CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    state: STATE,
+  });
+
+  const response = await fetch(&#x27;https://&lt;userauth01-host&gt;/login&#x27;, {
+    method: &#x27;POST&#x27;,
+    credentials: &#x27;include&#x27;,           // required for cookie handling
+    headers: {
+      &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+      &#x27;Accept&#x27;: &#x27;application/json&#x27;,   // required for JSON error responses
+    },
+    body: formData.toString(),
+    redirect: &#x27;manual&#x27;,               // prevent browser from following redirect
+  });
+
+  if (response.type === &#x27;opaqueredirect&#x27; || response.status === 302) {
+    // Login succeeded — the browser was redirected to redirect_uri
+    // Your backend callback handler receives the code
+    window.location.reload();
+  } else {
+    const data = await response.json();
+    if (data.status === &#x27;ng&#x27;) {
+      showError(&#x27;Invalid email or password&#x27;);
+    }
+  }
+}</code></pre>
+
+<p><strong>CORS configuration required at <code>redirect_uri</code> server:</strong></p>
+
+<pre class="cb"><code class="l-">Access-Control-Allow-Origin: null
+Access-Control-Allow-Credentials: true</code></pre>
+
+<p>See <a href="./userauth01_api_list.md#javascript-xhr-usage-notes">userauth01 API — JavaScript Usage Notes</a> for full details.</p>
+
+<hr>
+
+<h2 id="7-integrating-user-registration">7. Integrating User Registration</h2>
+
+<h3 id="71-user-initiated-registration">7.1 User-Initiated Registration</h3>
+
+<p>Redirect the user to the registration form with the same OAuth parameters as login:</p>
+
+<pre class="cb"><code class="l-">GET https://&lt;userauth01-host&gt;/register
+  ?response_type=code
+  &amp;client_id=&lt;your-client-id&gt;
+  &amp;redirect_uri=https://your-app.example.com/auth/callback
+  &amp;state=&lt;random-state&gt;
+  &amp;return_path=https://your-app.example.com/welcome</code></pre>
+
+<p>The <code>return_path</code> is displayed as a link on the registration success page (&quot;Return to application&quot;).</p>
+
+<p>After the user completes registration, they are redirected to your <code>redirect_uri</code> with an authorization code — exactly the same as after login. Handle the callback identically to the login flow.</p>
+
+<h3 id="72-sfdc-initiated-registration">7.2 SFDC-Initiated Registration</h3>
+
+<p>Call this endpoint from a Salesforce workflow or backend service when a Contact is created in Salesforce and an IWI account is needed.</p>
+
+<pre class="cb"><code class="l-bash">curl -X POST https://&lt;userauth01-host&gt;/register/sfdc \
+  -u &quot;&lt;client_id&gt;:&lt;client_secret&gt;&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;mailaddr&quot;: &quot;user@example.com&quot;}&#x27;</code></pre>
+
+<p><strong>Success response:</strong></p>
+
+<pre class="cb"><code class="l-json">{
+  &quot;status&quot;: true,
+  &quot;Id&quot;: &quot;5e87c5bb-847e-4bb2-9cbd-c26b6a33a799&quot;,
+  &quot;Url&quot;: &quot;https://&lt;userauth01-host&gt;/invite?k=invitation:abc123&quot;
+}</code></pre>
+
+<p>Store the <code>Id</code> (IWI User ID) in your Salesforce Contact record. The <code>Url</code> is included in the invitation email sent automatically by IWI — you do <strong>not</strong> need to send it yourself.</p>
+
+<p>If <code>status</code> is <code>true</code>, the user will receive an invitation email. They click the link, confirm their email, and set a password. No further action is required from the backend.</p>
+
+<h3 id="73-call-based-invitation">7.3 Call-Based Invitation</h3>
+
+<p>Use this when you need a callback notification after the user completes registration.</p>
+
+<pre class="cb"><code class="l-bash">curl -X POST https://&lt;userauth01-host&gt;/call/user \
+  -u &quot;&lt;client_id&gt;:&lt;client_secret&gt;&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;mailaddr&quot;: &quot;user@example.com&quot;,
+    &quot;greeting_title&quot;: &quot;You are invited!&quot;,
+    &quot;greeting_body&quot;: &quot;Please complete your registration.&quot;,
+    &quot;greeting_parameters&quot;: {},
+    &quot;contact_params&quot;: {},
+    &quot;callback&quot;: {
+      &quot;url&quot;: &quot;https://your-backend.example.com/on-user-registered&quot;,
+      &quot;method&quot;: &quot;POST&quot;
+    }
+  }&#x27;</code></pre>
+
+<p><strong>Callback payload</strong> (sent to <code>callback.url</code> after account creation):</p>
+
+<pre class="cb"><code class="l-json">{
+  &quot;iwi_user_id&quot;: &quot;5e87c5bb-...&quot;,
+  &quot;sfdc_contact_id&quot;: &quot;003XX000000XXXXX&quot;
+}</code></pre>
+
+<p>Your callback endpoint should be idempotent (Cloud Tasks may retry on failure).</p>
+
+<hr>
+
+<h2 id="8-token-lifecycle-management">8. Token Lifecycle Management</h2>
+
+<table><thead><tr><th>Token</th><th>Lifetime</th><th>Notes</th></tr></thead><tbody><tr><td>Authorization code</td><td>10 minutes</td><td>Single-use only. Using it twice triggers replay attack response.</td></tr><tr><td>Access token</td><td>1 hour (3600s)</td><td>Include in API calls as <code>Authorization: Bearer &amp;lt;token&amp;gt;</code></td></tr><tr><td>Refresh token</td><td>Long-lived (60s reuse window)</td><td>Keep indefinitely; use to get new access tokens</td></tr><tr><td>Session cookie</td><td>7 days</td><td>Refreshed on every request</td></tr></tbody></table>
+
+<p><strong>Refreshing an access token:</strong></p>
+
+<pre class="cb"><code class="l-bash">curl -X POST https://&lt;oauth01-host&gt;/refreshtoken \
+  -u &quot;&lt;client_id&gt;:&lt;client_secret&gt;&quot; \
+  -H &quot;Content-Type: application/x-www-form-urlencoded&quot; \
+  -d &quot;grant_type=refresh_token&quot; \
+  -d &quot;refresh_token=&lt;your-refresh-token&gt;&quot;</code></pre>
+
+<p><strong>Response:</strong></p>
+
+<pre class="cb"><code class="l-json">{
+  &quot;access_token&quot;: &quot;new-token-here&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;iwi_user_id&quot;: &quot;5e87c5bb-...&quot;
+}</code></pre>
+
+<p><strong>Important:</strong> The refresh response does <strong>not</strong> include a new <code>refresh_token</code>. Keep using the same one.</p>
+
+<p><strong>Recommended client-side token management:</strong></p>
+
+<pre class="cb"><code class="l-python">def get_valid_access_token(session):
+    if is_expired(session[&#x27;access_token_expires_at&#x27;]):
+        response = refresh_access_token(session[&#x27;refresh_token&#x27;])
+        if response.status_code == 400:
+            # Refresh token is also invalid — force re-login
+            clear_session(session)
+            raise NeedsReloginError()
+        session[&#x27;access_token&#x27;] = response.json()[&#x27;access_token&#x27;]
+        session[&#x27;access_token_expires_at&#x27;] = now() + timedelta(seconds=3600)
+    return session[&#x27;access_token&#x27;]</code></pre>
+
+<p><strong>60-second refresh token reuse window:</strong> If two concurrent requests both try to refresh the same token within 60 seconds, both receive a valid (possibly the same) access token. This prevents lock-in on high-concurrency services.</p>
+
+<hr>
+
+<h2 id="9-validating-access-tokens-resource-server">9. Validating Access Tokens (Resource Server)</h2>
+
+<p>If you are building an IWI resource service (one that accepts IWI access tokens), use the <code>oauth_guard</code> module from oauth01.</p>
+
+<pre class="cb"><code class="l-python">from common.auth.oauth_guard import ensure_valid_token
+from common.error import IWIInvalidToken
+
+async def my_protected_endpoint(request):
+    token = request.headers.get(&#x27;Authorization&#x27;, &#x27;&#x27;).removeprefix(&#x27;Bearer &#x27;)
+    try:
+        user_id = await ensure_valid_token(token, CLIENT_ID, now())
+    except IWIInvalidToken:
+        return JSONResponse({&quot;error&quot;: &quot;unauthorized&quot;}, status_code=401)
+
+    # user_id is now the authenticated IWI User ID
+    ...</code></pre>
+
+<p><strong>What <code>ensure_valid_token</code> checks:</strong></p>
+
+<ol><li>Token exists in Datastore</li><li>Token belongs to the requesting <code>client_id</code></li><li>Token has not expired (<code>expired_at &amp;gt;= now</code>)</li><li>Token has not been revoked (<code>revoked_at is null</code>)</li><li>Associated session is active (<code>session.revoked_at is null</code>)</li><li>Root authorization code (if present) has not been revoked</li></ol>
+
+<p>All checks must pass. Any failure raises <code>IWIInvalidToken</code>.</p>
+
+<hr>
+
+<h2 id="10-password-requirements">10. Password Requirements</h2>
+
+<table><thead><tr><th>Rule</th><th>Value</th></tr></thead><tbody><tr><td>Minimum length</td><td>8 characters</td></tr><tr><td>Hashing algorithm</td><td>SHA-512</td></tr><tr><td>Salt</td><td>UUID v4 (random, stored per user)</td></tr><tr><td>Stretching iterations</td><td>10,000</td></tr><tr><td>Legacy algorithm</td><td>MD5 (HeartCore migration) — auto-upgraded on next login</td></tr></tbody></table>
+
+<p>Do not impose additional constraints on password character sets beyond the minimum length. Let users choose strong passwords freely.</p>
+
+<hr>
+
+<h2 id="11-testing-and-development-features">11. Testing and Development Features</h2>
+
+<p>Set <code>IWI_DEV_FEATURES</code> to a comma-separated list of the following flags:</p>
+
+<table><thead><tr><th>Flag</th><th>Header to activate</th><th>Effect</th></tr></thead><tbody><tr><td><code>fake_now</code></td><td><code>X-IWI-Fake-Now: 2025-01-01T00:00:00+00:00</code></td><td>Fix the server&#x27;s current time for testing token expiry scenarios</td></tr><tr><td><code>skip_recaptcha</code></td><td><code>X-IWI-Skip-reCAPTCHA: 1</code></td><td>Bypass Google reCAPTCHA validation — use in tests only</td></tr><tr><td><code>log_mail_body</code></td><td><em>(always active when flag is set)</em></td><td>Log the full email content to Cloud Logging instead of sending via SendGrid</td></tr></tbody></table>
+
+<p><strong>Example test configuration:</strong></p>
+
+<pre class="cb"><code class="l-bash">export IWI_DEV_FEATURES=fake_now,skip_recaptcha,log_mail_body</code></pre>
+
+<p><strong>Testing token expiry with <code>fake_now</code>:</strong></p>
+
+<pre class="cb"><code class="l-bash"># Issue a token at time T
+curl -H &quot;X-IWI-Fake-Now: 2025-01-01T00:00:00+00:00&quot; ...
+
+# Try to use the token 2 hours later (it should be expired)
+curl -H &quot;X-IWI-Fake-Now: 2025-01-01T02:00:00+00:00&quot; \
+     -H &quot;Authorization: Bearer &lt;token&gt;&quot; ...</code></pre>
+
+<p><strong>Testing registration without receiving email (<code>log_mail_body</code>):</strong></p>
+
+<p>When <code>log_mail_body</code> is active, the verification link is printed to the service log. Check the log output for the <code>/register/auth?k=...</code> URL instead of waiting for an email.</p>
+
+<pre class="cb"><code class="l-bash"># In another terminal, watch logs:
+uvicorn main:app --reload 2&gt;&amp;1 | grep &quot;register/auth&quot;</code></pre>
+
+<hr>
+
+<h2 id="12-deployment">12. Deployment</h2>
+
+<p>Both services are deployed to Google Cloud Run via Cloud Build.</p>
+
+<p><strong>Deploy to development (iwi-dev):</strong></p>
+
+<pre class="cb"><code class="l-bash">cd /home/vivek/project/iwi/PJ_IWI_RECONS   # or PJ_IWI_USERAUTH
+gcloud builds submit --config cloudbuild.dev.yaml</code></pre>
+
+<p><strong>Deploy to production (iwi-stable):</strong></p>
+
+<pre class="cb"><code class="l-bash">gcloud builds submit --config cloudbuild.prod.yaml</code></pre>
+
+<p><strong>Cloud Run configuration:</strong></p>
+
+<table><thead><tr><th>Setting</th><th>Development</th><th>Production</th></tr></thead><tbody><tr><td>Min instances</td><td>1</td><td>1</td></tr><tr><td>Max instances</td><td>3</td><td>10</td></tr><tr><td>Memory</td><td>512 Mi</td><td>1 Gi</td></tr><tr><td>CPU</td><td>1</td><td>1</td></tr><tr><td>Request timeout</td><td>30s</td><td>30s</td></tr><tr><td>Concurrency</td><td>80</td><td>80</td></tr></tbody></table>
+
+<p><strong>Docker build locally:</strong></p>
+
+<pre class="cb"><code class="l-bash">docker build -t oauth01:local .
+docker run -p 8080:8080 \
+  -e DATASTORE_EMULATOR_HOST=host.docker.internal:8081 \
+  -e GOOGLE_CLOUD_PROJECT=iwi-dev \
+  oauth01:local</code></pre>
+
+<hr>
+
+<h2 id="13-logging-and-monitoring">13. Logging and Monitoring</h2>
+
+<p>All services emit structured JSON logs to Google Cloud Logging.</p>
+
+<p><strong>Standard log fields:</strong></p>
+
+<table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody><tr><td><code>request_id</code></td><td>UUID per request — use to correlate logs for a single request</td></tr><tr><td><code>job_id</code></td><td>UUID for cross-service trace chains</td></tr><tr><td><code>trace</code></td><td>Google Cloud Trace context</td></tr><tr><td><code>severity</code></td><td><code>DEBUG</code> / <code>INFO</code> / <code>WARNING</code> / <code>ERROR</code> / <code>CRITICAL</code></td></tr><tr><td><code>message</code></td><td>Human-readable log message</td></tr></tbody></table>
+
+<p><strong>Key security events to monitor:</strong></p>
+
+<table><thead><tr><th>Event</th><th>Severity</th><th>What it means</th></tr></thead><tbody><tr><td><code>REPLAY ATTACK DETECTED</code></td><td>CRITICAL</td><td>An authorization code was used twice — possible theft</td></tr><tr><td><code>unknown client_id</code></td><td>ERROR</td><td>Unknown client attempting authentication — possible probing</td></tr><tr><td><code>token validation failed</code></td><td>ERROR</td><td>Access token was rejected — check for clock skew or expired tokens</td></tr><tr><td><code>session revoked</code></td><td>WARNING</td><td>A session was invalidated — user logged out or security event</td></tr></tbody></table>
+
+<p><strong>Querying logs (Cloud Logging):</strong></p>
+
+<pre class="cb"><code class="l-bash"># Find all CRITICAL events for a service
+gcloud logging read &quot;severity=CRITICAL AND resource.labels.service_name=oauth01&quot; \
+  --limit=50 --format=json
+
+# Trace a specific request
+gcloud logging read &#x27;jsonPayload.request_id=&quot;&lt;request-id&gt;&quot;&#x27; \
+  --limit=100 --format=json</code></pre>
+
+<hr>
+
+<h2 id="14-common-mistakes-and-gotchas">14. Common Mistakes and Gotchas</h2>
+
+<h3 id="state-parameter-is-required-and-must-be-unique">State parameter is required — and must be unique</h3>
+
+<p>The <code>state</code> parameter is required by both <code>/login</code> and <code>/register</code>. Sending a static or empty state will cause a 400 error. Always generate a fresh random value per request:</p>
+
+<pre class="cb"><code class="l-python">import secrets
+state = secrets.token_urlsafe(32)</code></pre>
+
+<h3 id="authorization-codes-are-single-use">Authorization codes are single-use</h3>
+
+<p>Never retry a failed token exchange with the same authorization code. If the exchange fails, redirect the user to the login page to start a new flow. Reusing a code triggers replay attack detection and revokes the code.</p>
+
+<h3 id="redirect-uri-must-match-exactly">redirect_uri must match exactly</h3>
+
+<p>The <code>redirect_uri</code> in <code>/requesttoken</code> must <strong>exactly</strong> match the one used in <code>/authorize</code> (or <code>/login</code>). Even a trailing slash difference causes rejection.</p>
+
+<h3 id="refresh-token-reuse-do-not-rotate">Refresh token reuse — do not rotate</h3>
+
+<p>The refresh response does <strong>not</strong> include a new refresh token. Keep using the same refresh token for all future refreshes until it is rejected (session revoked or token expired). Do not discard it after the first use.</p>
+
+<h3 id="xhr-login-requires-withcredentials-true">XHR login requires <code>withCredentials: true</code></h3>
+
+<p>Without <code>withCredentials: true</code>, the browser will not send or store the <code>iwi-state</code> session cookie. The user will appear logged out on every XHR request.</p>
+
+<h3 id="cors-at-redirect-uri-must-allow-null-origin">CORS at redirect_uri must allow <code>null</code> origin</h3>
+
+<p>After XHR login, the browser follows the <code>302 Found</code> from a privacy-sensitive context, which sets <code>Origin: null</code>. If your <code>redirect_uri</code> server does not include <code>Access-Control-Allow-Origin: null</code>, the browser will block the response.</p>
+
+<h3 id="account-creation-is-asynchronous">Account creation is asynchronous</h3>
+
+<p>After <code>POST /register/auth</code>, the IWI account is created asynchronously via Cloud Tasks. The user&#x27;s session and OAuth code are valid immediately, but the Salesforce Contact may not exist for a few seconds. Do not assume the SFDC Contact is ready synchronously.</p>
+
+<h3 id="in-progress-emails-in-sfdc-flow"><code>IN_PROGRESS</code> emails in SFDC flow</h3>
+
+<p>If <code>POST /register/sfdc</code> returns <code>409 Conflict</code>, the email is in an <code>IN_PROGRESS</code> state (a previous account creation or email change is pending). Wait and retry — the state resolves within seconds in the normal case.</p>
+
+<h3 id="do-not-use-iwi-dev-features-in-production">Do not use <code>IWI_DEV_FEATURES</code> in production</h3>
+
+<p>The <code>skip_recaptcha</code> and <code>fake_now</code> flags disable security controls. Never set these in production Cloud Run deployments.</p>
+
+<hr>
+
+<h2 id="15-service-urls-by-environment">15. Service URLs by Environment</h2>
+
+<table><thead><tr><th>Environment</th><th>userauth01</th><th>oauth01</th></tr></thead><tbody><tr><td>Local dev</td><td><code>http://localhost:8081</code></td><td><code>http://localhost:8080</code></td></tr><tr><td>GCP Dev (<code>iwi-dev</code>)</td><td>Set via Cloud Run service URL</td><td>Set via Cloud Run service URL</td></tr><tr><td>GCP Prod (<code>iwi-stable</code>)</td><td>Set via Cloud Run service URL</td><td>Set via Cloud Run service URL</td></tr></tbody></table>
+
+<p>Retrieve the Cloud Run service URL:</p>
+
+<pre class="cb"><code class="l-bash">gcloud run services describe userauth01 --region=&lt;region&gt; --format=&#x27;value(status.url)&#x27;
+gcloud run services describe oauth01 --region=&lt;region&gt; --format=&#x27;value(status.url)&#x27;</code></pre>
+
+<hr>
+
+<h2 id="quick-reference">Quick Reference</h2>
+
+<h3 id="login-flow-checklist">Login Flow Checklist</h3>
+
+<ul><li>[ ] Generate random <code>state</code> and store in session</li><li>[ ] Redirect user to <code>/login</code> with OAuth params</li><li>[ ] Receive <code>code</code> and <code>state</code> at <code>redirect_uri</code></li><li>[ ] Verify <code>state</code> matches stored value (CSRF check)</li><li>[ ] POST to <code>/requesttoken</code> with <code>code</code> (Basic Auth)</li><li>[ ] Store <code>access_token</code>, <code>refresh_token</code>, <code>iwi_user_id</code></li><li>[ ] Use <code>access_token</code> as <code>Bearer</code> token for API calls</li><li>[ ] Refresh <code>access_token</code> before expiry using <code>/refreshtoken</code></li></ul>
+
+<h3 id="registration-integration-checklist">Registration Integration Checklist</h3>
+
+<ul><li>[ ] User-initiated: redirect to <code>/register</code> with OAuth params + <code>return_path</code></li><li>[ ] SFDC-initiated: POST to <code>/register/sfdc</code> and store returned <code>Id</code></li><li>[ ] Call-based: POST to <code>/call/user</code> and implement <code>callback</code> endpoint</li></ul>
+
+<h3 id="security-checklist">Security Checklist</h3>
+
+<ul><li>[ ] <code>state</code> parameter is random and unique per request</li><li>[ ] <code>redirect_uri</code> is registered with IWI before deployment</li><li>[ ] Client secret is stored securely (not in frontend code or VCS)</li><li>[ ] <code>withCredentials: true</code> set for XHR requests</li><li>[ ] <code>redirect_uri</code> server returns <code>Access-Control-Allow-Origin: null</code></li><li>[ ] <code>IWI_DEV_FEATURES</code> is never set in production</li></ul>
+
+<hr>
+
+<p><em>© Funai Soken Digital — IWI Documentation</em></p>
+
+<div class="pf">© Funai Soken Digital — IWI Documentation</div>
+</div>
+<a class="back-float" href="index.html">
+<svg width="11" height="11" viewBox="0 0 14 14" fill="none">
+<path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>Index</a>
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor:'#DEEBFF', primaryTextColor:'#172B4D',
+    primaryBorderColor:'#0052CC', lineColor:'#0052CC',
+    secondaryColor:'#E3FCEF', tertiaryColor:'#F4F5F7',
+    noteBkgColor:'#FFFAE6', noteTextColor:'#172B4D',
+    actorBkg:'#0052CC', actorTextColor:'#ffffff',
+    actorBorderColor:'#003d99', activationBkgColor:'#DEEBFF',
+    signalColor:'#172B4D', signalTextColor:'#172B4D'
+  },
+  sequence:{ actorMargin:55, messageMargin:30, mirrorActors:false, boxMargin:8 },
+  flowchart:{ htmlLabels:true, curve:'basis', padding:16 },
+  gantt:{ axisFormat:'%M', leftPadding:110 }
+});
+</script>
+<script>
+(function(){
+  function initZoom(wrap){
+    if(wrap.dataset.zm)return;
+    var svg=wrap.querySelector('svg');
+    if(!svg)return;
+    wrap.dataset.zm='1';
+    var target=svg;
+    while(target.parentNode && target.parentNode!==wrap){target=target.parentNode;}
+    target.style.transformOrigin='0 0';
+    target.style.userSelect='none';
+    target.style.display='inline-block';
+    target.style.maxWidth='none';
+    // Capture natural (centered) offset of target inside wrap before any transforms
+    var wr=wrap.getBoundingClientRect(),tr=target.getBoundingClientRect();
+    var ox=tr.left-wr.left, oy=tr.top-wr.top;
+    var scale=1,tx=0,ty=0,drag=false,sx=0,sy=0,stx=0,sty=0;
+    function ap(){target.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';}
+    var bar=document.createElement('div');bar.className='zm-bar';
+    bar.innerHTML='<button class="zm-btn" data-a="in" title="Zoom in">+</button>'
+      +'<button class="zm-btn" data-a="out" title="Zoom out">−</button>'
+      +'<button class="zm-btn" data-a="r" title="Reset">↺</button>';
+    wrap.appendChild(bar);
+    bar.addEventListener('click',function(e){
+      e.stopPropagation();
+      var b=e.target.closest('[data-a]');if(!b)return;
+      var cx=wrap.clientWidth/2-ox,cy=wrap.clientHeight/2-oy,ns;
+      if(b.dataset.a==='in'){ns=Math.min(scale*1.3,8);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else if(b.dataset.a==='out'){ns=Math.max(scale/1.3,.1);tx=cx-(cx-tx)*(ns/scale);ty=cy-(cy-ty)*(ns/scale);scale=ns;}
+      else{scale=1;tx=0;ty=0;}
+      ap();
+    });
+    wrap.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var r=wrap.getBoundingClientRect();
+      var mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
+      var d=e.deltaY<0?1.12:.89,ns=Math.min(Math.max(scale*d,.1),8);
+      tx=mx-(mx-tx)*(ns/scale);ty=my-(my-ty)*(ns/scale);scale=ns;ap();
+    },{passive:false});
+    wrap.addEventListener('mousedown',function(e){
+      if(e.target.closest('.zm-btn'))return;
+      drag=true;sx=e.clientX;sy=e.clientY;stx=tx;sty=ty;
+      wrap.style.cursor='grabbing';e.preventDefault();
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!drag)return;tx=stx+(e.clientX-sx);ty=sty+(e.clientY-sy);ap();
+    });
+    document.addEventListener('mouseup',function(){
+      if(drag){drag=false;wrap.style.cursor='grab';}
+    });
+  }
+  var attempts=0;
+  var t=setInterval(function(){
+    document.querySelectorAll('.mw').forEach(initZoom);
+    if(++attempts>40)clearInterval(t);
+  },150);
+})();
+</script>
+</body>
+</html>
