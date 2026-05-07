@@ -19,6 +19,7 @@
 |---------|----------|
 | oauth01 | [OAuth Authorization Code Grant Flow](./oauth/oauth01_flow_diagram.md) |
 | userauth01 | [User Authentication Flow](./userauth/userauth01_flow_diagram.md) |
+| userauth01 | [Screen Transition Diagram](./userauth/userauth02_screen_transition.md) |
 
 ---
 

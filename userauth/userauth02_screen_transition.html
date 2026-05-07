@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>userauth01 — Screen Transition Diagram</title>
+<style>
+:root{
+  --bd:#0052CC;--bl:#DEEBFF;--gl:#E3FCEF;--yl:#FFFAE6;
+  --gb:#F4F5F7;--gb2:#DFE1E6;--tx:#172B4D;--tm:#5E6C84;
+  --red:#FF5630;--green:#36B37E;
+  /* flow colours */
+  --fa:#1a6fb5;--fa-bg:#d0e8ff;
+  --fb:#c46000;--fb-bg:#ffe8cc;
+  --fc:#1a8a3c;--fc-bg:#d0f5e0;
+  --fd:#7b2fa8;--fd-bg:#ecd8ff;
+  --fe:#b5001a;--fe-bg:#ffd0d8;
+  --shared:#888800;--shared-bg:#fffbe6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:13.5px;line-height:1.45;color:var(--tx);background:#F4F5F7
+}
+.pw{max-width:1400px;margin:0 auto;background:#fff;min-height:100vh;
+    box-shadow:0 0 0 1px var(--gb2)}
+
+/* ── header ── */
+.ph{background:var(--bd);color:#fff;padding:10px 52px 9px;
+    border-bottom:3px solid #0065FF;display:flex;align-items:baseline;gap:18px}
+.ph .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.ph .m{font-size:11px;opacity:.75}
+
+/* ── back bar ── */
+.back-bar{background:#fff;border-bottom:1px solid var(--gb2);
+          padding:4px 52px;display:flex;align-items:center}
+.back-btn{display:inline-flex;align-items:center;gap:5px;color:var(--bd);
+          font-size:11px;font-weight:600;text-decoration:none;
+          padding:2px 8px;border:1px solid var(--bd);border-radius:3px;
+          background:#fff;transition:background .12s,color .12s;line-height:1.4}
+.back-btn:hover{background:var(--bd);color:#fff}
+
+/* ── content ── */
+.ct{padding:18px 52px 40px}
+h1{font-size:18px;margin:0 0 6px;padding-bottom:4px;
+   border-bottom:2px solid var(--bd)}
+h2{font-size:14px;font-weight:700;margin:22px 0 8px;
+   padding:5px 12px;background:var(--bl);
+   border-left:4px solid var(--bd);border-radius:2px}
+h3{font-size:13px;font-weight:700;margin:14px 0 6px;color:var(--bd)}
+p{margin:4px 0}
+a{color:var(--bd);text-decoration:none}
+a:hover{text-decoration:underline}
+hr{border:none;border-top:1px solid var(--gb2);margin:18px 0}
+code{background:var(--gb);border:1px solid var(--gb2);border-radius:3px;
+     padding:0 5px;font-size:12px;
+     font-family:'SFMono-Regular',Consolas,monospace;color:#C0392B}
+
+/* ── legend ── */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.legend-item{display:inline-flex;align-items:center;gap:6px;
+             font-size:11.5px;font-weight:600;
+             padding:3px 10px;border-radius:20px;border:1.5px solid}
+.lA{background:var(--fa-bg);border-color:var(--fa);color:var(--fa)}
+.lB{background:var(--fb-bg);border-color:var(--fb);color:var(--fb)}
+.lC{background:var(--fc-bg);border-color:var(--fc);color:var(--fc)}
+.lD{background:var(--fd-bg);border-color:var(--fd);color:var(--fd)}
+.lE{background:var(--fe-bg);border-color:var(--fe);color:var(--fe)}
+.lS{background:var(--shared-bg);border-color:var(--shared);color:var(--shared)}
+
+/* ── overview diagram ── */
+.overview-wrap{margin:12px 0;border:1px solid var(--gb2);border-radius:6px;
+               background:#f5f7fa;overflow:hidden;text-align:center;cursor:zoom-in}
+.overview-wrap img{max-width:100%;height:auto;display:block;margin:0 auto}
+.overview-caption{font-size:11px;color:var(--tm);padding:5px 0 7px;
+                  text-align:center;background:var(--gb)}
+
+/* ── flow section ── */
+.flow-section{margin:10px 0 26px}
+.flow-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.flow-badge{display:inline-flex;align-items:center;justify-content:center;
+            width:28px;height:28px;border-radius:50%;font-weight:700;
+            font-size:13px;color:#fff;flex-shrink:0}
+.badgeA{background:var(--fa)}
+.badgeB{background:var(--fb)}
+.badgeC{background:var(--fc)}
+.badgeD{background:var(--fd)}
+.badgeE{background:var(--fe)}
+
+/* ── screen strip ── */
+.strip-wrap{overflow-x:auto;padding-bottom:10px}
+.strip{display:flex;align-items:flex-start;gap:0;min-width:max-content;
+       padding:16px 4px 8px}
+
+/* ── single screen step ── */
+.step{display:flex;flex-direction:column;align-items:center;width:130px}
+.step-thumb{
+  width:120px;height:165px;object-fit:cover;object-position:top center;
+  border-radius:5px;border:2px solid #ccc;
+  box-shadow:2px 3px 10px rgba(0,0,0,.18);
+  display:block;transition:transform .15s,box-shadow .15s;
+  cursor:pointer
+}
+.step-thumb:hover{transform:scale(1.04);box-shadow:3px 5px 16px rgba(0,0,0,.28)}
+.step-name{font-size:10.5px;font-weight:700;margin-top:6px;
+           text-align:center;color:var(--tx);line-height:1.3}
+.step-url{font-size:9.5px;color:var(--tm);text-align:center;
+          font-family:'SFMono-Regular',Consolas,monospace;margin-top:2px}
+.step-url code{font-size:9px;padding:0 3px}
+
+/* flow-specific border colour on thumbs */
+.flowA .step-thumb{border-color:var(--fa)}
+.flowB .step-thumb{border-color:var(--fb)}
+.flowC .step-thumb{border-color:var(--fc)}
+.flowD .step-thumb{border-color:var(--fd)}
+.flowE .step-thumb{border-color:var(--fe)}
+
+/* ── special node (non-screen): external / email / portal ── */
+.ext-node{
+  width:110px;min-height:64px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:8px;border:2px dashed #aaa;
+  background:var(--gb);font-size:10px;
+  text-align:center;padding:6px 8px;color:var(--tm);font-weight:600;
+  line-height:1.4
+}
+.ext-icon{font-size:18px;margin-bottom:3px}
+.ext-wrap{display:flex;flex-direction:column;align-items:center;width:130px;
+          padding-top:40px}
+
+/* mail node */
+.mail-node{
+  width:110px;min-height:58px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:8px;border:2px dashed #cc9900;
+  background:#fffbe6;font-size:10px;
+  text-align:center;padding:6px 8px;color:#886600;font-weight:600;
+  line-height:1.4
+}
+.mail-wrap{display:flex;flex-direction:column;align-items:center;width:130px;
+           padding-top:46px}
+
+/* shared node */
+.shared-node{
+  width:110px;min-height:64px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:8px;border:2px solid #999;
+  background:#f5f5f5;font-size:10px;
+  text-align:center;padding:6px 8px;color:#444;font-weight:600;
+  line-height:1.4
+}
+.shared-wrap{display:flex;flex-direction:column;align-items:center;width:130px;
+             padding-top:8px}
+
+/* ── arrow connector ── */
+.conn{display:flex;flex-direction:column;align-items:center;
+      justify-content:center;min-width:52px;padding-top:0;
+      margin-top:28px}
+.conn-line{display:flex;align-items:center;width:100%}
+.conn-body{height:2px;flex:1;background:#bbb}
+.conn-head{width:0;height:0;border-top:5px solid transparent;
+           border-bottom:5px solid transparent;border-left:8px solid #bbb;
+           flex-shrink:0}
+.conn-label{font-size:8.5px;color:#888;text-align:center;
+            margin-top:3px;max-width:70px;line-height:1.2}
+
+/* flow-coloured arrows */
+.flowA .conn-body,.flowA .conn-head-l{background:var(--fa)}
+.flowA .conn-head{border-left-color:var(--fa)}
+.flowA .conn-label{color:var(--fa)}
+.flowB .conn-body{background:var(--fb)}
+.flowB .conn-head{border-left-color:var(--fb)}
+.flowB .conn-label{color:var(--fb)}
+.flowC .conn-body{background:var(--fc)}
+.flowC .conn-head{border-left-color:var(--fc)}
+.flowC .conn-label{color:var(--fc)}
+.flowD .conn-body{background:var(--fd)}
+.flowD .conn-head{border-left-color:var(--fd)}
+.flowD .conn-label{color:var(--fd)}
+.flowE .conn-body{background:var(--fe)}
+.flowE .conn-head{border-left-color:var(--fe)}
+.flowE .conn-label{color:var(--fe)}
+
+/* email arrow (dashed) */
+.conn-email .conn-body{background:none;border-top:2px dashed #cc9900;height:0;flex:1}
+.conn-email .conn-head{border-left-color:#cc9900}
+.conn-email .conn-label{color:#886600}
+
+/* ── lightbox ── */
+#lb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);
+            z-index:9000;cursor:zoom-out;align-items:center;justify-content:center}
+#lb-overlay.open{display:flex}
+#lb-img{max-width:90vw;max-height:90vh;border-radius:6px;
+        box-shadow:0 8px 40px rgba(0,0,0,.6)}
+#lb-close{position:absolute;top:18px;right:24px;color:#fff;
+          font-size:30px;cursor:pointer;font-weight:300;line-height:1}
+
+/* ── shared screens section ── */
+.shared-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+             gap:18px;margin:12px 0}
+.shared-card{display:flex;flex-direction:column;align-items:center}
+.shared-card .step-thumb{width:140px;height:192px;border-color:#999}
+.shared-desc{font-size:10px;color:var(--tm);text-align:center;
+             margin-top:5px;max-width:140px;line-height:1.35}
+
+/* ── toc ── */
+.toc{background:var(--gb);border:1px solid var(--gb2);border-radius:5px;
+     padding:10px 16px;margin:10px 0 18px;display:inline-block}
+.toc ul{margin-left:14px}
+.toc li{margin:2px 0;font-size:12.5px}
+
+/* ── footer ── */
+.pf{background:var(--gb);border-top:1px solid var(--gb2);
+    padding:6px 52px;font-size:11px;color:var(--tm)}
+.back-float{position:fixed;bottom:18px;right:22px;z-index:200;
+            display:inline-flex;align-items:center;gap:5px;
+            background:var(--bd);color:#fff;border-radius:4px;
+            padding:5px 13px;font-size:12px;font-weight:600;
+            text-decoration:none;box-shadow:0 2px 10px rgba(0,0,82,.28);
+            transition:background .12s}
+.back-float:hover{background:#0065FF;color:#fff;text-decoration:none}
+
+/* scroll hint */
+.scroll-hint{font-size:10.5px;color:var(--tm);margin:0 0 4px;font-style:italic}
+</style>
+</head>
+<body>
+
+<!-- lightbox overlay -->
+<div id="lb-overlay">
+  <span id="lb-close" onclick="closeLB()">&#x2715;</span>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<div class="pw">
+
+<!-- ── header ── -->
+<div class="ph">
+  <span class="t">userauth01 — Screen Transition Diagram</span>
+  <span class="m">IWI — Integrated Web Infrastructure · Funai Soken Digital</span>
+</div>
+<div class="back-bar">
+  <a class="back-btn" href="../index.html">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+      <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>Back to Index
+  </a>
+</div>
+
+<!-- ── content ── -->
+<div class="ct">
+
+<h1>userauth01 — Screen Transition Diagram</h1>
+<p><strong>Service:</strong> PJ_IWI_USERAUTH &nbsp;|&nbsp; <strong>Templates:</strong> <code>PJ_IWI_USERAUTH/template/*.html.jinja2</code></p>
+<p style="margin-top:4px">Click any screen thumbnail to enlarge it.</p>
+
+<hr>
+
+<!-- TOC -->
+<div class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#overview">Overview Diagram</a></li>
+    <li><a href="#flow-a">Flow A — User-Initiated Registration (新規登録)</a></li>
+    <li><a href="#flow-b">Flow B — Password Reset (パスワード再設定)</a></li>
+    <li><a href="#flow-c">Flow C — KK Call Invitation (新規会員招待)</a></li>
+    <li><a href="#flow-d">Flow D — SFDC Invitation (Salesforce 招待)</a></li>
+    <li><a href="#flow-e">Flow E — Email Address Change (メールアドレス変更)</a></li>
+    <li><a href="#shared">Shared Screens</a></li>
+  </ul>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <span class="legend-item lA">● Flow A &nbsp;新規登録 (Register)</span>
+  <span class="legend-item lB">● Flow B &nbsp;パスワード再設定 (Reset)</span>
+  <span class="legend-item lC">● Flow C &nbsp;KK Call 招待 (Call)</span>
+  <span class="legend-item lD">● Flow D &nbsp;SFDC 招待 (Invite SFDC)</span>
+  <span class="legend-item lE">● Flow E &nbsp;メールアドレス変更 (Update Email)</span>
+  <span class="legend-item lS">◎ Shared &nbsp;共通画面</span>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     OVERVIEW
+════════════════════════════════════════════════════════════════ -->
+<h2 id="overview">Overview Diagram</h2>
+<p>All five user-facing flows shown together. Arrows indicate screen-to-screen transitions; colour indicates the flow.</p>
+<div class="overview-wrap" onclick="openLB(this.querySelector('img').src)">
+  <img src="../Screen_Design_Document/images/00_screen_transition_diagram.png"
+       alt="Screen Transition Overview Diagram">
+  <div class="overview-caption">Click to enlarge &nbsp;·&nbsp; 00_screen_transition_diagram.png</div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FLOW A — REGISTER
+════════════════════════════════════════════════════════════════ -->
+<h2 id="flow-a">Flow A — User-Initiated Registration &nbsp;<span style="font-weight:400;font-size:12px;color:var(--fa)">新規登録</span></h2>
+<p>A new user registers themselves by entering their email address, verifying it via email, and setting a password.</p>
+
+<p class="scroll-hint">↔ Scroll horizontally to see all steps</p>
+<div class="strip-wrap">
+<div class="strip flowA">
+
+  <!-- Login (entry) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/01_login.png" alt="Login" onclick="openLB(this.src)">
+    <div class="step-name">ログイン<br><small style="font-weight:400;color:var(--tm)">(entry point)</small></div>
+    <div class="step-url"><code>GET /login</code></div>
+  </div>
+
+  <div class="conn flowA">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">「新規登録」<br>リンクをクリック</div>
+  </div>
+
+  <!-- register.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/02_register.png" alt="Register email" onclick="openLB(this.src)">
+    <div class="step-name">メールアドレス入力</div>
+    <div class="step-url"><code>GET /register</code></div>
+  </div>
+
+  <div class="conn flowA">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /register<br>reCAPTCHA + CSRF</div>
+  </div>
+
+  <!-- message.html (REGISTER-M001) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/17_message.png" alt="Email sent" onclick="openLB(this.src)">
+    <div class="step-name">認証メール送信完了</div>
+    <div class="step-url"><code>message.html</code><br><small style="color:var(--tm)">REGISTER-M001</small></div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 メール内のURL<br>をクリック</div>
+  </div>
+
+  <!-- register_password.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/03_register_password.png" alt="Set password" onclick="openLB(this.src)">
+    <div class="step-name">パスワード設定</div>
+    <div class="step-url"><code>GET /register/auth</code></div>
+  </div>
+
+  <div class="conn flowA">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /register/auth<br>パスワード登録</div>
+  </div>
+
+  <!-- register_success.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/04_register_success.png" alt="Registration complete" onclick="openLB(this.src)">
+    <div class="step-name">登録完了</div>
+    <div class="step-url"><code>register_success</code></div>
+  </div>
+
+  <div class="conn flowA">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">→ マイページ /<br>申込ページへ</div>
+  </div>
+
+  <!-- end: member portal -->
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">🏠</div>
+      マイページ<br>(Member Portal)
+    </div>
+  </div>
+
+</div><!-- strip -->
+</div><!-- strip-wrap -->
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FLOW B — RESET
+════════════════════════════════════════════════════════════════ -->
+<h2 id="flow-b">Flow B — Password Reset &nbsp;<span style="font-weight:400;font-size:12px;color:var(--fb)">パスワード再設定</span></h2>
+<p>A registered user who has forgotten their password requests a reset link via email and sets a new password.</p>
+
+<p class="scroll-hint">↔ Scroll horizontally to see all steps</p>
+<div class="strip-wrap">
+<div class="strip flowB">
+
+  <!-- Login (entry) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/01_login.png" alt="Login" onclick="openLB(this.src)">
+    <div class="step-name">ログイン<br><small style="font-weight:400;color:var(--tm)">(entry point)</small></div>
+    <div class="step-url"><code>GET /login</code></div>
+  </div>
+
+  <div class="conn flowB">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">「パスワードを<br>忘れた方」クリック</div>
+  </div>
+
+  <!-- reset.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/05_reset.png" alt="Reset email" onclick="openLB(this.src)">
+    <div class="step-name">メールアドレス入力</div>
+    <div class="step-url"><code>GET /reset</code></div>
+  </div>
+
+  <div class="conn flowB">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /reset<br>reCAPTCHA + CSRF</div>
+  </div>
+
+  <!-- message.html (RESET-M001) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/17_message.png" alt="Email sent" onclick="openLB(this.src)">
+    <div class="step-name">認証メール送信完了</div>
+    <div class="step-url"><code>message.html</code><br><small style="color:var(--tm)">RESET-M001</small></div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 メール内のURL<br>をクリック</div>
+  </div>
+
+  <!-- reset_password.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/06_reset_password.png" alt="New password" onclick="openLB(this.src)">
+    <div class="step-name">新パスワード設定</div>
+    <div class="step-url"><code>GET /reset/auth</code></div>
+  </div>
+
+  <div class="conn flowB">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /reset/auth<br>パスワード変更</div>
+  </div>
+
+  <!-- reset_success.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/07_reset_success.png" alt="Reset complete" onclick="openLB(this.src)">
+    <div class="step-name">再設定完了</div>
+    <div class="step-url"><code>reset_success</code></div>
+  </div>
+
+  <div class="conn flowB">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">→ ログイン /<br>申込ページへ</div>
+  </div>
+
+  <!-- Login (return) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/01_login.png" alt="Login" onclick="openLB(this.src)">
+    <div class="step-name">ログイン<br><small style="font-weight:400;color:var(--tm)">(return)</small></div>
+    <div class="step-url"><code>GET /login</code></div>
+  </div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FLOW C — CALL
+════════════════════════════════════════════════════════════════ -->
+<h2 id="flow-c">Flow C — KK Call Invitation &nbsp;<span style="font-weight:400;font-size:12px;color:var(--fc)">新規会員招待 (Call)</span></h2>
+<p>An external system (KK Call) invites a user via email. The user confirms their address and sets a password. A callback is fired to the external system upon completion.</p>
+
+<p class="scroll-hint">↔ Scroll horizontally to see all steps</p>
+<div class="strip-wrap">
+<div class="strip flowC">
+
+  <!-- External system -->
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">🖥️</div>
+      外部システム<br>(KK Call)<br><small style="font-weight:400">POST /call/user</small>
+    </div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 招待メール<br>送信</div>
+  </div>
+
+  <!-- call.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/08_call.png" alt="Call confirm" onclick="openLB(this.src)">
+    <div class="step-name">メールアドレス確認</div>
+    <div class="step-url"><code>GET /call?k=...</code></div>
+  </div>
+
+  <div class="conn flowC">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /call<br>確認ボタン</div>
+  </div>
+
+  <!-- message.html (CALL-M001) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/17_message.png" alt="Email sent" onclick="openLB(this.src)">
+    <div class="step-name">認証メール送信完了</div>
+    <div class="step-url"><code>message.html</code><br><small style="color:var(--tm)">CALL-M001</small></div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 完了メール内<br>URLをクリック</div>
+  </div>
+
+  <!-- call_password.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/09_call_password.png" alt="Set password" onclick="openLB(this.src)">
+    <div class="step-name">パスワード登録</div>
+    <div class="step-url"><code>GET /call/auth</code></div>
+  </div>
+
+  <div class="conn flowC">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /call/auth<br>パスワード確定</div>
+  </div>
+
+  <!-- call_success.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/10_call_success.png" alt="Call complete" onclick="openLB(this.src)">
+    <div class="step-name">登録完了</div>
+    <div class="step-url"><code>call_success</code></div>
+  </div>
+
+  <div class="conn flowC">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">→ マイページへ</div>
+  </div>
+
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">🏠</div>
+      マイページ<br>(Member Portal)
+    </div>
+  </div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FLOW D — INVITE SFDC
+════════════════════════════════════════════════════════════════ -->
+<h2 id="flow-d">Flow D — SFDC Invitation &nbsp;<span style="font-weight:400;font-size:12px;color:var(--fd)">Salesforce 招待</span></h2>
+<p>A Salesforce workflow creates an IWI account stub and invites the user via email to confirm their address and set a password.</p>
+
+<p class="scroll-hint">↔ Scroll horizontally to see all steps</p>
+<div class="strip-wrap">
+<div class="strip flowD">
+
+  <!-- Salesforce -->
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">☁️</div>
+      Salesforce<br>Workflow<br><small style="font-weight:400">POST /register/sfdc</small>
+    </div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 招待メール<br>送信</div>
+  </div>
+
+  <!-- invite_sfdc.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/11_invite_sfdc.png" alt="Invite confirm" onclick="openLB(this.src)">
+    <div class="step-name">メールアドレス確認</div>
+    <div class="step-url"><code>GET /invite?k=...</code></div>
+  </div>
+
+  <div class="conn flowD">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /invite<br>確認ボタン</div>
+  </div>
+
+  <!-- message.html (INVITE-M001) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/17_message.png" alt="Email sent" onclick="openLB(this.src)">
+    <div class="step-name">認証メール送信完了</div>
+    <div class="step-url"><code>message.html</code><br><small style="color:var(--tm)">INVITE-M001</small></div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 完了メール内<br>URLをクリック</div>
+  </div>
+
+  <!-- invite_sfdc_password.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/12_invite_sfdc_password.png" alt="Set password" onclick="openLB(this.src)">
+    <div class="step-name">パスワード登録</div>
+    <div class="step-url"><code>GET /invite/auth</code></div>
+  </div>
+
+  <div class="conn flowD">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /invite/auth<br>パスワード確定</div>
+  </div>
+
+  <!-- invite_sfdc_success.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/13_invite_sfdc_success.png" alt="Invite complete" onclick="openLB(this.src)">
+    <div class="step-name">登録完了</div>
+    <div class="step-url"><code>invite_sfdc_success</code></div>
+  </div>
+
+  <div class="conn flowD">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">→ マイページへ</div>
+  </div>
+
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">🏠</div>
+      マイページ<br>(Member Portal)
+    </div>
+  </div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FLOW E — UPDATE EMAIL
+════════════════════════════════════════════════════════════════ -->
+<h2 id="flow-e">Flow E — Email Address Change &nbsp;<span style="font-weight:400;font-size:12px;color:var(--fe)">メールアドレス変更</span></h2>
+<p>A logged-in user changes their primary login email address. The new address is verified via email before the change is applied.</p>
+
+<p class="scroll-hint">↔ Scroll horizontally to see all steps</p>
+<div class="strip-wrap">
+<div class="strip flowE">
+
+  <!-- Member portal (entry) -->
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">🏠</div>
+      マイページ<br>(ログイン済み)<br><small style="font-weight:400">GET /user/email</small>
+    </div>
+  </div>
+
+  <div class="conn flowE">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">メールアドレス<br>変更メニュー</div>
+  </div>
+
+  <!-- update_email.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/14_update_email.png" alt="New email input" onclick="openLB(this.src)">
+    <div class="step-name">新メールアドレス入力</div>
+    <div class="step-url"><code>GET /user/email</code></div>
+  </div>
+
+  <div class="conn flowE">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /user/email<br>CSRF 検証</div>
+  </div>
+
+  <!-- message.html (UPDATE-EMAIL-M001) -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/17_message.png" alt="Email sent" onclick="openLB(this.src)">
+    <div class="step-name">認証メール送信完了</div>
+    <div class="step-url"><code>message.html</code><br><small style="color:var(--tm)">UPDATE-EMAIL-M001</small></div>
+  </div>
+
+  <div class="conn conn-email">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">📧 新アドレスに<br>届いたメールのURL</div>
+  </div>
+
+  <!-- update_email_confirm.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/15_update_email_confirm.png" alt="Confirm change" onclick="openLB(this.src)">
+    <div class="step-name">変更内容確認</div>
+    <div class="step-url"><code>GET /user/email/auth</code></div>
+  </div>
+
+  <div class="conn flowE">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">POST /user/email/auth<br>変更確定</div>
+  </div>
+
+  <!-- update_email_success.html -->
+  <div class="step">
+    <img class="step-thumb" src="../Screen_Design_Document/images/16_update_email_success.png" alt="Change complete" onclick="openLB(this.src)">
+    <div class="step-name">変更完了</div>
+    <div class="step-url"><code>update_email_success</code></div>
+  </div>
+
+  <div class="conn flowE">
+    <div class="conn-line"><div class="conn-body"></div><div class="conn-head"></div></div>
+    <div class="conn-label">→ マイページへ</div>
+  </div>
+
+  <div class="ext-wrap">
+    <div class="ext-node">
+      <div class="ext-icon">🏠</div>
+      マイページ<br>(Member Portal)
+    </div>
+  </div>
+
+</div>
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SHARED SCREENS
+════════════════════════════════════════════════════════════════ -->
+<h2 id="shared">Shared Screens &nbsp;<span style="font-weight:400;font-size:12px;color:var(--shared)">共通画面</span></h2>
+<p>These screens are used by multiple flows. Their appearance is controlled by the <code>message_id</code> parameter passed from the backend.</p>
+
+<div class="shared-grid">
+
+  <div class="shared-card">
+    <img class="step-thumb shared-card-img" src="../Screen_Design_Document/images/01_login.png"
+         alt="Login" onclick="openLB(this.src)" style="width:140px;height:192px;border-color:#003399;cursor:pointer">
+    <div class="step-name" style="font-size:12px">ログイン</div>
+    <div class="step-url"><code>/login</code></div>
+    <div class="shared-desc">Entry point for all authenticated flows. Links to Register and Reset.</div>
+  </div>
+
+  <div class="shared-card">
+    <img class="step-thumb shared-card-img" src="../Screen_Design_Document/images/17_message.png"
+         alt="Message" onclick="openLB(this.src)" style="width:140px;height:192px;border-color:#888800;cursor:pointer">
+    <div class="step-name" style="font-size:12px">message.html</div>
+    <div class="step-url"><code>/message</code></div>
+    <div class="shared-desc">Shows email-sent confirmation or error messages for all flows (REGISTER / RESET / CALL / INVITE / UPDATE-EMAIL).</div>
+  </div>
+
+  <div class="shared-card">
+    <img class="step-thumb shared-card-img" src="../Screen_Design_Document/images/18_error.png"
+         alt="Error" onclick="openLB(this.src)" style="width:140px;height:192px;border-color:#cc0000;cursor:pointer">
+    <div class="step-name" style="font-size:12px">error.html</div>
+    <div class="step-url"><code>/error</code></div>
+    <div class="shared-desc">System error page. Displays error code and description. Used when any backend exception is raised.</div>
+  </div>
+
+</div>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCREEN INDEX TABLE
+════════════════════════════════════════════════════════════════ -->
+<h2 id="screen-index">Screen Index</h2>
+<p>All template files and the flows they belong to.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Template File</th>
+      <th>Page Title</th>
+      <th>URL / Route</th>
+      <th>Flow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>01</td><td><code>login.html.jinja2</code></td><td>ログイン</td><td><code>GET/POST /login</code></td><td>All flows (entry)</td></tr>
+    <tr><td>02</td><td><code>register.html.jinja2</code></td><td>新規登録 — メールアドレス入力</td><td><code>GET/POST /register</code></td><td><span class="legend-item lA" style="padding:1px 6px;font-size:10px">A</span></td></tr>
+    <tr><td>03</td><td><code>register_password.html.jinja2</code></td><td>新規登録 — パスワード設定</td><td><code>GET /register/auth</code></td><td><span class="legend-item lA" style="padding:1px 6px;font-size:10px">A</span></td></tr>
+    <tr><td>04</td><td><code>register_success.html.jinja2</code></td><td>新規登録 完了</td><td><code>POST /register/auth</code></td><td><span class="legend-item lA" style="padding:1px 6px;font-size:10px">A</span></td></tr>
+    <tr><td>05</td><td><code>reset.html.jinja2</code></td><td>パスワード再設定 — メール入力</td><td><code>GET/POST /reset</code></td><td><span class="legend-item lB" style="padding:1px 6px;font-size:10px">B</span></td></tr>
+    <tr><td>06</td><td><code>reset_password.html.jinja2</code></td><td>パスワード再設定 — 新PW設定</td><td><code>GET /reset/auth</code></td><td><span class="legend-item lB" style="padding:1px 6px;font-size:10px">B</span></td></tr>
+    <tr><td>07</td><td><code>reset_success.html.jinja2</code></td><td>パスワード再設定 完了</td><td><code>POST /reset/auth</code></td><td><span class="legend-item lB" style="padding:1px 6px;font-size:10px">B</span></td></tr>
+    <tr><td>08</td><td><code>call.html.jinja2</code></td><td>新規会員登録のご案内 — メール確認</td><td><code>GET /call?k=...</code></td><td><span class="legend-item lC" style="padding:1px 6px;font-size:10px">C</span></td></tr>
+    <tr><td>09</td><td><code>call_password.html.jinja2</code></td><td>新規登録 — パスワード登録</td><td><code>GET /call/auth</code></td><td><span class="legend-item lC" style="padding:1px 6px;font-size:10px">C</span></td></tr>
+    <tr><td>10</td><td><code>call_success.html.jinja2</code></td><td>パスワード登録 完了</td><td><code>POST /call/auth</code></td><td><span class="legend-item lC" style="padding:1px 6px;font-size:10px">C</span></td></tr>
+    <tr><td>11</td><td><code>invite_sfdc.html.jinja2</code></td><td>新規会員登録のご案内 — メール確認 (SFDC)</td><td><code>GET /invite?k=...</code></td><td><span class="legend-item lD" style="padding:1px 6px;font-size:10px">D</span></td></tr>
+    <tr><td>12</td><td><code>invite_sfdc_password.html.jinja2</code></td><td>新規登録 — パスワード登録 (SFDC)</td><td><code>GET /invite/auth</code></td><td><span class="legend-item lD" style="padding:1px 6px;font-size:10px">D</span></td></tr>
+    <tr><td>13</td><td><code>invite_sfdc_success.html.jinja2</code></td><td>パスワード登録 完了 (SFDC)</td><td><code>POST /invite/auth</code></td><td><span class="legend-item lD" style="padding:1px 6px;font-size:10px">D</span></td></tr>
+    <tr><td>14</td><td><code>update_email.html.jinja2</code></td><td>メールアドレス変更 — 新メール入力</td><td><code>GET/POST /user/email</code></td><td><span class="legend-item lE" style="padding:1px 6px;font-size:10px">E</span></td></tr>
+    <tr><td>15</td><td><code>update_email_confirm.html.jinja2</code></td><td>メールアドレス変更 — 確認</td><td><code>GET /user/email/auth</code></td><td><span class="legend-item lE" style="padding:1px 6px;font-size:10px">E</span></td></tr>
+    <tr><td>16</td><td><code>update_email_success.html.jinja2</code></td><td>メールアドレス変更 完了</td><td><code>POST /user/email/auth</code></td><td><span class="legend-item lE" style="padding:1px 6px;font-size:10px">E</span></td></tr>
+    <tr><td>17</td><td><code>message.html.jinja2</code></td><td>ご確認ください (multi-state)</td><td><code>/message?id=...</code></td><td>All flows (shared)</td></tr>
+    <tr><td>18</td><td><code>error.html.jinja2</code></td><td>システムエラー</td><td><code>/error</code></td><td>All flows (shared)</td></tr>
+  </tbody>
+</table>
+
+</div><!-- .ct -->
+
+<div class="pf">
+  PJ_IWI_USERAUTH · Screen Transition Diagram · Generated 2026-05-07 · Funai Soken Digital
+</div>
+
+</div><!-- .pw -->
+
+<a class="back-float" href="../index.html">
+  <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+    <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Back to Index
+</a>
+
+<script>
+function openLB(src){
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){
+  document.getElementById('lb-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('lb-overlay').addEventListener('click', function(e){
+  if(e.target === this) closeLB();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLB();
+});
+</script>
+</body>
+</html>
