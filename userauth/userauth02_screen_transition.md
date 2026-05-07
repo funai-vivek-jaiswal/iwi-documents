@@ -24,7 +24,7 @@
 
 All five user-facing flows — colour-coded by flow.
 
-![Screen Transition Overview](../Screen_Design_Document/images/00_screen_transition_diagram.png)
+![Screen Transition Overview](images/00_screen_transition_diagram.png)
 
 ---
 
@@ -36,11 +36,11 @@ A new user registers by entering their email, verifying it via email link, and s
 
 | Step | Screenshot | Template | Route |
 |------|-----------|----------|-------|
-| 1. Entry | ![Login](../Screen_Design_Document/images/01_login.png) | `login.html.jinja2` | `GET /login` |
-| 2. Enter email | ![Register](../Screen_Design_Document/images/02_register.png) | `register.html.jinja2` | `GET/POST /register` |
-| 3. Email sent | ![Message](../Screen_Design_Document/images/17_message.png) | `message.html.jinja2` | `REGISTER-M001` |
-| 4. Set password | ![Register Password](../Screen_Design_Document/images/03_register_password.png) | `register_password.html.jinja2` | `GET /register/auth` |
-| 5. Complete | ![Register Success](../Screen_Design_Document/images/04_register_success.png) | `register_success.html.jinja2` | `POST /register/auth` |
+| 1. Entry | ![Login](images/01_login.png) | `login.html.jinja2` | `GET /login` |
+| 2. Enter email | ![Register](images/02_register.png) | `register.html.jinja2` | `GET/POST /register` |
+| 3. Email sent | ![Message](images/17_message.png) | `message.html.jinja2` | `REGISTER-M001` |
+| 4. Set password | ![Register Password](images/03_register_password.png) | `register_password.html.jinja2` | `GET /register/auth` |
+| 5. Complete | ![Register Success](images/04_register_success.png) | `register_success.html.jinja2` | `POST /register/auth` |
 
 **Transition:**
 
@@ -60,11 +60,11 @@ A registered user who forgot their password requests a reset email and sets a ne
 
 | Step | Screenshot | Template | Route |
 |------|-----------|----------|-------|
-| 1. Entry | ![Login](../Screen_Design_Document/images/01_login.png) | `login.html.jinja2` | `GET /login` |
-| 2. Enter email | ![Reset](../Screen_Design_Document/images/05_reset.png) | `reset.html.jinja2` | `GET/POST /reset` |
-| 3. Email sent | ![Message](../Screen_Design_Document/images/17_message.png) | `message.html.jinja2` | `RESET-M001` |
-| 4. New password | ![Reset Password](../Screen_Design_Document/images/06_reset_password.png) | `reset_password.html.jinja2` | `GET /reset/auth` |
-| 5. Complete | ![Reset Success](../Screen_Design_Document/images/07_reset_success.png) | `reset_success.html.jinja2` | `POST /reset/auth` |
+| 1. Entry | ![Login](images/01_login.png) | `login.html.jinja2` | `GET /login` |
+| 2. Enter email | ![Reset](images/05_reset.png) | `reset.html.jinja2` | `GET/POST /reset` |
+| 3. Email sent | ![Message](images/17_message.png) | `message.html.jinja2` | `RESET-M001` |
+| 4. New password | ![Reset Password](images/06_reset_password.png) | `reset_password.html.jinja2` | `GET /reset/auth` |
+| 5. Complete | ![Reset Success](images/07_reset_success.png) | `reset_success.html.jinja2` | `POST /reset/auth` |
 
 **Transition:**
 
@@ -85,10 +85,10 @@ An external system (KK Call) invites a user. The user confirms their address and
 | Step | Screenshot | Template | Route |
 |------|-----------|----------|-------|
 | 1. Admin sends invite | *(external system — POST /call/user)* | — | `POST /call/user` |
-| 2. Confirm email | ![Call](../Screen_Design_Document/images/08_call.png) | `call.html.jinja2` | `GET /call?k=...` |
-| 3. Email sent | ![Message](../Screen_Design_Document/images/17_message.png) | `message.html.jinja2` | `CALL-M001` |
-| 4. Set password | ![Call Password](../Screen_Design_Document/images/09_call_password.png) | `call_password.html.jinja2` | `GET /call/auth` |
-| 5. Complete | ![Call Success](../Screen_Design_Document/images/10_call_success.png) | `call_success.html.jinja2` | `POST /call/auth` |
+| 2. Confirm email | ![Call](images/08_call.png) | `call.html.jinja2` | `GET /call?k=...` |
+| 3. Email sent | ![Message](images/17_message.png) | `message.html.jinja2` | `CALL-M001` |
+| 4. Set password | ![Call Password](images/09_call_password.png) | `call_password.html.jinja2` | `GET /call/auth` |
+| 5. Complete | ![Call Success](images/10_call_success.png) | `call_success.html.jinja2` | `POST /call/auth` |
 
 **Transition:**
 
@@ -108,10 +108,10 @@ A Salesforce workflow creates an IWI account stub and invites the user to set th
 | Step | Screenshot | Template | Route |
 |------|-----------|----------|-------|
 | 1. SFDC sends invite | *(POST /register/sfdc)* | — | `POST /register/sfdc` |
-| 2. Confirm email | ![Invite SFDC](../Screen_Design_Document/images/11_invite_sfdc.png) | `invite_sfdc.html.jinja2` | `GET /invite?k=...` |
-| 3. Email sent | ![Message](../Screen_Design_Document/images/17_message.png) | `message.html.jinja2` | `INVITE-M001` |
-| 4. Set password | ![Invite Password](../Screen_Design_Document/images/12_invite_sfdc_password.png) | `invite_sfdc_password.html.jinja2` | `GET /invite/auth` |
-| 5. Complete | ![Invite Success](../Screen_Design_Document/images/13_invite_sfdc_success.png) | `invite_sfdc_success.html.jinja2` | `POST /invite/auth` |
+| 2. Confirm email | ![Invite SFDC](images/11_invite_sfdc.png) | `invite_sfdc.html.jinja2` | `GET /invite?k=...` |
+| 3. Email sent | ![Message](images/17_message.png) | `message.html.jinja2` | `INVITE-M001` |
+| 4. Set password | ![Invite Password](images/12_invite_sfdc_password.png) | `invite_sfdc_password.html.jinja2` | `GET /invite/auth` |
+| 5. Complete | ![Invite Success](images/13_invite_sfdc_success.png) | `invite_sfdc_success.html.jinja2` | `POST /invite/auth` |
 
 **Transition:**
 
@@ -131,10 +131,10 @@ A logged-in user changes their primary login email address. The new address is v
 | Step | Screenshot | Template | Route |
 |------|-----------|----------|-------|
 | 1. Entry | *(MyPage — logged in)* | — | `GET /user/email` |
-| 2. Enter new email | ![Update Email](../Screen_Design_Document/images/14_update_email.png) | `update_email.html.jinja2` | `GET/POST /user/email` |
-| 3. Email sent | ![Message](../Screen_Design_Document/images/17_message.png) | `message.html.jinja2` | `UPDATE-EMAIL-M001` |
-| 4. Confirm change | ![Update Confirm](../Screen_Design_Document/images/15_update_email_confirm.png) | `update_email_confirm.html.jinja2` | `GET /user/email/auth` |
-| 5. Complete | ![Update Success](../Screen_Design_Document/images/16_update_email_success.png) | `update_email_success.html.jinja2` | `POST /user/email/auth` |
+| 2. Enter new email | ![Update Email](images/14_update_email.png) | `update_email.html.jinja2` | `GET/POST /user/email` |
+| 3. Email sent | ![Message](images/17_message.png) | `message.html.jinja2` | `UPDATE-EMAIL-M001` |
+| 4. Confirm change | ![Update Confirm](images/15_update_email_confirm.png) | `update_email_confirm.html.jinja2` | `GET /user/email/auth` |
+| 5. Complete | ![Update Success](images/16_update_email_success.png) | `update_email_success.html.jinja2` | `POST /user/email/auth` |
 
 **Transition:**
 
@@ -152,7 +152,7 @@ These templates are used across multiple flows.
 
 ### login.html.jinja2
 
-![Login Screen](../Screen_Design_Document/images/01_login.png)
+![Login Screen](images/01_login.png)
 
 Entry point for all flows. Provides links to Register (Flow A) and Password Reset (Flow B).
 
@@ -160,7 +160,7 @@ Entry point for all flows. Provides links to Register (Flow A) and Password Rese
 
 ### message.html.jinja2
 
-![Message Screen](../Screen_Design_Document/images/17_message.png)
+![Message Screen](images/17_message.png)
 
 Multi-state screen controlled by `message_id`. Used in all flows after email dispatch and for error states.
 
@@ -176,7 +176,7 @@ Multi-state screen controlled by `message_id`. Used in all flows after email dis
 
 ### error.html.jinja2
 
-![Error Screen](../Screen_Design_Document/images/18_error.png)
+![Error Screen](images/18_error.png)
 
 System error page. Rendered when any unhandled backend exception occurs.
 
